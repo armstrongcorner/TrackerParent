@@ -1,0 +1,125 @@
+//
+//  AuthViewModel.swift
+//  TrackerParent
+//
+//  Created by Armstrong Liu on 13/03/2025.
+//
+
+import Foundation
+
+enum LoginState {
+    case none
+    case success
+    case failure
+}
+
+enum LoginError: Error {
+    case emptyUsername
+    case emptyPassword
+    case invalidCredentials
+    
+    var errorDescription: String? {
+        switch self {
+        case .emptyUsername:
+            return "Username is required."
+        case .emptyPassword:
+            return "Password is required."
+        case .invalidCredentials:
+            return "Invalid username or password."
+        }
+    }
+}
+
+enum CommError: Error {
+    case serverReturnedError(String)
+    case unknown
+    
+    var errorDescription: String? {
+        switch self {
+        case .serverReturnedError(let msg):
+            return msg
+        case .unknown:
+            return "Unknown error."
+        }
+    }
+}
+
+@MainActor
+@Observable
+final class AuthViewModel {
+    var username: String = ""
+    var password: String = ""
+    var loginState: LoginState = .none
+    var errMsg: String?
+    
+    @ObservationIgnored
+    private let loginService: LoginServiceProtocol
+    
+    init(loginService: LoginServiceProtocol = LoginService()) {
+        self.loginService = loginService
+    }
+    
+    func login() async {
+        // Call login service
+        do {
+            // Validate input
+            try validateInput()
+            
+            guard let authResponse = try await loginService.login(username: username, password: password) else {
+                throw CommError.unknown
+            }
+            
+            if authResponse.isSuccess, let authModel = authResponse.value {
+                print("--- auth model: \(authModel)")
+                
+                // Save the username to UserDefault
+                UserDefaults.standard.set(username, forKey: "username")
+                
+                // Save the auth model to Keychain
+                let bundleId = Bundle.main.bundleIdentifier ?? ""
+                try KeyChainUtil.shared.saveObject(service: bundleId, account: username, object: authModel)
+                
+                loginState = .success
+                errMsg = nil
+            } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+            
+        } catch {
+            handleLoginError(error)
+        }
+    }
+    
+    private func validateInput() throws {
+        // Validate username cannot be empty
+        guard !username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw LoginError.emptyUsername
+        }
+        
+        // Validate password cannot be empty
+        guard !password.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw LoginError.emptyPassword
+        }
+    }
+    
+    private func handleLoginError(_ error: Error) {
+        loginState = .failure
+        
+        switch error {
+//        case LoginError.emptyUsername:
+//            errMsg = LoginError.emptyUsername.errorDescription
+//        case LoginError.emptyPassword:
+//            errMsg = LoginError.emptyPassword.errorDescription
+//        case LoginError.invalidCredentials:
+//            errMsg = LoginError.invalidCredentials.errorDescription
+        case let loginError as LoginError:
+            errMsg = loginError.errorDescription
+        case let commError as CommError:
+            errMsg = commError.errorDescription
+        default:
+            errMsg = error.localizedDescription
+        }
+    }
+}
