@@ -16,7 +16,7 @@ protocol LoginServiceProtocol: Sendable {
     func login(username: String, password: String) async throws -> AuthResponse?
 }
 
-actor LoginService: LoginServiceProtocol {
+actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
     private let apiClient: ApiClientProtocol
     
     init(apiClient: ApiClientProtocol = ApiClient()) {

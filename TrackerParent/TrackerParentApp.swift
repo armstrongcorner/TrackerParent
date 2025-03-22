@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftfulRouting
 
 @main
 struct TrackerParentApp: App {
     var body: some Scene {
         WindowGroup {
-            LoginScreen()
+            RouterView { router in
+                LoginScreen(router: router)
+            }
         }
     }
 }

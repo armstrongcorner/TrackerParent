@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 enum LoginState {
     case none
@@ -47,30 +48,45 @@ enum CommError: Error {
 @MainActor
 @Observable
 final class AuthViewModel {
-    var username: String = ""
+    var username: String = UserDefaults.standard.string(forKey: "username") ?? ""
     var password: String = ""
     var loginState: LoginState = .none
     var errMsg: String?
     
+    var showSettingsAlert: Bool = false
+    var showEnrolAlert: Bool = false
+    
     @ObservationIgnored
     private let loginService: LoginServiceProtocol
+    @ObservationIgnored
+    private let userService: UserServiceProtocol
     
-    init(loginService: LoginServiceProtocol = LoginService()) {
+    @ObservationIgnored
+    private let logger: Logger
+    
+    init(
+        loginService: LoginServiceProtocol = LoginService(),
+        userService: UserServiceProtocol = UserService()
+    ) {
         self.loginService = loginService
+        self.userService = userService
+        
+        let bundleId = Bundle.main.bundleIdentifier ?? ""
+        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
     func login() async {
-        // Call login service
         do {
             // Validate input
             try validateInput()
             
+            // Call login service
             guard let authResponse = try await loginService.login(username: username, password: password) else {
                 throw CommError.unknown
             }
             
             if authResponse.isSuccess, let authModel = authResponse.value {
-                print("--- auth model: \(authModel)")
+                logger.debug("--- auth model: \(String(describing: authModel))")
                 
                 // Save the username to UserDefault
                 UserDefaults.standard.set(username, forKey: "username")
@@ -86,9 +102,36 @@ final class AuthViewModel {
             } else {
                 throw CommError.unknown
             }
-            
         } catch {
             handleLoginError(error)
+        }
+    }
+    
+    func loginWithFaceId() async {
+        do {
+            if try await BiometricsUtil.shared.canUseBiometrics() {
+                let bundleId = Bundle.main.bundleIdentifier ?? ""
+                let account = UserDefaults.standard.string(forKey: "username") ?? ""
+                if let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: account, type: AuthModel.self) {
+                    logger.debug("--- auth model in keychain: \(String(describing: savedAuthModel))")
+                    guard let userResponse = try await userService.getUserInfo(username: account) else {
+                        throw CommError.unknown
+                    }
+                    
+                    if userResponse.isSuccess, let userModel = userResponse.value {
+                        logger.debug("--- user info: \(String(describing: userModel))")
+                        
+                        loginState = .success
+                        errMsg = nil
+                    } else if !userResponse.isSuccess, let failureReason = userResponse.failureReason {
+                        throw CommError.serverReturnedError(failureReason)
+                    } else {
+                        throw CommError.unknown
+                    }
+                }
+            }
+        } catch {
+            handleBiometricsError(error)
         }
     }
     
@@ -118,6 +161,19 @@ final class AuthViewModel {
             errMsg = loginError.errorDescription
         case let commError as CommError:
             errMsg = commError.errorDescription
+        default:
+            errMsg = error.localizedDescription
+        }
+    }
+    
+    private func handleBiometricsError(_ error: Error) {
+        switch error {
+        case BiometryError.notEnroll:
+            showEnrolAlert = true
+        case BiometryError.notAvailable:
+            showSettingsAlert = true
+        case BiometryError.other(let otherError):
+            errMsg = otherError.localizedDescription
         default:
             errMsg = error.localizedDescription
         }

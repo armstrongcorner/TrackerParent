@@ -25,6 +25,19 @@
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
+		AEE6B4CC2D8807290094EB82 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = AEE6B4CB2D8807290094EB82 /* SwiftfulRouting */; };
+		AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */; };
+		AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CF2D8957C90094EB82 /* UserService.swift */; };
+		AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4D12D8958660094EB82 /* UserModel.swift */; };
+		AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4D32D896BBF0094EB82 /* BaseService.swift */; };
+		AEE6B4EC2D8A6AAE0094EB82 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4EB2D8A6AAE0094EB82 /* TrackViewModel.swift */; };
+		AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4ED2D8A6CFB0094EB82 /* TrackService.swift */; };
+		AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4EF2D8A6E510094EB82 /* LocationModel.swift */; };
+		AEE6B4F22D8AC9500094EB82 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4F12D8AC9500094EB82 /* DateUtil.swift */; };
+		AEE6B4F72D8BFDD50094EB82 /* TrackListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4F62D8BFDD50094EB82 /* TrackListItem.swift */; };
+		AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */; };
+		AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */; };
+		AEE6B4FD2D8E66560094EB82 /* MockTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +79,18 @@
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListScreen.swift; sourceTree = "<group>"; };
+		AEE6B4CF2D8957C90094EB82 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		AEE6B4D12D8958660094EB82 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		AEE6B4D32D896BBF0094EB82 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		AEE6B4EB2D8A6AAE0094EB82 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
+		AEE6B4ED2D8A6CFB0094EB82 /* TrackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackService.swift; sourceTree = "<group>"; };
+		AEE6B4EF2D8A6E510094EB82 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		AEE6B4F12D8AC9500094EB82 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
+		AEE6B4F62D8BFDD50094EB82 /* TrackListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListItem.swift; sourceTree = "<group>"; };
+		AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailScreen.swift; sourceTree = "<group>"; };
+		AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtil.swift; sourceTree = "<group>"; };
+		AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEE6B4CC2D8807290094EB82 /* SwiftfulRouting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				224A3E3B2D8289B700815897 /* AuthViewModel.swift */,
+				AEE6B4EB2D8A6AAE0094EB82 /* TrackViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -164,8 +191,9 @@
 		2266D1372D862EC7004D9644 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
-				2266D1382D862EDC004D9644 /* MockLoginService.swift */,
 				2266D13A2D86605A004D9644 /* MockData.swift */,
+				2266D1382D862EDC004D9644 /* MockLoginService.swift */,
+				AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -175,6 +203,8 @@
 			children = (
 				2266D1572D86BD0F004D9644 /* KeyChainUtil.swift */,
 				2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */,
+				AEE6B4F12D8AC9500094EB82 /* DateUtil.swift */,
+				AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -191,7 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				2266D15B2D86C3A1004D9644 /* Modifiers */,
-				224A3E2E2D824EFE00815897 /* LoginScreen.swift */,
+				AEE6B4F32D8BFD5D0094EB82 /* Login */,
+				AEE6B4F42D8BFD800094EB82 /* Track */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -201,6 +232,8 @@
 			children = (
 				22FBA7BF2D856A88002C10B1 /* Services */,
 				22FBA7B92D856990002C10B1 /* AuthModel.swift */,
+				AEE6B4D12D8958660094EB82 /* UserModel.swift */,
+				AEE6B4EF2D8A6E510094EB82 /* LocationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -218,6 +251,8 @@
 			isa = PBXGroup;
 			children = (
 				22FBA7BD2D856A79002C10B1 /* LoginService.swift */,
+				AEE6B4CF2D8957C90094EB82 /* UserService.swift */,
+				AEE6B4ED2D8A6CFB0094EB82 /* TrackService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -228,8 +263,35 @@
 				2266D1542D8688BB004D9644 /* Endpoint.swift */,
 				2266D13C2D866F74004D9644 /* ApiClient.swift */,
 				22FBA7C22D856B67002C10B1 /* BaseResponse.swift */,
+				AEE6B4D32D896BBF0094EB82 /* BaseService.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		AEE6B4F32D8BFD5D0094EB82 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				224A3E2E2D824EFE00815897 /* LoginScreen.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		AEE6B4F42D8BFD800094EB82 /* Track */ = {
+			isa = PBXGroup;
+			children = (
+				AEE6B4F52D8BFDB40094EB82 /* Cells */,
+				AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */,
+				AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */,
+			);
+			path = Track;
+			sourceTree = "<group>";
+		};
+		AEE6B4F52D8BFDB40094EB82 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				AEE6B4F62D8BFDD50094EB82 /* TrackListItem.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +311,7 @@
 			);
 			name = TrackerParent;
 			packageProductDependencies = (
+				AEE6B4CB2D8807290094EB82 /* SwiftfulRouting */,
 			);
 			productName = TrackerParent;
 			productReference = 224A3DFB2D824EE200815897 /* TrackerParent.app */;
@@ -326,6 +389,9 @@
 			);
 			mainGroup = 224A3DF22D824EE200815897;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AEE6B4CA2D8807290094EB82 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 224A3DFC2D824EE200815897 /* Products */;
 			projectDirPath = "";
@@ -369,19 +435,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEE6B4FD2D8E66560094EB82 /* MockTrackViewModel.swift in Sources */,
+				AEE6B4EC2D8A6AAE0094EB82 /* TrackViewModel.swift in Sources */,
 				2266D1392D862EDC004D9644 /* MockLoginService.swift in Sources */,
 				224A3E332D824EFE00815897 /* LoginScreen.swift in Sources */,
 				2266D13D2D866F74004D9644 /* ApiClient.swift in Sources */,
+				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
 				2266D1552D8688BB004D9644 /* Endpoint.swift in Sources */,
+				AEE6B4F72D8BFDD50094EB82 /* TrackListItem.swift in Sources */,
+				AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */,
+				AEE6B4F22D8AC9500094EB82 /* DateUtil.swift in Sources */,
 				22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */,
 				2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */,
 				2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */,
 				2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */,
+				AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */,
+				AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */,
 				22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */,
+				AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */,
+				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
+				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,
 				224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */,
 				224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */,
+				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,6 +626,7 @@
 				DEVELOPMENT_TEAM = DXL5PNKGFP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "TrackerParent want to use your Face ID to make your login more convenient";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -578,6 +657,7 @@
 				DEVELOPMENT_TEAM = DXL5PNKGFP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "TrackerParent want to use your Face ID to make your login more convenient";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -709,6 +789,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AEE6B4CA2D8807290094EB82 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AEE6B4CB2D8807290094EB82 /* SwiftfulRouting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AEE6B4CA2D8807290094EB82 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
+			productName = SwiftfulRouting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 224A3DF32D824EE200815897 /* Project object */;
 }
