@@ -8,26 +8,44 @@
 import Foundation
 import OSLog
 
+enum FetchDataState {
+    case done
+    case loading
+    case error
+    case idle
+}
+
 @MainActor
 protocol TrackViewModelProtocol: Sendable {
     var tracks: [[LocationModel]] { get }
-    
+    var fetchDataState: FetchDataState { get }
+    var errMsg: String? { get }
+
     func fetchTrack() async
+    func logout()
 }
 
 @MainActor
 @Observable
 final class TrackViewModel: TrackViewModelProtocol {
     var tracks: [[LocationModel]] = []
-    
+    var fetchDataState: FetchDataState
+    var errMsg: String?
+
     @ObservationIgnored
     private let trackService: TrackServiceProtocol
     
     @ObservationIgnored
     private let logger: Logger
     
-    init(trackService: TrackServiceProtocol = TrackService()) {
+    init(
+        trackService: TrackServiceProtocol = TrackService(),
+        fetchDataState: FetchDataState = .idle,
+        errMsg: String? = nil
+    ) {
         self.trackService = trackService
+        self.fetchDataState = fetchDataState
+        self.errMsg = errMsg
         
         let bundleId = Bundle.main.bundleIdentifier ?? ""
         self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
@@ -35,6 +53,9 @@ final class TrackViewModel: TrackViewModelProtocol {
     
     func fetchTrack() async {
         do {
+            fetchDataState = .loading
+            errMsg = nil
+            
             // Call get track list service
             guard let locationResponse = try await trackService.getLocations() else {
                 throw CommError.unknown
@@ -58,11 +79,17 @@ final class TrackViewModel: TrackViewModelProtocol {
                 if !newTrack.isEmpty {
                     tracks.append(newTrack)
                 }
+                
+                fetchDataState = .done
+                
+                logger.debug("--- track count: \(self.tracks.count)")
+            } else if !locationResponse.isSuccess, let failureReason = locationResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
             }
-            
-            logger.debug("--- track count: \(self.tracks.count)")
         } catch {
-            //
+            handleError(error)
         }
     }
     
@@ -75,5 +102,16 @@ final class TrackViewModel: TrackViewModelProtocol {
         
         // Clear cached authModel in keychain
         KeyChainUtil.shared.delete(service: service, account: account)
+    }
+    
+    private func handleError(_ error: Error) {
+        fetchDataState = .error
+        
+        switch error {
+        case let commError as CommError:
+            errMsg = commError.errorDescription
+        default:
+            errMsg = error.localizedDescription
+        }
     }
 }

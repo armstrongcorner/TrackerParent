@@ -31,9 +31,21 @@ struct DateUtil {
         return Int(secondsDifference / 60)
     }
     
-    private func dateForISO8601Str(_ iso8601String: String) -> Date? {
+    func getTimeStr(date: Date) -> String? {
+        let targetFormatter = DateFormatter()
+        targetFormatter.dateFormat = "HH:mm:ss"
+        return targetFormatter.string(from: date)
+    }
+
+    func dateForISO8601Str(_ iso8601Str: String) -> Date? {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter.date(from: iso8601String)
+        return formatter.date(from: iso8601Str)
+    }
+    
+    func dateForTimeStr(_ timeStr: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter.date(from: timeStr)
     }
 }

@@ -38,6 +38,11 @@
 		AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */; };
 		AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */; };
 		AEE6B4FD2D8E66560094EB82 /* MockTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */; };
+		AEE6B5042D8EA9130094EB82 /* SettingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5032D8EA9130094EB82 /* SettingScreen.swift */; };
+		AEE6B5062D8EA98C0094EB82 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5052D8EA98C0094EB82 /* SettingViewModel.swift */; };
+		AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */; };
+		AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5092D8EB5010094EB82 /* SettingService.swift */; };
+		AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +96,11 @@
 		AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailScreen.swift; sourceTree = "<group>"; };
 		AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtil.swift; sourceTree = "<group>"; };
 		AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackViewModel.swift; sourceTree = "<group>"; };
+		AEE6B5032D8EA9130094EB82 /* SettingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreen.swift; sourceTree = "<group>"; };
+		AEE6B5052D8EA98C0094EB82 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
+		AEE6B5092D8EB5010094EB82 /* SettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingService.swift; sourceTree = "<group>"; };
+		AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +194,7 @@
 			children = (
 				224A3E3B2D8289B700815897 /* AuthViewModel.swift */,
 				AEE6B4EB2D8A6AAE0094EB82 /* TrackViewModel.swift */,
+				AEE6B5052D8EA98C0094EB82 /* SettingViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -194,6 +205,7 @@
 				2266D13A2D86605A004D9644 /* MockData.swift */,
 				2266D1382D862EDC004D9644 /* MockLoginService.swift */,
 				AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */,
+				AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -223,6 +235,7 @@
 				2266D15B2D86C3A1004D9644 /* Modifiers */,
 				AEE6B4F32D8BFD5D0094EB82 /* Login */,
 				AEE6B4F42D8BFD800094EB82 /* Track */,
+				AEE6B5022D8EA8ED0094EB82 /* Setting */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -234,6 +247,7 @@
 				22FBA7B92D856990002C10B1 /* AuthModel.swift */,
 				AEE6B4D12D8958660094EB82 /* UserModel.swift */,
 				AEE6B4EF2D8A6E510094EB82 /* LocationModel.swift */,
+				AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -253,6 +267,7 @@
 				22FBA7BD2D856A79002C10B1 /* LoginService.swift */,
 				AEE6B4CF2D8957C90094EB82 /* UserService.swift */,
 				AEE6B4ED2D8A6CFB0094EB82 /* TrackService.swift */,
+				AEE6B5092D8EB5010094EB82 /* SettingService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -292,6 +307,14 @@
 				AEE6B4F62D8BFDD50094EB82 /* TrackListItem.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		AEE6B5022D8EA8ED0094EB82 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				AEE6B5032D8EA9130094EB82 /* SettingScreen.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -444,17 +467,22 @@
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
 				2266D1552D8688BB004D9644 /* Endpoint.swift in Sources */,
 				AEE6B4F72D8BFDD50094EB82 /* TrackListItem.swift in Sources */,
+				AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */,
 				AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */,
 				AEE6B4F22D8AC9500094EB82 /* DateUtil.swift in Sources */,
 				22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */,
+				AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */,
 				2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */,
 				2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */,
 				2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */,
 				AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */,
+				AEE6B5062D8EA98C0094EB82 /* SettingViewModel.swift in Sources */,
 				AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */,
 				22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */,
 				AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */,
+				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
 				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
+				AEE6B5042D8EA9130094EB82 /* SettingScreen.swift in Sources */,
 				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,
 				224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */,

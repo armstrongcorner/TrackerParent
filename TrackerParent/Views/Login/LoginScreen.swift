@@ -100,7 +100,6 @@ struct LoginScreen: View {
                     .font(.subheadline)
                     .foregroundStyle(.red)
             }
-            
         }
         .onChange(of: authViewModel.loginState, { oldValue, newValue in
             if newValue == .success {

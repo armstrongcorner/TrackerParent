@@ -1,43 +1,44 @@
 //
-//  MockTrackViewModel.swift
+//  MockSettingViewModel.swift
 //  TrackerParent
 //
-//  Created by Armstrong Liu on 2025/3/22.
+//  Created by Armstrong Liu on 2025/3/23.
 //
 
 import Foundation
 
 @MainActor
 @Observable
-final class MockTrackViewModel: TrackViewModelProtocol {
-    var tracks: [[LocationModel]] = []
+final class MockSettingViewModel: SettingViewModelProtocol {
+    var setting: SettingModel? = nil
+    var updateDataState: FetchDataState = .idle
     var fetchDataState: FetchDataState = .idle
     var errMsg: String? = nil
     
     var shouldKeepLoading = false
     var shouldReturnError = false
 
-    func fetchTrack() async {
+    func fetchSetting() async {
         // Mock loading
         fetchDataState = .loading
         errMsg = nil
         
-        try? await Task.sleep(nanoseconds: 3 * 1_000_000_000)
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
         
         if !shouldKeepLoading {
             if shouldReturnError {
                 // Mock error
                 fetchDataState = .error
-                errMsg = "Mock fetching tracks data error occurred"
+                errMsg = "Mock fetching setting data error occurred"
             } else {
                 // Mock loaded data
-                tracks.append(mockTrack)
+                setting = mockSetting
                 fetchDataState = .done
             }
         }
     }
     
-    func logout() {
-        
+    func updateSetting() async {
+        //
     }
 }

@@ -33,12 +33,15 @@ enum LoginError: Error {
 
 enum CommError: Error {
     case serverReturnedError(String)
+    case noData
     case unknown
     
     var errorDescription: String? {
         switch self {
         case .serverReturnedError(let msg):
             return msg
+        case .noData:
+            return "No data error."
         case .unknown:
             return "Unknown error."
         }
@@ -167,6 +170,8 @@ final class AuthViewModel {
     }
     
     private func handleBiometricsError(_ error: Error) {
+        loginState = .failure
+        
         switch error {
         case BiometryError.notEnroll:
             showEnrolAlert = true
