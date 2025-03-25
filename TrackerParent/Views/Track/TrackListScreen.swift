@@ -9,8 +9,14 @@ import SwiftUI
 import SwiftfulRouting
 
 struct TrackListScreen: View {
+    @Environment(ToastViewObserver.self) var toastViewObserver
+    
     @State private var trackViewModel: TrackViewModelProtocol
     @State private var showConfirmLogout: Bool = false
+    
+    @State private var showDateRangePicker = false
+    @State private var startDate: Date = .now
+    @State private var endDate: Date = .now
     
     let router: AnyRouter
     
@@ -48,7 +54,7 @@ struct TrackListScreen: View {
                     .padding()
                 Button("Retry") {
                     Task {
-                        await trackViewModel.fetchTrack()
+                        await trackViewModel.fetchTrack(fromDate: startDate, toDate: endDate)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -57,6 +63,15 @@ struct TrackListScreen: View {
             }
         }
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                Button {
+                    showDateRangePicker.toggle()
+                } label: {
+                    Text("\(DateUtil.shared.getDateStr(date: startDate) ?? "") - \(DateUtil.shared.getDateStr(date: endDate) ?? "")")
+                        .font(.headline)
+                }
+                .buttonStyle(.plain)
+            }
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button {
@@ -92,10 +107,20 @@ struct TrackListScreen: View {
         .onAppear {
             Task {
                 if trackViewModel.tracks.isEmpty {
-                    await trackViewModel.fetchTrack()
+                    await trackViewModel.fetchTrack(fromDate: startDate, toDate: endDate)
                 }
             }
         }
+        .sheet(isPresented: $showDateRangePicker) {
+            DateRangePickerView(bindingStartDate: $startDate, bindingEndDate: $endDate)
+                .presentationDetents([.fraction(0.4)])
+        }
+        .onChange(of: [startDate, endDate], { oldValue, newValue in
+            Task {
+                await trackViewModel.fetchTrack(fromDate: startDate, toDate: endDate)
+            }
+        })
+        .toastView(toastViewObserver: toastViewObserver)
         .navigationBarBackButtonHidden()
     }
 }
@@ -108,6 +133,7 @@ struct TrackListScreen: View {
     return RouterView { router in
         TrackListScreen(router: router, trackViewModel: mockTrackViewModel)
     }
+    .environment(ToastViewObserver())
 }
 
 #Preview("error") {
@@ -118,6 +144,7 @@ struct TrackListScreen: View {
     return RouterView { router in
         TrackListScreen(router: router, trackViewModel: mockTrackViewModel)
     }
+    .environment(ToastViewObserver())
 }
 
 #Preview("loading") {
@@ -128,4 +155,5 @@ struct TrackListScreen: View {
     return RouterView { router in
         TrackListScreen(router: router, trackViewModel: mockTrackViewModel)
     }
+    .environment(ToastViewObserver())
 }

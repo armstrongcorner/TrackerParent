@@ -27,7 +27,7 @@ struct TrackListItem: View {
             }
             
             HStack {
-                Text("Time from: \(DateUtil.shared.convertStandardDateTimeStr(iso8601String: track.first?.createdDateTime ?? "") ?? "")")
+                Text("Time from: \(DateUtil.shared.convertStandardDateTimeStr(iso8601String: track.first?.dateTimeOcurred ?? "") ?? "")")
                 
                 Spacer()
             }

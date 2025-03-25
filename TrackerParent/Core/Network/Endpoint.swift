@@ -24,8 +24,10 @@ enum Endpoint {
             return "\(Endpoint.userURL)/identity/token"
         case .userInfo(let username):
             return "\(Endpoint.userURL)/identity/user?username=\(username)"
+//        case .tracks:
+//            return "\(Endpoint.locationURL)/geo/locations/user"
         case .tracks:
-            return "\(Endpoint.locationURL)/geo/locations/user"
+            return "\(Endpoint.locationURL)/geo/locations/user/bydate"
         case .allTracks:
             return "\(Endpoint.locationURL)/geo/locations/all"
         case .setting:

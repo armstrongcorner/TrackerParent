@@ -15,6 +15,7 @@ struct TrackerParentApp: App {
             RouterView { router in
                 LoginScreen(router: router)
             }
+            .environment(ToastViewObserver())
         }
     }
 }

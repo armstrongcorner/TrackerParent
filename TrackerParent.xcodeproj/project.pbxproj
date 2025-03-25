@@ -25,6 +25,7 @@
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
+		AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */; };
 		AEE6B4CC2D8807290094EB82 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = AEE6B4CB2D8807290094EB82 /* SwiftfulRouting */; };
 		AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */; };
 		AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CF2D8957C90094EB82 /* UserService.swift */; };
@@ -43,6 +44,7 @@
 		AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */; };
 		AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5092D8EB5010094EB82 /* SettingService.swift */; };
 		AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */; };
+		AEE6B50F2D9147920094EB82 /* DateRangePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B50E2D9147920094EB82 /* DateRangePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,7 @@
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModifier.swift; sourceTree = "<group>"; };
 		AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListScreen.swift; sourceTree = "<group>"; };
 		AEE6B4CF2D8957C90094EB82 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AEE6B4D12D8958660094EB82 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -101,6 +104,7 @@
 		AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
 		AEE6B5092D8EB5010094EB82 /* SettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingService.swift; sourceTree = "<group>"; };
 		AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingViewModel.swift; sourceTree = "<group>"; };
+		AEE6B50E2D9147920094EB82 /* DateRangePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */,
+				AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 				AEE6B4F52D8BFDB40094EB82 /* Cells */,
 				AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */,
 				AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */,
+				AEE6B50E2D9147920094EB82 /* DateRangePickerView.swift */,
 			);
 			path = Track;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 				2266D13D2D866F74004D9644 /* ApiClient.swift in Sources */,
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
+				AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */,
 				2266D1552D8688BB004D9644 /* Endpoint.swift in Sources */,
 				AEE6B4F72D8BFDD50094EB82 /* TrackListItem.swift in Sources */,
 				AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */,
@@ -476,6 +483,7 @@
 				2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */,
 				2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */,
 				AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */,
+				AEE6B50F2D9147920094EB82 /* DateRangePickerView.swift in Sources */,
 				AEE6B5062D8EA98C0094EB82 /* SettingViewModel.swift in Sources */,
 				AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */,
 				22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */,

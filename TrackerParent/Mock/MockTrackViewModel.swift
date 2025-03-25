@@ -17,12 +17,12 @@ final class MockTrackViewModel: TrackViewModelProtocol {
     var shouldKeepLoading = false
     var shouldReturnError = false
 
-    func fetchTrack() async {
+    func fetchTrack(fromDate: Date, toDate: Date) async {
         // Mock loading
         fetchDataState = .loading
         errMsg = nil
         
-        try? await Task.sleep(nanoseconds: 3 * 1_000_000_000)
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
         
         if !shouldKeepLoading {
             if shouldReturnError {

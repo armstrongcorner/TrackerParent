@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftfulRouting
 
 struct LoginScreen: View {
+    @Environment(ToastViewObserver.self) var toastViewObserver
+    
     @State private var authViewModel = AuthViewModel()
     
     let router: AnyRouter
@@ -62,7 +64,7 @@ struct LoginScreen: View {
                     .background(.primary)
                     .cornerRadius(10)
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 40)
             
             // Login with faceID
             Button {
@@ -93,32 +95,32 @@ struct LoginScreen: View {
             }
             
             Spacer()
-            
-            // Error message
-            if let errMsg = authViewModel.errMsg {
-                Text(errMsg)
-                    .font(.subheadline)
-                    .foregroundStyle(.red)
-            }
         }
         .onChange(of: authViewModel.loginState, { oldValue, newValue in
             if newValue == .success {
-                authViewModel.loginState = .none
-                
+                toastViewObserver.dismissLoading()
                 authViewModel.username = ""
                 authViewModel.password = ""
                 
                 router.showScreen(.push) { router2 in
                     TrackListScreen(router: router2)
                 }
+            } else if newValue == .failure, let errMsg = authViewModel.errMsg {
+                toastViewObserver.showToast(message: errMsg)
+            } else if newValue == .loading {
+                toastViewObserver.showLoading()
             }
+            
+            authViewModel.loginState = .none
         })
         .padding()
+        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 
 #Preview {
     RouterView { router in
         LoginScreen(router: router)
+            .environment(ToastViewObserver())
     }
 }

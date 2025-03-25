@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftfulRouting
 
 struct SettingScreen: View {
+    @Environment(ToastViewObserver.self) var toastViewObserver
+    
     @State private var settingViewModel: SettingViewModelProtocol
     @State private var startTime: Date = .now
     
@@ -160,7 +162,18 @@ struct SettingScreen: View {
                 }
             }
         }
+        .onChange(of: settingViewModel.updateDataState, { oldValue, newValue in
+            if newValue == .done {
+                toastViewObserver.dismissLoading()
+                toastViewObserver.showToast(message: "Update successfully")
+            } else if newValue == .error, let errMsg = settingViewModel.errMsg {
+                toastViewObserver.showToast(message: errMsg)
+            } else if newValue == .loading {
+                toastViewObserver.showLoading()
+            }
+        })
         .padding()
+        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 
@@ -172,6 +185,7 @@ struct SettingScreen: View {
     return RouterView { router in
         SettingScreen(router: router, settingViewModel: mockSettingViewModel)
     }
+    .environment(ToastViewObserver())
 }
 
 #Preview("loading") {
@@ -182,6 +196,7 @@ struct SettingScreen: View {
     return RouterView { router in
         SettingScreen(router: router, settingViewModel: mockSettingViewModel)
     }
+    .environment(ToastViewObserver())
 }
 
 #Preview("error") {
@@ -192,4 +207,5 @@ struct SettingScreen: View {
     return RouterView { router in
         SettingScreen(router: router, settingViewModel: mockSettingViewModel)
     }
+    .environment(ToastViewObserver())
 }

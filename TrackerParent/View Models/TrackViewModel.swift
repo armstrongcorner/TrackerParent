@@ -21,7 +21,7 @@ protocol TrackViewModelProtocol: Sendable {
     var fetchDataState: FetchDataState { get }
     var errMsg: String? { get }
 
-    func fetchTrack() async
+    func fetchTrack(fromDate: Date, toDate: Date) async
     func logout()
 }
 
@@ -51,13 +51,19 @@ final class TrackViewModel: TrackViewModelProtocol {
         self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
-    func fetchTrack() async {
+    func fetchTrack(fromDate: Date, toDate: Date) async {
         do {
+            tracks = []
             fetchDataState = .loading
             errMsg = nil
             
             // Call get track list service
-            guard let locationResponse = try await trackService.getLocations() else {
+            let fromDate = DateUtil.shared.startOfTheDate(date: fromDate)
+            let endDate = DateUtil.shared.endOfTheDate(date: toDate)
+            
+            guard let locationResponse = try await trackService.getLocationsByDateTime(
+                fromDateStr: DateUtil.shared.convertToISO8601Str(date: fromDate),
+                toDateStr: DateUtil.shared.convertToISO8601Str(date: endDate)) else {
                 throw CommError.unknown
             }
             
@@ -68,7 +74,7 @@ final class TrackViewModel: TrackViewModelProtocol {
                 var lastLocation: LocationModel? = nil
                 var newTrack: [LocationModel] = []
                 locationList.forEach { locationModel in
-                    if lastLocation != nil && DateUtil.shared.minutesBetween(from: lastLocation?.createdDateTime ?? "", to: locationModel.createdDateTime) > 30 {
+                    if lastLocation != nil && DateUtil.shared.minutesBetween(from: lastLocation?.dateTimeOcurred ?? "", to: locationModel.dateTimeOcurred) > 30 {
                         tracks.append(newTrack)
                         newTrack = []
                     }

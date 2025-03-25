@@ -95,7 +95,7 @@ final class SettingViewModel: SettingViewModelProtocol {
                 logger.debug("new setting: \(String(describing: newSetting))")
                 
                 setting = newSetting
-                fetchDataState = .done
+                updateDataState = .done
             } else if !settingResponse.isSuccess, let failureReason = settingResponse.failureReason {
                 throw CommError.serverReturnedError(failureReason)
             } else {

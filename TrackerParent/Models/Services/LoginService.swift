@@ -25,6 +25,7 @@ actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
     
     func login(username: String, password: String) async throws -> AuthResponse? {
         let requestBody = LoginRequestBody(username: username, password: password)
+        
         let response = try await apiClient.post(
             urlString: Endpoint.login.urlString,
             body: requestBody,

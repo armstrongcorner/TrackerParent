@@ -10,6 +10,7 @@ import OSLog
 
 enum LoginState {
     case none
+    case loading
     case success
     case failure
 }
@@ -80,6 +81,8 @@ final class AuthViewModel {
     
     func login() async {
         do {
+            loginState = .loading
+            
             // Validate input
             try validateInput()
             
@@ -112,6 +115,8 @@ final class AuthViewModel {
     
     func loginWithFaceId() async {
         do {
+            loginState = .loading
+            
             if try await BiometricsUtil.shared.canUseBiometrics() {
                 let bundleId = Bundle.main.bundleIdentifier ?? ""
                 let account = UserDefaults.standard.string(forKey: "username") ?? ""
