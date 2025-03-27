@@ -137,6 +137,9 @@ final class AuthViewModel {
                         throw CommError.unknown
                     }
                 }
+            } else {
+                loginState = .none
+                errMsg = nil
             }
         } catch {
             handleBiometricsError(error)

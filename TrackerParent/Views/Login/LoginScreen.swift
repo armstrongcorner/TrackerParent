@@ -78,8 +78,12 @@ struct LoginScreen: View {
                     .frame(width: 60)
             }
             .alert("Face ID disabled", isPresented: $authViewModel.showSettingsAlert) {
-                Button("Cancel", role: .cancel) { }
+                Button("Cancel", role: .cancel) {
+                    toastViewObserver.dismissLoading()
+                }
                 Button("Settings") {
+                    toastViewObserver.dismissLoading()
+                    
                     if let url = URL(string: UIApplication.openSettingsURLString),
                        UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
@@ -89,7 +93,9 @@ struct LoginScreen: View {
                 Text("Please enable 'Face ID' in the app settings")
             }
             .alert("Face ID not enrolled", isPresented: $authViewModel.showEnrolAlert) {
-                Button("OK", role: .cancel) { }
+                Button("OK", role: .cancel) {
+                    toastViewObserver.dismissLoading()
+                }
             } message: {
                 Text("Please enrol a Face ID first")
             }
@@ -109,6 +115,8 @@ struct LoginScreen: View {
                 toastViewObserver.showToast(message: errMsg)
             } else if newValue == .loading {
                 toastViewObserver.showLoading()
+            } else if newValue == .none {
+                toastViewObserver.dismissLoading()
             }
             
             authViewModel.loginState = .none
