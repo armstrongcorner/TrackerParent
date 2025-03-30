@@ -12,7 +12,8 @@ enum ToastType {
     case toast
 }
 
-@Observable @MainActor
+@MainActor
+@Observable
 class ToastViewObserver {
     // Show toast
     var isShowing: Bool = false
@@ -59,7 +60,7 @@ class ToastViewObserver {
         self.isShowing = false
     }
     
-    func showToast(message: String? = nil, imageName: String? = nil, duration: TimeInterval = 2) {
+    func showToast(message: String? = nil, imageName: String? = nil, duration: TimeInterval = 2, completion: (@Sendable () -> Void)? = nil) {
         self.isShowing = true
         self.toastType = .toast
         
@@ -70,6 +71,7 @@ class ToastViewObserver {
         Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
             Task { @MainActor in
                 self?.isShowing = false
+                completion?()
             }
         }
     }

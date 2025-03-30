@@ -22,6 +22,9 @@
 		2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D1572D86BD0F004D9644 /* KeyChainUtil.swift */; };
 		2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */; };
 		2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */; };
+		22B295062D989C6800AB6A5D /* SettingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295052D989C6800AB6A5D /* SettingListScreen.swift */; };
+		22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */; };
+		22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */; };
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
@@ -39,7 +42,6 @@
 		AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */; };
 		AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */; };
 		AEE6B4FD2D8E66560094EB82 /* MockTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */; };
-		AEE6B5042D8EA9130094EB82 /* SettingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5032D8EA9130094EB82 /* SettingScreen.swift */; };
 		AEE6B5062D8EA98C0094EB82 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5052D8EA98C0094EB82 /* SettingViewModel.swift */; };
 		AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */; };
 		AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5092D8EB5010094EB82 /* SettingService.swift */; };
@@ -83,6 +85,9 @@
 		2266D1572D86BD0F004D9644 /* KeyChainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainUtil.swift; sourceTree = "<group>"; };
 		2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsUtil.swift; sourceTree = "<group>"; };
 		2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButtonModifier.swift; sourceTree = "<group>"; };
+		22B295052D989C6800AB6A5D /* SettingListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListScreen.swift; sourceTree = "<group>"; };
+		22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailScreen.swift; sourceTree = "<group>"; };
+		22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListItem.swift; sourceTree = "<group>"; };
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
@@ -99,7 +104,6 @@
 		AEE6B4F82D8C090B0094EB82 /* TrackDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailScreen.swift; sourceTree = "<group>"; };
 		AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtil.swift; sourceTree = "<group>"; };
 		AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackViewModel.swift; sourceTree = "<group>"; };
-		AEE6B5032D8EA9130094EB82 /* SettingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreen.swift; sourceTree = "<group>"; };
 		AEE6B5052D8EA98C0094EB82 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
 		AEE6B5092D8EB5010094EB82 /* SettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingService.swift; sourceTree = "<group>"; };
@@ -234,6 +238,14 @@
 			path = Modifiers;
 			sourceTree = "<group>";
 		};
+		22B295092D98A2ED00AB6A5D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		22FBA7B72D856942002C10B1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,7 +330,9 @@
 		AEE6B5022D8EA8ED0094EB82 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				AEE6B5032D8EA9130094EB82 /* SettingScreen.swift */,
+				22B295092D98A2ED00AB6A5D /* Cells */,
+				22B295052D989C6800AB6A5D /* SettingListScreen.swift */,
+				22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -467,8 +481,10 @@
 				AEE6B4FD2D8E66560094EB82 /* MockTrackViewModel.swift in Sources */,
 				AEE6B4EC2D8A6AAE0094EB82 /* TrackViewModel.swift in Sources */,
 				2266D1392D862EDC004D9644 /* MockLoginService.swift in Sources */,
+				22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */,
 				224A3E332D824EFE00815897 /* LoginScreen.swift in Sources */,
 				2266D13D2D866F74004D9644 /* ApiClient.swift in Sources */,
+				22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */,
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
 				AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */,
@@ -485,12 +501,12 @@
 				AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */,
 				AEE6B50F2D9147920094EB82 /* DateRangePickerView.swift in Sources */,
 				AEE6B5062D8EA98C0094EB82 /* SettingViewModel.swift in Sources */,
+				22B295062D989C6800AB6A5D /* SettingListScreen.swift in Sources */,
 				AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */,
 				22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */,
 				AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */,
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
 				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
-				AEE6B5042D8EA9130094EB82 /* SettingScreen.swift in Sources */,
 				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,
 				224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */,

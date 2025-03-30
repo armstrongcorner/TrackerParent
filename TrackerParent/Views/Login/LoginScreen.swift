@@ -119,7 +119,7 @@ struct LoginScreen: View {
                 toastViewObserver.dismissLoading()
             }
             
-            authViewModel.loginState = .none
+//            authViewModel.loginState = .none
         })
         .padding()
         .toastView(toastViewObserver: toastViewObserver)

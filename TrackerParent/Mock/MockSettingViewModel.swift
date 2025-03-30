@@ -10,15 +10,17 @@ import Foundation
 @MainActor
 @Observable
 final class MockSettingViewModel: SettingViewModelProtocol {
-    var setting: SettingModel? = nil
+    var settingList: [SettingModel]? = nil
+    var currentSetting: SettingModel? = nil
     var updateDataState: FetchDataState = .idle
     var fetchDataState: FetchDataState = .idle
     var errMsg: String? = nil
+    var refreshData: Bool = true
     
     var shouldKeepLoading = false
     var shouldReturnError = false
 
-    func fetchSetting() async {
+    func fetchSettingList() async {
         // Mock loading
         fetchDataState = .loading
         errMsg = nil
@@ -32,13 +34,13 @@ final class MockSettingViewModel: SettingViewModelProtocol {
                 errMsg = "Mock fetching setting data error occurred"
             } else {
                 // Mock loaded data
-                setting = mockSetting
+                settingList = [mockSetting1, mockSetting2]
                 fetchDataState = .done
             }
         }
     }
     
-    func updateSetting() async {
+    func updateCurrentSetting() async {
         //
     }
 }

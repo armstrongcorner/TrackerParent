@@ -76,7 +76,7 @@ struct TrackListScreen: View {
                 Menu {
                     Button {
                         router.showScreen(.push) { router2 in
-                            SettingScreen(router: router2)
+                            SettingListScreen(router: router2)
                         }
                     } label: {
                         Text("Setting")

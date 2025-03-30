@@ -10,7 +10,7 @@ import Foundation
 let mockAuthResponse = AuthResponse(value: AuthModel(token: "123456", validInMins: 20, validUntilUTC: "2025-03-26T01:29:38.946042Z"), failureReason: nil, isSuccess: true)
 let mockAuthResponseWithFailureReason = AuthResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 
-let mockSetting = SettingModel(
+let mockSetting1 = SettingModel(
     id: 1,
     userName: "test_username",
     collectionFrequency: 10,
@@ -18,6 +18,17 @@ let mockSetting = SettingModel(
     distanceFilter: 50,
     startTime: "11:10:00",
     endTime: "11:45:00",
+    accuracy: "High"
+)
+
+let mockSetting2 = SettingModel(
+    id: 2,
+    userName: "test_username",
+    collectionFrequency: 10,
+    pushFrequency: 10,
+    distanceFilter: 50,
+    startTime: "14:00:00",
+    endTime: "16:30:00",
     accuracy: "High"
 )
 
