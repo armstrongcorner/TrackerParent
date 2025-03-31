@@ -12,8 +12,10 @@ import Foundation
 final class MockSettingViewModel: SettingViewModelProtocol {
     var settingList: [SettingModel]? = nil
     var currentSetting: SettingModel? = nil
-    var updateDataState: FetchDataState = .idle
     var fetchDataState: FetchDataState = .idle
+    var addDataState: FetchDataState = .idle
+    var updateDataState: FetchDataState = .idle
+    var deleteDataState: FetchDataState = .idle
     var errMsg: String? = nil
     var refreshData: Bool = true
     
@@ -40,7 +42,15 @@ final class MockSettingViewModel: SettingViewModelProtocol {
         }
     }
     
+    func addNewSetting() async {
+        //
+    }
+    
     func updateCurrentSetting() async {
+        //
+    }
+    
+    func deleteCurrentSetting() async {
         //
     }
 }

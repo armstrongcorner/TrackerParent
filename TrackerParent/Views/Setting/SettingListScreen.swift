@@ -9,6 +9,10 @@ import SwiftUI
 import SwiftfulRouting
 
 struct SettingListScreen: View {
+    @Environment(ToastViewObserver.self) var toastViewObserver
+    
+    @State private var showingDeleteConfirmation = false
+    
     @State private var settingViewModel: SettingViewModelProtocol
     let router: AnyRouter
     
@@ -31,6 +35,16 @@ struct SettingListScreen: View {
                                 router.showResizableSheet(sheetDetents: [.fraction(0.5)], selection: nil, showDragIndicator: true) { router2 in
                                     settingViewModel.currentSetting = setting
                                     return SettingDetailScreen(router: router2, settingViewModel: settingViewModel)
+                                }
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                HStack {
+                                    Button(role: .destructive) {
+                                        settingViewModel.currentSetting = setting
+                                        showingDeleteConfirmation = true
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
                                 }
                             }
                     }
@@ -58,7 +72,7 @@ struct SettingListScreen: View {
                 Button {
                     router.showResizableSheet(sheetDetents: [.fraction(0.5)], selection: nil, showDragIndicator: true) { router2 in
                         settingViewModel.currentSetting = nil
-                        return SettingDetailScreen(router: router2, settingViewModel: settingViewModel)
+                        return SettingDetailScreen(router: router2, settingViewModel: settingViewModel, isNewSetting: true)
                     }
                 } label: {
                     Image(systemName: "plus.circle")
@@ -76,11 +90,34 @@ struct SettingListScreen: View {
                 }
             }
         }
+        .onChange(of: settingViewModel.deleteDataState, { oldValue, newValue in
+            if newValue == .done {
+                toastViewObserver.dismissLoading()
+                toastViewObserver.showToast(message: "Delete successfully")
+                let index = settingViewModel.settingList?.firstIndex(of: settingViewModel.currentSetting ?? SettingModel()) ?? 0
+                settingViewModel.settingList?.remove(at: index)
+            } else if newValue == .error, let errMsg = settingViewModel.errMsg {
+                toastViewObserver.showToast(message: errMsg)
+            } else if newValue == .loading {
+                toastViewObserver.showLoading()
+            }
+        })
+        .alert("Delete Setting", isPresented: $showingDeleteConfirmation, actions: {
+            Button("OK", role: .destructive) {
+                Task {
+                    await settingViewModel.deleteCurrentSetting()
+                }
+            }
+            Button("Cancel", role: .cancel) { }
+        }, message: {
+            Text("Confirm to delete this setting?")
+        })
         .navigationTitle("Setting List")
+        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 
-#Preview("setting") {
+#Preview("setting list") {
     let mockSettingViewModel = MockSettingViewModel()
     mockSettingViewModel.shouldKeepLoading = false
     mockSettingViewModel.shouldReturnError = false
@@ -88,6 +125,7 @@ struct SettingListScreen: View {
     return RouterView { router in
         SettingListScreen(router: router, settingViewModel: mockSettingViewModel)
     }
+    .environment(ToastViewObserver())
 }
 
 #Preview("loading") {
@@ -98,6 +136,7 @@ struct SettingListScreen: View {
     return RouterView { router in
         SettingListScreen(router: router, settingViewModel: mockSettingViewModel)
     }
+    .environment(ToastViewObserver())
 }
 
 #Preview("error") {
@@ -108,5 +147,5 @@ struct SettingListScreen: View {
     return RouterView { router in
         SettingListScreen(router: router, settingViewModel: mockSettingViewModel)
     }
+    .environment(ToastViewObserver())
 }
-

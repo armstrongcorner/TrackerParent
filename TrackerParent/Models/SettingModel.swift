@@ -20,3 +20,4 @@ struct SettingModel: Codable, Hashable {
 
 typealias AllSettingsResponse = BaseResponse<[SettingModel]>
 typealias SettingResponse = BaseResponse<SettingModel>
+typealias DeleteSettingResponse = BaseResponse<Bool>

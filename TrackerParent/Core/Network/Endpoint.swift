@@ -16,7 +16,9 @@ enum Endpoint {
     case tracks
     case allTracks
     case setting
+    case addSetting
     case updateSetting
+    case deleteSetting
     
     var urlString: String {
         switch self {
@@ -32,8 +34,12 @@ enum Endpoint {
             return "\(Endpoint.locationURL)/geo/locations/all"
         case .setting:
             return "\(Endpoint.locationURL)/geo/settings"
+        case .addSetting:
+            return "\(Endpoint.locationURL)/geo/setting/add"
         case .updateSetting:
             return "\(Endpoint.locationURL)/geo/setting/update"
+        case .deleteSetting:
+            return "\(Endpoint.locationURL)/geo/setting/delete"
         }
     }
 }

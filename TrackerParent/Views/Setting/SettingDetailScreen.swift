@@ -13,13 +13,27 @@ struct SettingDetailScreen: View {
     
     @State var settingViewModel: SettingViewModelProtocol
     let router: AnyRouter
+    var isNewSetting: Bool
     
     init(
         router: AnyRouter,
-        settingViewModel: SettingViewModelProtocol = SettingViewModel()
+        settingViewModel: SettingViewModelProtocol = SettingViewModel(),
+        isNewSetting: Bool = false
     ) {
         self.router = router
         self.settingViewModel = settingViewModel
+        self.isNewSetting = isNewSetting
+        if self.isNewSetting {
+            self.settingViewModel.currentSetting = SettingModel(
+                userName: UserDefaults.standard.string(forKey: "username"),
+                collectionFrequency: 0,
+                pushFrequency: 0,
+                distanceFilter: 10,
+                startTime: "00:00:00",
+                endTime: "00:00:00",
+                accuracy: "High"
+            )
+        }
     }
     
     var body: some View {
@@ -120,13 +134,17 @@ struct SettingDetailScreen: View {
             }
             .padding(.bottom, 80)
             
-            // Update btn
+            // Add/Update btn
             Button {
                 Task {
-                    await settingViewModel.updateCurrentSetting()
+                    if isNewSetting {
+                        await settingViewModel.addNewSetting()
+                    } else {
+                        await settingViewModel.updateCurrentSetting()
+                    }
                 }
             } label: {
-                Text("Update")
+                Text(isNewSetting ? "Create" : "Update")
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(width: 180, height: 45)
@@ -151,12 +169,28 @@ struct SettingDetailScreen: View {
                 toastViewObserver.showLoading()
             }
         })
+        .onChange(of: settingViewModel.addDataState, { oldValue, newValue in
+            if newValue == .done {
+                toastViewObserver.dismissLoading()
+                toastViewObserver.showToast(message: "Add successfully") {
+                    Task {
+                        await MainActor.run {
+                            router.dismissScreen()
+                        }
+                    }
+                }
+            } else if newValue == .error, let errMsg = settingViewModel.errMsg {
+                toastViewObserver.showToast(message: errMsg)
+            } else if newValue == .loading {
+                toastViewObserver.showLoading()
+            }
+        })
         .padding()
         .toastView(toastViewObserver: toastViewObserver)
     }
 }
 
-#Preview("setting") {
+#Preview("update setting") {
     let mockSettingViewModel = MockSettingViewModel()
     mockSettingViewModel.shouldKeepLoading = false
     mockSettingViewModel.shouldReturnError = false
@@ -164,6 +198,18 @@ struct SettingDetailScreen: View {
     
     return RouterView { router in
         SettingDetailScreen(router: router, settingViewModel: mockSettingViewModel)
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("create setting") {
+    let mockSettingViewModel = MockSettingViewModel()
+    mockSettingViewModel.shouldKeepLoading = false
+    mockSettingViewModel.shouldReturnError = false
+    mockSettingViewModel.currentSetting = nil
+    
+    return RouterView { router in
+        SettingDetailScreen(router: router, settingViewModel: mockSettingViewModel, isNewSetting: true)
     }
     .environment(ToastViewObserver())
 }

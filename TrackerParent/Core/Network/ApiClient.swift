@@ -20,6 +20,7 @@ let defaultTimeout: TimeInterval = 120
 protocol ApiClientProtocol: Sendable {
     func get<T: Decodable & Sendable>(urlString: String, headers: [String : String]?, timeout: TimeInterval, responseType: T.Type) async throws -> T?
     func post<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]?, body: R?, timeout: TimeInterval, responseType: T.Type) async throws -> T?
+    func delete<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]?, body: R?, timeout: TimeInterval, responseType: T.Type) async throws -> T?
 }
 
 extension ApiClientProtocol {
@@ -29,6 +30,10 @@ extension ApiClientProtocol {
     
     func post<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]? = nil, body: R?, timeout: TimeInterval = defaultTimeout, responseType: T.Type) async throws -> T? {
         try await post(urlString: urlString, headers: headers, body: body, timeout: timeout, responseType: responseType)
+    }
+    
+    func delete<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]? = nil, body: R?, timeout: TimeInterval = defaultTimeout, responseType: T.Type) async throws -> T? {
+        try await delete(urlString: urlString, headers: headers, body: body, timeout: timeout, responseType: responseType)
     }
 }
 
@@ -69,6 +74,33 @@ final class ApiClient: ApiClientProtocol {
         return try await performRequest(
             urlString: urlString,
             method: "POST",
+            headers: headers,
+            body: bodyData,
+            timeout: timeout,
+            responseType: responseType
+        )
+    }
+    
+    // DELETE
+    func delete<T: Decodable & Sendable, R: Encodable & Sendable>(
+        urlString: String,
+        headers: [String : String]?,
+        body: R?,
+        timeout: TimeInterval,
+        responseType: T.Type
+    ) async throws -> T? {
+        var bodyData: Data?
+        if let body = body {
+            do {
+                bodyData = try JSONEncoder().encode(body)
+            } catch {
+                throw ApiError.encodingFailed("Failed to encode body: \(error)")
+            }
+        }
+        
+        return try await performRequest(
+            urlString: urlString,
+            method: "DELETE",
             headers: headers,
             body: bodyData,
             timeout: timeout,

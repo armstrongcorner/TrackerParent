@@ -129,6 +129,6 @@ struct LoginScreen: View {
 #Preview {
     RouterView { router in
         LoginScreen(router: router)
-            .environment(ToastViewObserver())
     }
+    .environment(ToastViewObserver())
 }

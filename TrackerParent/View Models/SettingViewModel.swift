@@ -8,17 +8,28 @@
 import Foundation
 import OSLog
 
+enum SettingType {
+    case fetch
+    case add
+    case update
+    case delete
+}
+
 @MainActor
 protocol SettingViewModelProtocol: Sendable {
     var settingList: [SettingModel]? { get set }
     var currentSetting: SettingModel? { get set }
     var fetchDataState: FetchDataState { get }
+    var addDataState: FetchDataState { get }
     var updateDataState: FetchDataState { get }
+    var deleteDataState: FetchDataState { get }
     var errMsg: String? { get }
     var refreshData: Bool { get set }
 
     func fetchSettingList() async
+    func addNewSetting() async
     func updateCurrentSetting() async
+    func deleteCurrentSetting() async
 }
 
 @MainActor
@@ -27,7 +38,9 @@ final class SettingViewModel: SettingViewModelProtocol {
     var settingList: [SettingModel]?
     var currentSetting: SettingModel?
     var fetchDataState: FetchDataState
+    var addDataState: FetchDataState
     var updateDataState: FetchDataState
+    var deleteDataState: FetchDataState
     var errMsg: String?
     var refreshData: Bool
 
@@ -40,13 +53,17 @@ final class SettingViewModel: SettingViewModelProtocol {
     init(
         settingService: SettingServiceProtocol = SettingService(),
         fetchDataState: FetchDataState = .idle,
+        addDataState: FetchDataState = .idle,
         updateDataState: FetchDataState = .idle,
+        deleteDataState: FetchDataState = .idle,
         errMsg: String? = nil,
         refreshData: Bool = true
     ) {
         self.settingService = settingService
         self.fetchDataState = fetchDataState
+        self.addDataState = addDataState
         self.updateDataState = updateDataState
+        self.deleteDataState = deleteDataState
         self.errMsg = errMsg
         self.refreshData = refreshData
         
@@ -67,6 +84,7 @@ final class SettingViewModel: SettingViewModelProtocol {
             // Extract single setting from returned setting list
             if allSettingsResponse.isSuccess, let allSettings = allSettingsResponse.value {
                 logger.debug("setting count: \(allSettings.count)")
+                
                 settingList = allSettings
                 fetchDataState = .done
                 refreshData = false
@@ -76,7 +94,36 @@ final class SettingViewModel: SettingViewModelProtocol {
                 throw CommError.unknown
             }
         } catch {
-            handleError(error)
+            handleError(error, type: .fetch)
+        }
+    }
+    
+    func addNewSetting() async {
+        do {
+            addDataState = .loading
+            errMsg = nil
+            
+            // Call add setting service
+            guard let settingResponse = try await settingService.addSetting(newSetting: currentSetting ?? SettingModel()) else {
+                throw CommError.unknown
+            }
+            
+            if settingResponse.isSuccess, let newSetting = settingResponse.value {
+                logger.debug("new setting: \(String(describing: newSetting))")
+                
+                if settingList == nil {
+                    settingList = []
+                }
+                settingList?.append(newSetting)
+                addDataState = .done
+//                refreshData = true
+            } else if !settingResponse.isSuccess, let failureReason = settingResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error, type: .add)
         }
     }
     
@@ -108,12 +155,49 @@ final class SettingViewModel: SettingViewModelProtocol {
                 throw CommError.unknown
             }
         } catch {
-            handleError(error)
+            handleError(error, type: .update)
         }
     }
     
-    private func handleError(_ error: Error) {
-        fetchDataState = .error
+    func deleteCurrentSetting() async {
+        do {
+            deleteDataState = .loading
+            errMsg = nil
+            
+            // Call delete setting service
+            guard let deleteSettingResponse = try await settingService.deleteSetting(newSetting: currentSetting ?? SettingModel()) else {
+                throw CommError.unknown
+            }
+            
+            if deleteSettingResponse.isSuccess, let result = deleteSettingResponse.value {
+                logger.debug("delete setting result: \(result)")
+                
+                if result {
+                    deleteDataState = .done
+                } else {
+                    throw CommError.unknown
+                }
+            } else if !deleteSettingResponse.isSuccess, let failureReason = deleteSettingResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error, type: .delete)
+        }
+    }
+    
+    private func handleError(_ error: Error, type: SettingType) {
+        switch type {
+        case .fetch:
+            fetchDataState = .error
+        case .add:
+            addDataState = .error
+        case .update:
+            updateDataState = .error
+        case .delete:
+            deleteDataState = .error
+        }
         
         switch error {
         case let commError as CommError:
