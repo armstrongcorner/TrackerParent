@@ -56,6 +56,7 @@ final class AuthViewModel {
     var password: String = ""
     var loginState: LoginState = .none
     var errMsg: String?
+    var role: String?
     
     var showSettingsAlert: Bool = false
     var showEnrolAlert: Bool = false
@@ -82,6 +83,7 @@ final class AuthViewModel {
     func login() async {
         do {
             loginState = .loading
+            role = nil
             
             // Validate input
             try validateInput()
@@ -101,6 +103,7 @@ final class AuthViewModel {
                 let bundleId = Bundle.main.bundleIdentifier ?? ""
                 try KeyChainUtil.shared.saveObject(service: bundleId, account: username, object: authModel)
                 
+                role = authModel.userRole
                 loginState = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
@@ -129,6 +132,7 @@ final class AuthViewModel {
                     if userResponse.isSuccess, let userModel = userResponse.value {
                         logger.debug("--- user info: \(String(describing: userModel))")
                         
+                        role = userModel.role
                         loginState = .success
                         errMsg = nil
                     } else if !userResponse.isSuccess, let failureReason = userResponse.failureReason {
@@ -160,6 +164,7 @@ final class AuthViewModel {
     
     private func handleLoginError(_ error: Error) {
         loginState = .failure
+        role = nil
         
         switch error {
 //        case LoginError.emptyUsername:
@@ -179,6 +184,7 @@ final class AuthViewModel {
     
     private func handleBiometricsError(_ error: Error) {
         loginState = .failure
+        role = nil
         
         switch error {
         case BiometryError.notEnroll:

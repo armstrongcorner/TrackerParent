@@ -19,13 +19,16 @@ struct TrackListScreen: View {
     @State private var endDate: Date = .now
     
     let router: AnyRouter
+    let username: String?
     
     init(
         router: AnyRouter,
-        trackViewModel: TrackViewModelProtocol = TrackViewModel()
+        trackViewModel: TrackViewModelProtocol = TrackViewModel(),
+        username: String? = nil
     ) {
         self.router = router
         self.trackViewModel = trackViewModel
+        self.username = username
     }
     
     var body: some View {
@@ -54,7 +57,7 @@ struct TrackListScreen: View {
                     .padding()
                 Button("Retry") {
                     Task {
-                        await trackViewModel.fetchTrack(fromDate: startDate, toDate: endDate)
+                        await trackViewModel.fetchTrack(username: username, fromDate: startDate, toDate: endDate)
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -107,7 +110,7 @@ struct TrackListScreen: View {
         .onAppear {
             Task {
                 if trackViewModel.tracks.isEmpty {
-                    await trackViewModel.fetchTrack(fromDate: startDate, toDate: endDate)
+                    await trackViewModel.fetchTrack(username: username, fromDate: startDate, toDate: endDate)
                 }
             }
         }
@@ -117,11 +120,11 @@ struct TrackListScreen: View {
         }
         .onChange(of: [startDate, endDate], { oldValue, newValue in
             Task {
-                await trackViewModel.fetchTrack(fromDate: startDate, toDate: endDate)
+                await trackViewModel.fetchTrack(username: username, fromDate: startDate, toDate: endDate)
             }
         })
         .toastView(toastViewObserver: toastViewObserver)
-        .navigationBarBackButtonHidden()
+        .navigationBarBackButtonHidden(username == nil)
     }
 }
 

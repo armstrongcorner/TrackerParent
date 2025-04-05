@@ -9,6 +9,7 @@ import Foundation
 
 struct AuthModel: Codable {
     let token: String
+    let userRole: String
     let validInMins: Int
     let validUntilUTC: String
 }

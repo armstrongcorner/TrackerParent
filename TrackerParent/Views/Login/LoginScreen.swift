@@ -109,7 +109,11 @@ struct LoginScreen: View {
                 authViewModel.password = ""
                 
                 router.showScreen(.push) { router2 in
-                    TrackListScreen(router: router2)
+                    if authViewModel.role == "User" {
+                        TrackListScreen(router: router2)
+                    } else if authViewModel.role == "Administrator" {
+                        UserListScreen(router: router2)
+                    }
                 }
             } else if newValue == .failure, let errMsg = authViewModel.errMsg {
                 toastViewObserver.showToast(message: errMsg)

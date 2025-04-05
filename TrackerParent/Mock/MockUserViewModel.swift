@@ -1,23 +1,23 @@
 //
-//  MockTrackViewModel.swift
+//  MockUserViewModel.swift
 //  TrackerParent
 //
-//  Created by Armstrong Liu on 2025/3/22.
+//  Created by Armstrong Liu on 05/04/2025.
 //
 
 import Foundation
 
 @MainActor
 @Observable
-final class MockTrackViewModel: TrackViewModelProtocol {
-    var tracks: [[LocationModel]] = []
+final class MockUserViewModel: UserViewModelProtocol {
+    var users: [UserModel] = []
     var fetchDataState: FetchDataState = .idle
     var errMsg: String? = nil
     
     var shouldKeepLoading = false
     var shouldReturnError = false
 
-    func fetchTrack(username: String?, fromDate: Date, toDate: Date) async {
+    func fetchUsers() async {
         // Mock loading
         fetchDataState = .loading
         errMsg = nil
@@ -28,16 +28,16 @@ final class MockTrackViewModel: TrackViewModelProtocol {
             if shouldReturnError {
                 // Mock error
                 fetchDataState = .error
-                errMsg = "Mock fetching tracks data error occurred"
+                errMsg = "Mock fetching users error occurred"
             } else {
                 // Mock loaded data
-                tracks.append(mockTrack)
+                users.append(contentsOf: [mockUser1, mockUser2])
                 fetchDataState = .done
             }
         }
     }
     
     func logout() {
-        
+        //
     }
 }

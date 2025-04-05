@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserModel: Codable {
+struct UserModel: Codable, Hashable {
     let id: Int?
     let userName: String?
     let password: String?
@@ -44,3 +44,4 @@ struct UserModel: Codable {
 }
 
 typealias UserResponse = BaseResponse<UserModel>
+typealias UserListResponse = BaseResponse<[UserModel]>

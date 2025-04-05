@@ -1,0 +1,96 @@
+//
+//  UserViewModel.swift
+//  TrackerParent
+//
+//  Created by Armstrong Liu on 05/04/2025.
+//
+
+import Foundation
+import OSLog
+
+@MainActor
+protocol UserViewModelProtocol {
+    var users: [UserModel] { get }
+    var fetchDataState: FetchDataState { get }
+    var errMsg: String? { get }
+    
+    func fetchUsers() async
+    func logout()
+}
+
+@MainActor
+@Observable
+final class UserViewModel: UserViewModelProtocol {
+    var users: [UserModel] = []
+    var fetchDataState: FetchDataState
+    var errMsg: String?
+
+    @ObservationIgnored
+    private let userService: UserServiceProtocol
+    
+    @ObservationIgnored
+    private let logger: Logger
+    
+    init(
+        userService: UserServiceProtocol = UserService(),
+        fetchDataState: FetchDataState = .idle,
+        errMsg: String? = nil
+    ) {
+        self.userService = userService
+        self.fetchDataState = fetchDataState
+        self.errMsg = errMsg
+        
+        let bundleId = Bundle.main.bundleIdentifier ?? ""
+        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
+    }
+    
+    func fetchUsers() async {
+        do {
+            users = []
+            fetchDataState = .loading
+            errMsg = nil
+            
+            // Call get user list service
+            guard let userListResponse = try await userService.getUserList() else {
+                throw CommError.unknown
+            }
+            
+            if userListResponse.isSuccess, let userList = userListResponse.value {
+                logger.debug("--- users count: \(String(describing: userList.count))")
+                
+                users = userList
+                fetchDataState = .done
+                errMsg = nil
+            } else if !userListResponse.isSuccess, let failureReason = userListResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error)
+        }
+    }
+    
+    func logout() {
+        let service = Bundle.main.bundleIdentifier ?? ""
+        let account = UserDefaults.standard.string(forKey: "username") ?? ""
+        
+        // Clear cached username
+        UserDefaults.standard.set(nil, forKey: "username")
+        
+        // Clear cached authModel in keychain
+        KeyChainUtil.shared.delete(service: service, account: account)
+    }
+    
+    private func handleError(_ error: Error) {
+        logger.log("Error fetching data: \(error.localizedDescription)")
+        fetchDataState = .error
+        
+        switch error {
+        case let commError as CommError:
+            errMsg = commError.errorDescription
+        default:
+            errMsg = error.localizedDescription
+        }
+    }
+}

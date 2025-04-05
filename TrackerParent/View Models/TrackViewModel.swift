@@ -21,7 +21,7 @@ protocol TrackViewModelProtocol: Sendable {
     var fetchDataState: FetchDataState { get }
     var errMsg: String? { get }
 
-    func fetchTrack(fromDate: Date, toDate: Date) async
+    func fetchTrack(username: String?, fromDate: Date, toDate: Date) async
     func logout()
 }
 
@@ -51,17 +51,19 @@ final class TrackViewModel: TrackViewModelProtocol {
         self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
-    func fetchTrack(fromDate: Date, toDate: Date) async {
+    func fetchTrack(username: String?, fromDate: Date, toDate: Date) async {
         do {
             tracks = []
             fetchDataState = .loading
             errMsg = nil
             
             // Call get track list service
+            let theUsername = username ?? UserDefaults.standard.string(forKey: "username") ?? ""
             let fromDate = DateUtil.shared.startOfTheDate(date: fromDate)
             let endDate = DateUtil.shared.endOfTheDate(date: toDate)
             
             guard let locationResponse = try await trackService.getLocationsByDateTime(
+                username: theUsername,
                 fromDateStr: DateUtil.shared.convertToISO8601Str(date: fromDate),
                 toDateStr: DateUtil.shared.convertToISO8601Str(date: endDate)) else {
                 throw CommError.unknown

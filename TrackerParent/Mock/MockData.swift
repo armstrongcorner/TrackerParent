@@ -7,8 +7,44 @@
 
 import Foundation
 
-let mockAuthResponse = AuthResponse(value: AuthModel(token: "123456", validInMins: 20, validUntilUTC: "2025-03-26T01:29:38.946042Z"), failureReason: nil, isSuccess: true)
+let mockAuth1 = AuthModel(token: "123456", userRole: "User", validInMins: 20, validUntilUTC: "2025-03-26T01:29:38.946042Z")
+let mockAuth2 = AuthModel(token: "mock_token", userRole: "Administrator", validInMins: 2000, validUntilUTC: "2025-03-26T01:29:38.946042Z")
+let mockAuthResponse = AuthResponse(value: mockAuth1, failureReason: nil, isSuccess: true)
 let mockAuthResponseWithFailureReason = AuthResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+
+let mockUser1 = UserModel(
+    id: 1,
+    userName: "test_username1",
+    password: "abcdefg123456",
+    photo: "123456abcdefg",
+    role: "User",
+    mobile: "",
+    email: "",
+    serviceLevel: 1,
+    tokenDurationInMin: 14400,
+    isActive: true,
+    createdDateTime: "2024-03-05T12:06:20.1476085Z",
+    updatedDateTime: "2024-03-05T12:06:20.1476085Z",
+    createdBy: "test_username1",
+    updatedBy: ""
+)
+
+let mockUser2 = UserModel(
+    id: 2,
+    userName: "test_username2",
+    password: "abcdefg123456",
+    photo: "123456abcdefg",
+    role: "Administrator",
+    mobile: "111",
+    email: "222",
+    serviceLevel: 1,
+    tokenDurationInMin: 30000,
+    isActive: true,
+    createdDateTime: "2024-03-05T12:06:20.1476085Z",
+    updatedDateTime: "2024-03-05T12:06:20.1476085Z",
+    createdBy: "test_username2",
+    updatedBy: "test_username2"
+)
 
 let mockSetting1 = SettingModel(
     id: 1,
