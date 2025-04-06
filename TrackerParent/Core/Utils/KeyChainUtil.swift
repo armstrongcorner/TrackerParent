@@ -8,7 +8,15 @@
 import Foundation
 import Security
 
-struct KeyChainUtil {
+protocol KeyChainUtilProtocol {
+    func save(service: String, account: String, data: Data) -> OSStatus
+    func saveObject<T: Encodable>(service: String, account: String, object: T) throws -> OSStatus
+    func load(service: String, account: String) -> Data?
+    func loadObject<T: Decodable>(service: String, account: String, type: T.Type) throws -> T?
+    func delete(service: String, account: String) -> OSStatus
+}
+
+struct KeyChainUtil: KeyChainUtilProtocol {
     static let shared = KeyChainUtil()
     
     private init() {}

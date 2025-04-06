@@ -1,5 +1,5 @@
 //
-//  TrackerParentTests.swift
+//  AuthViewModelTests.swift
 //  TrackerParentTests
 //
 //  Created by Armstrong Liu on 13/03/2025.
@@ -9,7 +9,7 @@ import XCTest
 @testable import TrackerParent
 
 @MainActor
-final class TrackerParentTests: XCTestCase {
+final class AuthViewModelTests: XCTestCase {
     var sut: AuthViewModel!
     var mockLoginService: MockLoginService!
     

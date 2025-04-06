@@ -11,6 +11,8 @@
 		223499182DA10E8800E810FF /* UserListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223499172DA10E8800E810FF /* UserListItem.swift */; };
 		2234991A2DA10ED500E810FF /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223499192DA10ED500E810FF /* UserViewModel.swift */; };
 		2234991C2DA1247900E810FF /* MockUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2234991B2DA1247900E810FF /* MockUserViewModel.swift */; };
+		223499202DA22B0C00E810FF /* BiometricsUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2234991F2DA22B0C00E810FF /* BiometricsUtilTests.swift */; };
+		223499222DA2733200E810FF /* MockLAContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223499212DA2733200E810FF /* MockLAContext.swift */; };
 		224A3E2A2D824EFE00815897 /* AuthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E282D824EFE00815897 /* AuthViewModelTests.swift */; };
 		224A3E312D824EFE00815897 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224A3E2B2D824EFE00815897 /* Preview Assets.xcassets */; };
 		224A3E322D824EFE00815897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224A3E2D2D824EFE00815897 /* Assets.xcassets */; };
@@ -75,6 +77,8 @@
 		223499172DA10E8800E810FF /* UserListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListItem.swift; sourceTree = "<group>"; };
 		223499192DA10ED500E810FF /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		2234991B2DA1247900E810FF /* MockUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserViewModel.swift; sourceTree = "<group>"; };
+		2234991F2DA22B0C00E810FF /* BiometricsUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsUtilTests.swift; sourceTree = "<group>"; };
+		223499212DA2733200E810FF /* MockLAContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLAContext.swift; sourceTree = "<group>"; };
 		224A3DFB2D824EE200815897 /* TrackerParent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackerParent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		224A3E0B2D824EE700815897 /* TrackerParentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerParentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		224A3E152D824EE700815897 /* TrackerParentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerParentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				224A3E282D824EFE00815897 /* AuthViewModelTests.swift */,
+				2234991F2DA22B0C00E810FF /* BiometricsUtilTests.swift */,
 			);
 			path = TrackerParentTests;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */,
 				AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */,
 				2234991B2DA1247900E810FF /* MockUserViewModel.swift */,
+				223499212DA2733200E810FF /* MockLAContext.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,
 				224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */,
+				223499222DA2733200E810FF /* MockLAContext.swift in Sources */,
 				224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */,
 				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
 				223499182DA10E8800E810FF /* UserListItem.swift in Sources */,
@@ -543,6 +550,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				223499202DA22B0C00E810FF /* BiometricsUtilTests.swift in Sources */,
 				224A3E2A2D824EFE00815897 /* AuthViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
