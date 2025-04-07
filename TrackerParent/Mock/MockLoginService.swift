@@ -31,7 +31,7 @@ actor MockLoginService: LoginServiceProtocol {
     
     func login(username: String, password: String) async throws -> AuthResponse? {
         // Mock access network time
-        try await Task.sleep(nanoseconds: 3 * 1_000_000_000)
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
         
         if let authResponse = authResponse, !shouldReturnError {
             return authResponse

@@ -52,7 +52,7 @@ enum CommError: Error {
 @MainActor
 @Observable
 final class AuthViewModel {
-    var username: String = UserDefaults.standard.string(forKey: "username") ?? ""
+    var username: String = ""
     var password: String = ""
     var loginState: LoginState = .none
     var errMsg: String?
@@ -65,16 +65,30 @@ final class AuthViewModel {
     private let loginService: LoginServiceProtocol
     @ObservationIgnored
     private let userService: UserServiceProtocol
+    @ObservationIgnored
+    private let keyChainUtil: KeyChainUtilProtocol
+    @ObservationIgnored
+    private let biometricsUtil: BiometricsUtilProtocol
+    @ObservationIgnored
+    private let userDefaults: UserDefaults
     
     @ObservationIgnored
     private let logger: Logger
     
     init(
         loginService: LoginServiceProtocol = LoginService(),
-        userService: UserServiceProtocol = UserService()
+        userService: UserServiceProtocol = UserService(),
+        keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
+        biometricsUtil: BiometricsUtilProtocol = BiometricsUtil.shared,
+        userDefaults: UserDefaults = .standard
     ) {
         self.loginService = loginService
         self.userService = userService
+        self.keyChainUtil = keyChainUtil
+        self.biometricsUtil = biometricsUtil
+        self.userDefaults = userDefaults
+        
+        self.username = userDefaults.string(forKey: "username") ?? ""
         
         let bundleId = Bundle.main.bundleIdentifier ?? ""
         self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
@@ -97,11 +111,11 @@ final class AuthViewModel {
                 logger.debug("--- auth model: \(String(describing: authModel))")
                 
                 // Save the username to UserDefault
-                UserDefaults.standard.set(username, forKey: "username")
+                userDefaults.set(username, forKey: "username")
                 
                 // Save the auth model to Keychain
                 let bundleId = Bundle.main.bundleIdentifier ?? ""
-                try KeyChainUtil.shared.saveObject(service: bundleId, account: username, object: authModel)
+                try keyChainUtil.saveObject(service: bundleId, account: username, object: authModel)
                 
                 role = authModel.userRole
                 loginState = .success
@@ -120,10 +134,10 @@ final class AuthViewModel {
         do {
             loginState = .loading
             
-            if try await BiometricsUtil.shared.canUseBiometrics() {
+            if try await biometricsUtil.canUseBiometrics() {
                 let bundleId = Bundle.main.bundleIdentifier ?? ""
-                let account = UserDefaults.standard.string(forKey: "username") ?? ""
-                if let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: account, type: AuthModel.self) {
+                let account = userDefaults.string(forKey: "username") ?? ""
+                if let savedAuthModel = try keyChainUtil.loadObject(service: bundleId, account: account, type: AuthModel.self) {
                     logger.debug("--- auth model in keychain: \(String(describing: savedAuthModel))")
                     guard let userResponse = try await userService.getUserInfo(username: account) else {
                         throw CommError.unknown
@@ -140,6 +154,8 @@ final class AuthViewModel {
                     } else {
                         throw CommError.unknown
                     }
+                } else {
+                    throw CommError.serverReturnedError("No auth model in keychain")
                 }
             } else {
                 loginState = .none
@@ -193,6 +209,8 @@ final class AuthViewModel {
             showSettingsAlert = true
         case BiometryError.other(let otherError):
             errMsg = otherError.localizedDescription
+        case let commError as CommError:
+            errMsg = commError.errorDescription
         default:
             errMsg = error.localizedDescription
         }

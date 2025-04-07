@@ -46,6 +46,10 @@ let mockUser2 = UserModel(
     updatedBy: "test_username2"
 )
 
+let mockUserResponse1 = UserResponse(value: mockUser1, failureReason: nil, isSuccess: true)
+let mockUserResponse2 = UserResponse(value: mockUser2, failureReason: nil, isSuccess: true)
+let mockUserResponseWithFailureReason = UserResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+
 let mockSetting1 = SettingModel(
     id: 1,
     userName: "test_username",

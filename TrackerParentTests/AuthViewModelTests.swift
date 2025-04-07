@@ -12,16 +12,36 @@ import XCTest
 final class AuthViewModelTests: XCTestCase {
     var sut: AuthViewModel!
     var mockLoginService: MockLoginService!
+    var mockUserService: MockUserService!
+    var mockBiometricsUtil: MockBiometricsUtil!
+    var mockKeyChainUtil: MockKeyChainUtil!
+    var mockUserDefaults: UserDefaults!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
         
         mockLoginService = MockLoginService()
-        sut = AuthViewModel(loginService: mockLoginService)
+        mockUserService = MockUserService()
+        mockBiometricsUtil = MockBiometricsUtil()
+        mockKeyChainUtil = MockKeyChainUtil()
+        mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
+        
+        sut = AuthViewModel(
+            loginService: mockLoginService,
+            userService: mockUserService,
+            keyChainUtil: mockKeyChainUtil,
+            biometricsUtil: mockBiometricsUtil,
+            userDefaults: mockUserDefaults
+        )
     }
 
     override func tearDownWithError() throws {
         mockLoginService = nil
+        mockUserService = nil
+        mockBiometricsUtil = nil
+        mockKeyChainUtil = nil
+        mockUserDefaults.removePersistentDomain(forName: "au.com.matrixthoughts.TrackerParent.mock")
+        mockUserDefaults = nil
         sut = nil
         
         try super.tearDownWithError()
@@ -111,5 +131,79 @@ final class AuthViewModelTests: XCTestCase {
         // Then
         XCTAssertEqual(sut.loginState, .failure, "Login should be failed.")
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAuthResponseWithFailureReason.failureReason ?? "").errorDescription, "Login failed with server response error.")
+    }
+    
+    func testLoginWithFaceIdSuccess() async {
+        do {
+            // Given
+            try mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: mockUser1.userName ?? "test_username", object: mockAuth1)
+            mockBiometricsUtil.canAuthenticate = true
+            mockUserDefaults.set(mockUser1.userName, forKey: "username")
+            await mockUserService.setShouldReturnError(false)
+            await mockUserService.setCommError(nil)
+            await mockUserService.setUserResponse(mockUserResponse1)
+            
+            // When
+            await sut.loginWithFaceId()
+            
+            // Then
+            XCTAssertEqual(sut.loginState, .success, "Login with FacdId should be success.")
+            XCTAssertEqual(sut.role, mockUser1.role, "The retrieved user role should be correct.")
+            XCTAssertNil(sut.errMsg, "Success login should not have error message.")
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testLoginWithFaceIdAuthenticationFailure() async {
+        // Given
+        mockBiometricsUtil.canAuthenticate = false
+        
+        // When
+        await sut.loginWithFaceId()
+        
+        // Then
+        XCTAssertEqual(sut.loginState, .none, "Login with FaceId should not succeed.")
+        XCTAssertNil(sut.errMsg, "Login with FaceId should not succeed, but no err msg returned.")
+        
+    }
+    
+    func testLoginWithFaceIdWithUserServiceServerResponseError() async {
+        do {
+            // Given
+            try mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: mockUser1.userName ?? "test_username", object: mockAuth1)
+            mockBiometricsUtil.canAuthenticate = true
+            mockUserDefaults.set(mockUser1.userName, forKey: "username")
+            await mockUserService.setShouldReturnError(false)
+            await mockUserService.setUserResponse(mockUserResponseWithFailureReason)
+            
+            // When
+            await sut.loginWithFaceId()
+            
+            // Then
+            XCTAssertEqual(sut.loginState, .failure, "Login with FaceId should be failed.")
+            XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockUserResponseWithFailureReason.failureReason ?? "").errorDescription, "Login with FaceId failed with server response error.")
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testLoginWithFaceIdFailWithUserServiceUnknownError() async {
+        do {
+            try mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: mockUser1.userName ?? "test_username", object: mockAuth1)
+            mockBiometricsUtil.canAuthenticate = true
+            mockUserDefaults.set(mockUser1.userName, forKey: "username")
+            await mockUserService.setShouldReturnError(true)
+            await mockUserService.setCommError(.unknown)
+            
+            // When
+            await sut.loginWithFaceId()
+            
+            // Then
+            XCTAssertEqual(sut.loginState, .failure, "Login with FaceId should be failed.")
+            XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Login failed with unknown error.")
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
     }
 }

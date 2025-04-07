@@ -36,6 +36,7 @@ protocol LAContextProtocol {
 
 extension LAContext: LAContextProtocol {}
 
+@MainActor
 protocol BiometricsUtilProtocol {
     func canUseBiometrics() async throws -> Bool
 }
