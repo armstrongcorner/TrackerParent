@@ -19,8 +19,6 @@ protocol KeyChainUtilProtocol {
 struct KeyChainUtil: KeyChainUtilProtocol {
     static let shared = KeyChainUtil()
     
-    private init() {}
-    
     /// Save original binary data to keychain
     /// - Parameters:
     ///   - service: Consider service name is app's bundle id
