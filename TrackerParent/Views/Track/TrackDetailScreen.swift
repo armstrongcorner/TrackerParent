@@ -22,6 +22,7 @@ struct TrackDetailScreen: View {
     @State private var mapAnnotationColor: Color = .black
     @State private var mapTextColor: Color = .white
     @State private var mapLineColor: Color = .gray
+    @State private var mapUserRotationAngle: Double = 0
     
     init(router: AnyRouter, track: [LocationModel]) {
         self.router = router
@@ -73,7 +74,7 @@ struct TrackDetailScreen: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: i == 0 || i == track.count - 1 ? 30 : 15)
-                                    .rotationEffect(Angle(degrees: i == 0 || i == track.count - 1 ? 0 : directionValue))
+                                    .rotationEffect(Angle(degrees: i == 0 || i == track.count - 1 ? 0 : directionValue - mapUserRotationAngle))
                                     .foregroundStyle(mapAnnotationColor)
                             }
                             .buttonStyle(.plain)
@@ -124,6 +125,9 @@ struct TrackDetailScreen: View {
                     displayedLocations = track
                     print("Showing all points")
                 }
+                
+                print("Camera heading: \(context.camera.heading)")
+                mapUserRotationAngle = context.camera.heading
             })
             
             // Top layer
@@ -195,6 +199,7 @@ struct TrackDetailScreen: View {
                     
                     // Return to original track
                     Button {
+                        mapUserRotationAngle = 0
                         withAnimation {
 //                            position = .region(MapUtil.shared.regionForCoordinates(from: track))
                             position = .automatic
