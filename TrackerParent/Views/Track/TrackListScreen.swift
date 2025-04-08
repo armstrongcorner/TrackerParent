@@ -10,6 +10,7 @@ import SwiftfulRouting
 
 struct TrackListScreen: View {
     @Environment(ToastViewObserver.self) var toastViewObserver
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     @State private var trackViewModel: TrackViewModelProtocol
     @State private var showConfirmLogout: Bool = false
@@ -116,7 +117,7 @@ struct TrackListScreen: View {
         }
         .sheet(isPresented: $showDateRangePicker) {
             DateRangePickerView(bindingStartDate: $startDate, bindingEndDate: $endDate)
-                .presentationDetents([.fraction(0.4)])
+                .presentationDetents([.fraction(horizontalSizeClass == .compact ? 0.4 : 0.5)])
         }
         .onChange(of: [startDate, endDate], { oldValue, newValue in
             Task {

@@ -10,6 +10,7 @@ import SwiftfulRouting
 
 struct SettingListScreen: View {
     @Environment(ToastViewObserver.self) var toastViewObserver
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     @State private var showingDeleteConfirmation = false
     
@@ -32,7 +33,7 @@ struct SettingListScreen: View {
                     ForEach(settingViewModel.settingList ?? [], id: \.self) { setting in
                         SettingListItem(setting: setting)
                             .onTapGesture {
-                                router.showResizableSheet(sheetDetents: [.fraction(0.5)], selection: nil, showDragIndicator: true) { router2 in
+                                router.showResizableSheet(sheetDetents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)], selection: nil, showDragIndicator: true) { router2 in
                                     settingViewModel.currentSetting = setting
                                     return SettingDetailScreen(router: router2, settingViewModel: settingViewModel)
                                 }
@@ -70,7 +71,7 @@ struct SettingListScreen: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    router.showResizableSheet(sheetDetents: [.fraction(0.5)], selection: nil, showDragIndicator: true) { router2 in
+                    router.showResizableSheet(sheetDetents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)], selection: nil, showDragIndicator: true) { router2 in
                         settingViewModel.currentSetting = nil
                         return SettingDetailScreen(router: router2, settingViewModel: settingViewModel, isNewSetting: true)
                     }
