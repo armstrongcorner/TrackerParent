@@ -150,7 +150,7 @@ struct TrackDetailScreen: View {
                             mapStyle = .hybrid
                             mapStyleLabel = "Hybrid"
                             mapThemeColor = .white
-                            mapAnnotationColor = .blue
+                            mapAnnotationColor = .white
                             mapTextColor = .black
                             mapLineColor = .blue
                         }
@@ -159,7 +159,7 @@ struct TrackDetailScreen: View {
                             mapStyle = .imagery(elevation: .realistic)
                             mapStyleLabel = "Hybrid(3D)"
                             mapThemeColor = .white
-                            mapAnnotationColor = .blue
+                            mapAnnotationColor = .white
                             mapTextColor = .black
                             mapLineColor = .blue
                         }
