@@ -8,9 +8,11 @@
 import Foundation
 
 enum Endpoint {
-    static let userURL = "https://intensivecredentialdev.azurewebsites.net/api"
-    static let locationURL = "https://intensivelocationdev.azurewebsites.net/api"
-    
+//    static let userURL = "https://intensivecredentialdev.azurewebsites.net/api"
+//    static let locationURL = "https://intensivelocationdev.azurewebsites.net/api"
+    static let userURL = "https://intensivecredentialprod.azurewebsites.net/api"
+    static let locationURL = "https://intensivelocationprod.azurewebsites.net/api"
+
     case login
     case userInfo(String)
     case allUsers
