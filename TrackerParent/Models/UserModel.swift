@@ -8,20 +8,20 @@
 import Foundation
 
 struct UserModel: Codable, Hashable {
-    let id: Int?
-    let userName: String?
-    let password: String?
-    let photo: String?
-    let role: String?
-    let mobile: String?
-    let email: String?
-    let serviceLevel: Int?
-    let tokenDurationInMin: Int?
-    let isActive: Bool?
-    let createdDateTime: String?
-    let updatedDateTime: String?
-    let createdBy: String?
-    let updatedBy: String?
+    var id: Int?
+    var userName: String?
+    var password: String?
+    var photo: String?
+    var role: String?
+    var mobile: String?
+    var email: String?
+    var serviceLevel: Int?
+    var tokenDurationInMin: Int?
+    var isActive: Bool?
+    var createdDateTime: String?
+    var updatedDateTime: String?
+    var createdBy: String?
+    var updatedBy: String?
     
     func toDictionary() -> [String: Any?] {
         return [

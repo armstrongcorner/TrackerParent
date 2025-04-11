@@ -55,6 +55,11 @@ actor MockUserService: UserServiceProtocol {
         }
     }
     
+    func updateUserInfo(newUserModel: UserModel) async throws -> UserResponse? {
+        //
+        return nil
+    }
+    
     func checkUserExists(username: String) async throws -> UserExistResponse? {
         //
         return nil

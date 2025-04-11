@@ -113,7 +113,7 @@ struct SettingListScreen: View {
         }, message: {
             Text("Confirm to delete this setting?")
         })
-        .navigationTitle("Setting List")
+        .navigationTitle("Track Setting List")
         .toastView(toastViewObserver: toastViewObserver)
     }
 }

@@ -13,7 +13,9 @@ struct TrackListScreen: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     @State private var trackViewModel: TrackViewModelProtocol
+    @State private var userViewModel: UserViewModelProtocol
     @State private var showConfirmLogout: Bool = false
+    @State private var showConfirmDelete: Bool = false
     
     @State private var showDateRangePicker = false
     @State private var startDate: Date = .now
@@ -25,10 +27,12 @@ struct TrackListScreen: View {
     init(
         router: AnyRouter,
         trackViewModel: TrackViewModelProtocol = TrackViewModel(),
+        userViewModel: UserViewModelProtocol = UserViewModel(),
         username: String? = nil
     ) {
         self.router = router
         self.trackViewModel = trackViewModel
+        self.userViewModel = userViewModel
         self.username = username
     }
     
@@ -78,16 +82,25 @@ struct TrackListScreen: View {
             }
             ToolbarItem(placement: .primaryAction) {
                 Menu {
+                    // Track setting
                     Button {
                         router.showScreen(.push) { router2 in
                             SettingListScreen(router: router2)
                         }
                     } label: {
-                        Text("Setting")
+                        Text("Track setting")
                     }
                     
+                    // Delete user
                     Button {
-                        showConfirmLogout = true
+                        showConfirmDelete.toggle()
+                    } label: {
+                        Text("Delete user")
+                    }
+
+                    // Logout
+                    Button {
+                        showConfirmLogout.toggle()
                     } label: {
                         Text("Logout")
                     }
@@ -103,10 +116,21 @@ struct TrackListScreen: View {
             Button("OK", role: .destructive) {
                 trackViewModel.logout()
                 
-                router.dismissScreen()
+                router.dismissScreenStack()
             }
         } message: {
             Text("Logout current user: \(UserDefaults.standard.string(forKey: "username") ?? "")?")
+        }
+        .alert("Confirm to delete this user?", isPresented: $showConfirmDelete) {
+            Button("Cancel", role: .cancel) {}
+            
+            Button("Confirm", role: .destructive) {
+                Task {
+                    await userViewModel.deactivateUser()
+                }
+            }
+        } message: {
+            Text("After deleting your account, your data will no longer be saved in this application, and you will no longer be able to use this account to log in to this application. If you want to continue using your account after deleting it, please register again. \n\nAre you sure to delete the account?")
         }
         .onAppear {
             Task {
@@ -122,6 +146,22 @@ struct TrackListScreen: View {
         .onChange(of: [startDate, endDate], { oldValue, newValue in
             Task {
                 await trackViewModel.fetchTrack(username: username, fromDate: startDate, toDate: endDate)
+            }
+        })
+        .onChange(of: userViewModel.fetchDataState, { oldValue, newValue in
+            switch newValue {
+            case .idle:
+                toastViewObserver.dismissLoading()
+            case .loading:
+                toastViewObserver.showLoading()
+            case .done:
+                toastViewObserver.dismissLoading()
+
+                router.dismissScreenStack()
+            case .error:
+                if let errMsg = userViewModel.errMsg {
+                    toastViewObserver.showToast(message: errMsg)
+                }
             }
         })
         .toastView(toastViewObserver: toastViewObserver)

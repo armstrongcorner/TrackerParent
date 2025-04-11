@@ -15,6 +15,7 @@ protocol UserViewModelProtocol {
     var errMsg: String? { get }
     
     func fetchUsers() async
+    func deactivateUser() async
     func logout()
 }
 
@@ -27,16 +28,24 @@ final class UserViewModel: UserViewModelProtocol {
 
     @ObservationIgnored
     private let userService: UserServiceProtocol
-    
+    @ObservationIgnored
+    private let keyChainUtil: KeyChainUtilProtocol
+    @ObservationIgnored
+    private let userDefaults: UserDefaults
+
     @ObservationIgnored
     private let logger: Logger
     
     init(
         userService: UserServiceProtocol = UserService(),
+        keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
+        userDefaults: UserDefaults = .standard,
         fetchDataState: FetchDataState = .idle,
         errMsg: String? = nil
     ) {
         self.userService = userService
+        self.keyChainUtil = keyChainUtil
+        self.userDefaults = userDefaults
         self.fetchDataState = fetchDataState
         self.errMsg = errMsg
         
@@ -71,15 +80,63 @@ final class UserViewModel: UserViewModelProtocol {
         }
     }
     
+    func deactivateUser() async {
+        do {
+            fetchDataState = .loading
+            errMsg = nil
+            
+            // 1) Call get user info service
+            let username = userDefaults.string(forKey: "username") ?? ""
+            guard let userInfoResponse = try await userService.getUserInfo(username: username) else {
+                throw CommError.unknown
+            }
+            
+            var newUserModel: UserModel
+            if userInfoResponse.isSuccess, let userInfoModel = userInfoResponse.value {
+                logger.debug("--- user info model: \(String(describing: userInfoModel))")
+                newUserModel = userInfoModel
+            } else if !userInfoResponse.isSuccess, let failureReason = userInfoResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+            
+            // 2) Call deactivate user service
+            newUserModel.isActive = false
+            guard let deactivateUserResponse = try await userService.updateUserInfo(newUserModel: newUserModel) else {
+                throw CommError.unknown
+            }
+            
+            if deactivateUserResponse.isSuccess, let deactivateUserModel = deactivateUserResponse.value {
+                logger.debug("--- deactivated user info model: \(String(describing: deactivateUserModel))")
+                
+                // 3) Logout
+                logout()
+                
+                fetchDataState = .done
+                errMsg = nil
+            } else if !deactivateUserResponse.isSuccess, let failureReason = deactivateUserResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+            
+            fetchDataState = .done
+            errMsg = nil
+        } catch {
+            handleError(error)
+        }
+    }
+    
     func logout() {
         let service = Bundle.main.bundleIdentifier ?? ""
-        let account = UserDefaults.standard.string(forKey: "username") ?? ""
+        let account = userDefaults.string(forKey: "username") ?? ""
         
         // Clear cached username
-        UserDefaults.standard.set(nil, forKey: "username")
+        userDefaults.set(nil, forKey: "username")
         
         // Clear cached authModel in keychain
-        KeyChainUtil.shared.delete(service: service, account: account)
+        keyChainUtil.delete(service: service, account: account)
     }
     
     private func handleError(_ error: Error) {

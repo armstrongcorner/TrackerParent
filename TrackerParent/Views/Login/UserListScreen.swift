@@ -64,7 +64,7 @@ struct UserListScreen: View {
                             SettingListScreen(router: router2)
                         }
                     } label: {
-                        Text("Setting")
+                        Text("Track setting")
                     }
                     
                     Button {

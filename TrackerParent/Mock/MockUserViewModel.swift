@@ -37,6 +37,10 @@ final class MockUserViewModel: UserViewModelProtocol {
         }
     }
     
+    func deactivateUser() async {
+        //
+    }
+    
     func logout() {
         //
     }

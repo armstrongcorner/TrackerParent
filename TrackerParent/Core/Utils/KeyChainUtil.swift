@@ -14,6 +14,7 @@ protocol KeyChainUtilProtocol {
     func saveObject<T: Encodable>(service: String, account: String, object: T) throws -> OSStatus
     func load(service: String, account: String) -> Data?
     func loadObject<T: Decodable>(service: String, account: String, type: T.Type) throws -> T?
+    @discardableResult
     func delete(service: String, account: String) -> OSStatus
 }
 

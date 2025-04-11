@@ -15,6 +15,7 @@ enum Endpoint {
 
     case login
     case userInfo(String)
+    case updateUser
     case allUsers
     case userExists(String)
     case sendVerificationEmail
@@ -33,6 +34,8 @@ enum Endpoint {
             return "\(Endpoint.userURL)/identity/token"
         case .userInfo(let username):
             return "\(Endpoint.userURL)/identity/user?username=\(username)"
+        case .updateUser:
+            return "\(Endpoint.userURL)/identity/user/update"
         case .allUsers:
             return "\(Endpoint.userURL)/identity/user/all"
         case .userExists(let username):
