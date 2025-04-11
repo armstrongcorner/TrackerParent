@@ -11,12 +11,15 @@ import SwiftfulRouting
 struct LoginScreen: View {
     @Environment(ToastViewObserver.self) var toastViewObserver
     
-    @State private var authViewModel = AuthViewModel()
-    
+    @State private var authViewModel: AuthViewModelProtocol
     let router: AnyRouter
     
-    init(router: AnyRouter) {
+    init(
+        router: AnyRouter,
+        authViewModel: AuthViewModelProtocol = AuthViewModel()
+    ) {
         self.router = router
+        self.authViewModel = authViewModel
     }
     
     var body: some View {
@@ -101,9 +104,23 @@ struct LoginScreen: View {
             }
             
             Spacer()
+            
+            Button {
+                router.showScreen(.push) { router2 in
+                    RegisterVerificationScreen(router: router2)
+                }
+            } label: {
+                Text("Create new account")
+                    .padding()
+            }
         }
         .onChange(of: authViewModel.loginState, { oldValue, newValue in
-            if newValue == .success {
+            switch newValue {
+            case .none:
+                toastViewObserver.dismissLoading()
+            case .loading:
+                toastViewObserver.showLoading()
+            case .success:
                 toastViewObserver.dismissLoading()
                 authViewModel.username = ""
                 authViewModel.password = ""
@@ -115,15 +132,11 @@ struct LoginScreen: View {
                         UserListScreen(router: router2)
                     }
                 }
-            } else if newValue == .failure, let errMsg = authViewModel.errMsg {
-                toastViewObserver.showToast(message: errMsg)
-            } else if newValue == .loading {
-                toastViewObserver.showLoading()
-            } else if newValue == .none {
-                toastViewObserver.dismissLoading()
+            case .failure:
+                if let errMsg = authViewModel.errMsg {
+                    toastViewObserver.showToast(message: errMsg)
+                }
             }
-            
-//            authViewModel.loginState = .none
         })
         .padding()
         .toastView(toastViewObserver: toastViewObserver)

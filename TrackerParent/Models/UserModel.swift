@@ -45,3 +45,4 @@ struct UserModel: Codable, Hashable {
 
 typealias UserResponse = BaseResponse<UserModel>
 typealias UserListResponse = BaseResponse<[UserModel]>
+typealias UserExistResponse = BaseResponse<Bool>

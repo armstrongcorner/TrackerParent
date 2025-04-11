@@ -8,7 +8,7 @@
 import Foundation
 import OSLog
 
-enum LoginState {
+enum CommReqState {
     case none
     case loading
     case success
@@ -50,11 +50,25 @@ enum CommError: Error {
 }
 
 @MainActor
+protocol AuthViewModelProtocol {
+    var username: String { get set }
+    var password: String { get set }
+    var loginState: CommReqState { get }
+    var errMsg: String? { get }
+    var role: String? { get }
+    var showSettingsAlert: Bool { get set }
+    var showEnrolAlert: Bool { get set }
+    
+    func login() async
+    func loginWithFaceId() async
+}
+
+@MainActor
 @Observable
-final class AuthViewModel {
+final class AuthViewModel: AuthViewModelProtocol {
     var username: String = ""
     var password: String = ""
-    var loginState: LoginState = .none
+    var loginState: CommReqState = .none
     var errMsg: String?
     var role: String?
     
@@ -179,16 +193,12 @@ final class AuthViewModel {
     }
     
     private func handleLoginError(_ error: Error) {
-        loginState = .failure
-        role = nil
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.loginState = .failure
+            self.role = nil
+        }
         
         switch error {
-//        case LoginError.emptyUsername:
-//            errMsg = LoginError.emptyUsername.errorDescription
-//        case LoginError.emptyPassword:
-//            errMsg = LoginError.emptyPassword.errorDescription
-//        case LoginError.invalidCredentials:
-//            errMsg = LoginError.invalidCredentials.errorDescription
         case let loginError as LoginError:
             errMsg = loginError.errorDescription
         case let commError as CommError:
@@ -199,8 +209,10 @@ final class AuthViewModel {
     }
     
     private func handleBiometricsError(_ error: Error) {
-        loginState = .failure
-        role = nil
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.loginState = .failure
+            self.role = nil
+        }
         
         switch error {
         case BiometryError.notEnroll:

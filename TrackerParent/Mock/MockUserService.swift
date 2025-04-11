@@ -54,4 +54,24 @@ actor MockUserService: UserServiceProtocol {
             throw CommError.unknown
         }
     }
+    
+    func checkUserExists(username: String) async throws -> UserExistResponse? {
+        //
+        return nil
+    }
+    
+    func sendVerificationEmail(username: String) async throws -> AuthResponse? {
+        //
+        return nil
+    }
+    
+    func verifyEmail(username: String, code: String) async throws -> UserResponse? {
+        //
+        return nil
+    }
+    
+    func completeRegister(username: String, password: String) async throws -> AuthResponse? {
+        //
+        return nil
+    }
 }

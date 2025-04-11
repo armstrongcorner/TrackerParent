@@ -8,17 +8,22 @@
 import Foundation
 
 protocol BaseServiceProtocol: Sendable {
-    func getDefaultHeaders() throws -> [String: String]
+    func getDefaultHeaders(for account: String?) throws -> [String: String]
 }
 
 extension BaseServiceProtocol {
-    func getDefaultHeaders() throws -> [String: String] {
+    func getDefaultHeaders(for account: String? = nil) throws -> [String: String] {
         var headers: [String: String] = [:]
         
         // Put keychain cached token to header
         let bundleId = Bundle.main.bundleIdentifier ?? ""
-        let account = UserDefaults.standard.string(forKey: "username") ?? ""
-        if let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: account, type: AuthModel.self) {
+        var theAccount: String?
+        if account == nil {
+            theAccount = UserDefaults.standard.string(forKey: "username") ?? ""
+        } else {
+            theAccount = account
+        }
+        if let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: theAccount ?? "", type: AuthModel.self) {
             headers["Authorization"] = "Bearer \(savedAuthModel.token)"
         }
         

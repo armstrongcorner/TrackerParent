@@ -25,6 +25,8 @@
 		224A3E382D824EFE00815897 /* TrackerParentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E352D824EFE00815897 /* TrackerParentUITests.swift */; };
 		224A3E392D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E362D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift */; };
 		224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E3B2D8289B700815897 /* AuthViewModel.swift */; };
+		225F20A32DA52BCD00998670 /* RegisterVerificationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F20A22DA52BCD00998670 /* RegisterVerificationScreen.swift */; };
+		225F20A52DA52BE800998670 /* RegisterConfirmationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F20A42DA52BE800998670 /* RegisterConfirmationScreen.swift */; };
 		2266D1392D862EDC004D9644 /* MockLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D1382D862EDC004D9644 /* MockLoginService.swift */; };
 		2266D13B2D86605A004D9644 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D13A2D86605A004D9644 /* MockData.swift */; };
 		2266D13D2D866F74004D9644 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D13C2D866F74004D9644 /* ApiClient.swift */; };
@@ -35,6 +37,10 @@
 		22B295062D989C6800AB6A5D /* SettingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295052D989C6800AB6A5D /* SettingListScreen.swift */; };
 		22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */; };
 		22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */; };
+		22F160D52DA5CFDE00C4528E /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160D42DA5CFDD00C4528E /* RegisterViewModel.swift */; };
+		22F160D72DA642DF00C4528E /* MockRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160D62DA642DF00C4528E /* MockRegisterViewModel.swift */; };
+		22F160D92DA666D900C4528E /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160D82DA666D900C4528E /* StringUtil.swift */; };
+		22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160DA2DA7B7E400C4528E /* Constant.swift */; };
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
@@ -98,6 +104,8 @@
 		224A3E352D824EFE00815897 /* TrackerParentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerParentUITests.swift; sourceTree = "<group>"; };
 		224A3E362D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerParentUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		224A3E3B2D8289B700815897 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		225F20A22DA52BCD00998670 /* RegisterVerificationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVerificationScreen.swift; sourceTree = "<group>"; };
+		225F20A42DA52BE800998670 /* RegisterConfirmationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterConfirmationScreen.swift; sourceTree = "<group>"; };
 		2266D1382D862EDC004D9644 /* MockLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLoginService.swift; sourceTree = "<group>"; };
 		2266D13A2D86605A004D9644 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		2266D13C2D866F74004D9644 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
@@ -108,6 +116,10 @@
 		22B295052D989C6800AB6A5D /* SettingListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListScreen.swift; sourceTree = "<group>"; };
 		22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailScreen.swift; sourceTree = "<group>"; };
 		22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListItem.swift; sourceTree = "<group>"; };
+		22F160D42DA5CFDD00C4528E /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		22F160D62DA642DF00C4528E /* MockRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRegisterViewModel.swift; sourceTree = "<group>"; };
+		22F160D82DA666D900C4528E /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
+		22F160DA2DA7B7E400C4528E /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
@@ -231,11 +243,21 @@
 			isa = PBXGroup;
 			children = (
 				224A3E3B2D8289B700815897 /* AuthViewModel.swift */,
+				22F160D42DA5CFDD00C4528E /* RegisterViewModel.swift */,
 				223499192DA10ED500E810FF /* UserViewModel.swift */,
 				AEE6B4EB2D8A6AAE0094EB82 /* TrackViewModel.swift */,
 				AEE6B5052D8EA98C0094EB82 /* SettingViewModel.swift */,
 			);
 			path = "View Models";
+			sourceTree = "<group>";
+		};
+		225F20A12DA52B9A00998670 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				225F20A22DA52BCD00998670 /* RegisterVerificationScreen.swift */,
+				225F20A42DA52BE800998670 /* RegisterConfirmationScreen.swift */,
+			);
+			path = Register;
 			sourceTree = "<group>";
 		};
 		2266D1372D862EC7004D9644 /* Mock */ = {
@@ -247,6 +269,7 @@
 				AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */,
 				AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */,
 				2234991B2DA1247900E810FF /* MockUserViewModel.swift */,
+				22F160D62DA642DF00C4528E /* MockRegisterViewModel.swift */,
 				223499212DA2733200E810FF /* MockLAContext.swift */,
 				223499272DA3E44800E810FF /* MockBiometricsUtil.swift */,
 				223499292DA3E53000E810FF /* MockKeyChainUtil.swift */,
@@ -261,6 +284,7 @@
 				2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */,
 				AEE6B4F12D8AC9500094EB82 /* DateUtil.swift */,
 				AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */,
+				22F160D82DA666D900C4528E /* StringUtil.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -287,6 +311,7 @@
 			children = (
 				2266D15B2D86C3A1004D9644 /* Modifiers */,
 				AEE6B4F32D8BFD5D0094EB82 /* Login */,
+				225F20A12DA52B9A00998670 /* Register */,
 				AEE6B4F42D8BFD800094EB82 /* Track */,
 				AEE6B5022D8EA8ED0094EB82 /* Setting */,
 			);
@@ -310,6 +335,7 @@
 			children = (
 				2266D1562D86BCFB004D9644 /* Utils */,
 				22FBA7C12D856B5B002C10B1 /* Network */,
+				22F160DA2DA7B7E400C4528E /* Constant.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -520,6 +546,7 @@
 				AEE6B4EC2D8A6AAE0094EB82 /* TrackViewModel.swift in Sources */,
 				2266D1392D862EDC004D9644 /* MockLoginService.swift in Sources */,
 				22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */,
+				22F160D92DA666D900C4528E /* StringUtil.swift in Sources */,
 				224A3E332D824EFE00815897 /* LoginScreen.swift in Sources */,
 				2266D13D2D866F74004D9644 /* ApiClient.swift in Sources */,
 				22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */,
@@ -529,8 +556,10 @@
 				AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */,
 				2266D1552D8688BB004D9644 /* Endpoint.swift in Sources */,
 				AEE6B4F72D8BFDD50094EB82 /* TrackListItem.swift in Sources */,
+				225F20A32DA52BCD00998670 /* RegisterVerificationScreen.swift in Sources */,
 				AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */,
 				AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */,
+				22F160D52DA5CFDE00C4528E /* RegisterViewModel.swift in Sources */,
 				AEE6B4F22D8AC9500094EB82 /* DateUtil.swift in Sources */,
 				22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */,
 				AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */,
@@ -543,10 +572,12 @@
 				22B295062D989C6800AB6A5D /* SettingListScreen.swift in Sources */,
 				223499282DA3E44800E810FF /* MockBiometricsUtil.swift in Sources */,
 				AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */,
+				22F160D72DA642DF00C4528E /* MockRegisterViewModel.swift in Sources */,
 				22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */,
 				AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */,
 				223499132DA0CC9100E810FF /* UserListScreen.swift in Sources */,
 				2234991A2DA10ED500E810FF /* UserViewModel.swift in Sources */,
+				22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */,
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
 				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
 				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
@@ -557,6 +588,7 @@
 				224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */,
 				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
 				223499182DA10E8800E810FF /* UserListItem.swift in Sources */,
+				225F20A52DA52BE800998670 /* RegisterConfirmationScreen.swift in Sources */,
 				2234992A2DA3E53000E810FF /* MockKeyChainUtil.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

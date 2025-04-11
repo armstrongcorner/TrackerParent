@@ -84,7 +84,9 @@ final class UserViewModel: UserViewModelProtocol {
     
     private func handleError(_ error: Error) {
         logger.log("Error fetching data: \(error.localizedDescription)")
-        fetchDataState = .error
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.fetchDataState = .error
+        }
         
         switch error {
         case let commError as CommError:

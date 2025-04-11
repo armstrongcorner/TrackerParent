@@ -16,6 +16,10 @@ enum Endpoint {
     case login
     case userInfo(String)
     case allUsers
+    case userExists(String)
+    case sendVerificationEmail
+    case verifyEmail
+    case completeRegister
     case tracks
     case allTracks
     case setting
@@ -31,6 +35,14 @@ enum Endpoint {
             return "\(Endpoint.userURL)/identity/user?username=\(username)"
         case .allUsers:
             return "\(Endpoint.userURL)/identity/user/all"
+        case .userExists(let username):
+            return "\(Endpoint.userURL)/identity/user/exist?username=\(username)"
+        case .sendVerificationEmail:
+            return "\(Endpoint.userURL)/identity/user/create"
+        case .verifyEmail:
+            return "\(Endpoint.userURL)/identity/user/authenticate"
+        case .completeRegister:
+            return "\(Endpoint.userURL)/identity/user/password"
         case .tracks:
             return "\(Endpoint.locationURL)/geo/locations/user/bydate"
         case .allTracks:
