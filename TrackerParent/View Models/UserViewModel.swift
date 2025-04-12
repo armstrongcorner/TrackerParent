@@ -15,6 +15,7 @@ protocol UserViewModelProtocol {
     var errMsg: String? { get }
     
     func fetchUsers() async
+    func getCurrentUsername() -> String
     func deactivateUser() async
     func logout()
 }
@@ -78,6 +79,10 @@ final class UserViewModel: UserViewModelProtocol {
         } catch {
             handleError(error)
         }
+    }
+    
+    func getCurrentUsername() -> String {
+        return userDefaults.string(forKey: "username") ?? ""
     }
     
     func deactivateUser() async {

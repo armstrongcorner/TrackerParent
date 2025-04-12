@@ -119,7 +119,10 @@ final class RegisterViewModel: RegisterViewModelProtocol {
                 throw CommError.serverReturnedError(failureReason)
             }
             
-            // 2) Use the super user login to get the token
+            // 2) Counting down the retry timer before request the verification code
+            startCountDown()
+
+            // 3) Use the super user login to get the token
 //            guard let authResponse = try await loginService.login(username: "matrixthoughtsadmin", password: "Nbq4dcz123") else {
 //                throw CommError.unknown
 //            }
@@ -139,7 +142,7 @@ final class RegisterViewModel: RegisterViewModelProtocol {
                 throw CommError.unknown
             }
             
-            // 3) Call send verification email service with super user's token
+            // 4) Call send verification email service with super user's token
             guard let authResponse = try await userService.sendVerificationEmail(username: email) else {
                 throw CommError.unknown
             }
@@ -157,9 +160,6 @@ final class RegisterViewModel: RegisterViewModelProtocol {
             } else {
                 throw CommError.unknown
             }
-            
-            // 4) Counting down the retry timer
-            startCountDown()
         } catch {
             handleError(error)
         }
@@ -215,6 +215,9 @@ final class RegisterViewModel: RegisterViewModelProtocol {
                 // Save the auth model to Keychain
                 let bundleId = Bundle.main.bundleIdentifier ?? ""
                 try keyChainUtil.saveObject(service: bundleId, account: email, object: authModel)
+                
+                // Reset the time left when finish registration
+                RegisterViewModel.timeLeft = 0
                 
                 registerState = .success
                 errMsg = nil

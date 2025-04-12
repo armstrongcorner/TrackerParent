@@ -91,11 +91,14 @@ struct TrackListScreen: View {
                         Text("Track setting")
                     }
                     
-                    // Delete user
-                    Button {
-                        showConfirmDelete.toggle()
-                    } label: {
-                        Text("Delete user")
+                    // No delete user func for admin role
+                    if username == nil {
+                        // Delete user
+                        Button {
+                            showConfirmDelete.toggle()
+                        } label: {
+                            Text("Delete user")
+                        }
                     }
 
                     // Logout
@@ -130,7 +133,7 @@ struct TrackListScreen: View {
                 }
             }
         } message: {
-            Text("After deleting your account, your data will no longer be saved in this application, and you will no longer be able to use this account to log in to this application. If you want to continue using your account after deleting it, please register again. \n\nAre you sure to delete the account?")
+            Text("After deleting your account, your data will no longer be saved in this application, and you will no longer be able to use this account to log in to this application. If you want to continue using your account after deleting it, please register again.\n\nAre you sure to delete the account:\n\(userViewModel.getCurrentUsername()) ?")
         }
         .onAppear {
             Task {

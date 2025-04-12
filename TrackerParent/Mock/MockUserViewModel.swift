@@ -37,6 +37,11 @@ final class MockUserViewModel: UserViewModelProtocol {
         }
     }
     
+    func getCurrentUsername() -> String {
+        //
+        return ""
+    }
+    
     func deactivateUser() async {
         //
     }
