@@ -11,21 +11,24 @@ import SwiftfulRouting
 struct SettingDetailScreen: View {
     @Environment(ToastViewObserver.self) var toastViewObserver
     
-    @State var settingViewModel: SettingViewModelProtocol
+    @State private var settingViewModel: SettingViewModelProtocol
+    @State private var userViewModel: UserViewModelProtocol
     let router: AnyRouter
     var isNewSetting: Bool
     
     init(
         router: AnyRouter,
         settingViewModel: SettingViewModelProtocol = SettingViewModel(),
+        userViewModel: UserViewModelProtocol = UserViewModel(),
         isNewSetting: Bool = false
     ) {
         self.router = router
         self.settingViewModel = settingViewModel
+        self.userViewModel = userViewModel
         self.isNewSetting = isNewSetting
         if self.isNewSetting {
             self.settingViewModel.currentSetting = SettingModel(
-                userName: UserDefaults.standard.string(forKey: "username"),
+                userName: self.userViewModel.getCurrentUsername(),
                 collectionFrequency: 0,
                 pushFrequency: 0,
                 distanceFilter: 10,
@@ -37,7 +40,7 @@ struct SettingDetailScreen: View {
     }
     
     var body: some View {
-        LazyVStack {
+        VStack {
             // Start time
             DatePicker(selection: Binding(
                 get: {
@@ -196,8 +199,32 @@ struct SettingDetailScreen: View {
     mockSettingViewModel.shouldReturnError = false
     mockSettingViewModel.currentSetting = mockSetting1
     
+    let mockUserViewModel = MockUserViewModel()
+    
     return RouterView { router in
-        SettingDetailScreen(router: router, settingViewModel: mockSettingViewModel)
+        SettingDetailScreen(
+            router: router,
+            settingViewModel: mockSettingViewModel,
+            userViewModel: mockUserViewModel
+        )
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("update setting failure") {
+    let mockSettingViewModel = MockSettingViewModel()
+    mockSettingViewModel.shouldKeepLoading = false
+    mockSettingViewModel.shouldReturnError = true
+    mockSettingViewModel.currentSetting = mockSetting1
+    
+    let mockUserViewModel = MockUserViewModel()
+    
+    return RouterView { router in
+        SettingDetailScreen(
+            router: router,
+            settingViewModel: mockSettingViewModel,
+            userViewModel: mockUserViewModel
+        )
     }
     .environment(ToastViewObserver())
 }
@@ -208,8 +235,34 @@ struct SettingDetailScreen: View {
     mockSettingViewModel.shouldReturnError = false
     mockSettingViewModel.currentSetting = nil
     
+    let mockUserViewModel = MockUserViewModel()
+    
     return RouterView { router in
-        SettingDetailScreen(router: router, settingViewModel: mockSettingViewModel, isNewSetting: true)
+        SettingDetailScreen(
+            router: router,
+            settingViewModel: mockSettingViewModel,
+            userViewModel: mockUserViewModel,
+            isNewSetting: true
+        )
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("create setting failure") {
+    let mockSettingViewModel = MockSettingViewModel()
+    mockSettingViewModel.shouldKeepLoading = false
+    mockSettingViewModel.shouldReturnError = true
+    mockSettingViewModel.currentSetting = nil
+    
+    let mockUserViewModel = MockUserViewModel()
+    
+    return RouterView { router in
+        SettingDetailScreen(
+            router: router,
+            settingViewModel: mockSettingViewModel,
+            userViewModel: mockUserViewModel,
+            isNewSetting: true
+        )
     }
     .environment(ToastViewObserver())
 }

@@ -36,8 +36,4 @@ final class MockTrackViewModel: TrackViewModelProtocol {
             }
         }
     }
-    
-    func logout() {
-        
-    }
 }

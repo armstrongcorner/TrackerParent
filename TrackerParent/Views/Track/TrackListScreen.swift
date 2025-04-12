@@ -117,12 +117,12 @@ struct TrackListScreen: View {
             Button("Cancel", role: .cancel) {}
             
             Button("OK", role: .destructive) {
-                trackViewModel.logout()
+                userViewModel.logout()
                 
                 router.dismissScreenStack()
             }
         } message: {
-            Text("Logout current user: \(UserDefaults.standard.string(forKey: "username") ?? "")?")
+            Text("Logout current user: \(userViewModel.getCurrentUsername())?")
         }
         .alert("Confirm to delete this user?", isPresented: $showConfirmDelete) {
             Button("Cancel", role: .cancel) {}
@@ -172,18 +172,71 @@ struct TrackListScreen: View {
     }
 }
 
-#Preview("1 track") {
+#Preview("without username") {
+    let mockTrackViewModel = MockTrackViewModel()
+    mockTrackViewModel.shouldKeepLoading = false
+    mockTrackViewModel.shouldReturnError = false
+    
+    let mockUserViewModel = MockUserViewModel()
+    
+    return RouterView { router in
+        TrackListScreen(
+            router: router,
+            trackViewModel: mockTrackViewModel,
+            userViewModel: mockUserViewModel
+        )
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("with username") {
     let mockTrackViewModel = MockTrackViewModel()
     mockTrackViewModel.shouldKeepLoading = false
     mockTrackViewModel.shouldReturnError = false
     
     return RouterView { router in
-        TrackListScreen(router: router, trackViewModel: mockTrackViewModel)
+        TrackListScreen(router: router, trackViewModel: mockTrackViewModel, username: "testUsername")
     }
     .environment(ToastViewObserver())
 }
 
-#Preview("error") {
+#Preview("delete user") {
+    let mockTrackViewModel = MockTrackViewModel()
+    mockTrackViewModel.shouldKeepLoading = false
+    mockTrackViewModel.shouldReturnError = false
+    
+    let mockUserViewModel = MockUserViewModel()
+    mockUserViewModel.shouldReturnError = false
+    
+    return RouterView { router in
+        TrackListScreen(
+            router: router,
+            trackViewModel: mockTrackViewModel,
+            userViewModel: mockUserViewModel
+        )
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("delete user error") {
+    let mockTrackViewModel = MockTrackViewModel()
+    mockTrackViewModel.shouldKeepLoading = false
+    mockTrackViewModel.shouldReturnError = false
+    
+    let mockUserViewModel = MockUserViewModel()
+    mockUserViewModel.shouldReturnError = true
+    
+    return RouterView { router in
+        TrackListScreen(
+            router: router,
+            trackViewModel: mockTrackViewModel,
+            userViewModel: mockUserViewModel
+        )
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("loading error") {
     let mockTrackViewModel = MockTrackViewModel()
     mockTrackViewModel.shouldKeepLoading = false
     mockTrackViewModel.shouldReturnError = true

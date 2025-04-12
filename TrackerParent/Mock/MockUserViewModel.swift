@@ -38,15 +38,24 @@ final class MockUserViewModel: UserViewModelProtocol {
     }
     
     func getCurrentUsername() -> String {
-        //
-        return ""
+        return "testUsername@test.com"
     }
     
     func deactivateUser() async {
-        //
+        // Mock loading
+        fetchDataState = .loading
+        errMsg = nil
+        
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if shouldReturnError {
+            // Mock deactivate user error
+            fetchDataState = .error
+            errMsg = "Mock deactivating user error occurred"
+        } else {
+            fetchDataState = .done
+        }
     }
     
-    func logout() {
-        //
-    }
+    func logout() {}
 }

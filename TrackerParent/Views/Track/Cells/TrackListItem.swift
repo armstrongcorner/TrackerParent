@@ -37,5 +37,5 @@ struct TrackListItem: View {
 }
 
 #Preview {
-    TrackListItem(track: [])
+    TrackListItem(track: mockTrack)
 }

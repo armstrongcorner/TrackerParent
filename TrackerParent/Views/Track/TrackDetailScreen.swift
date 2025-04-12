@@ -101,27 +101,23 @@ struct TrackDetailScreen: View {
                     let latDelta = context.region.span.latitudeDelta
                     let effectiveZoom = sqrt(longDelta * latDelta)
                     
-                // 根据 effectiveZoom 设定不同的抽样策略，并保证始终保留首尾两个点
+                // Display different amount of annotation based on the 'effectiveZoom' level
+                // Always keep start / end point
                 if effectiveZoom > 0.07 {
-                    // 地图显示范围很大（zoom out），抽样间隔设置为 15
                     displayedLocations = sampleTrack(from: track, interval: track.count)
                 } else if effectiveZoom > 0.05 {
-                    // 地图显示范围很大（zoom out），抽样间隔设置为 15
                     displayedLocations = sampleTrack(from: track, interval: 15)
                     print("Using interval: 15")
                 } else if effectiveZoom > 0.02 {
-                    // 地图显示范围适中，抽样间隔设置为 10
                     displayedLocations = sampleTrack(from: track, interval: 10)
                     print("Using interval: 10")
                 } else if effectiveZoom > 0.01 {
-                    // 地图显示范围适中，抽样间隔设置为 5
                     displayedLocations = sampleTrack(from: track, interval: 5)
                     print("Using interval: 5")
                 } else if effectiveZoom > 0.005 {
                     displayedLocations = sampleTrack(from: track, interval: 3)
                     print("Using interval: 3")
                 } else {
-                    // 地图显示范围较小，显示所有点
                     displayedLocations = track
                     print("Showing all points")
                 }

@@ -85,9 +85,6 @@ struct RegisterVerificationScreen: View {
             Button {
                 Task {
                     await registerViewModel.verifyEmail()
-//                    router.showScreen(.push) { router2 in
-//                        RegisterConfirmationScreen(router: router2, registerViewModel: registerViewModel)
-//                    }
                 }
             } label: {
                 Text("Verify")

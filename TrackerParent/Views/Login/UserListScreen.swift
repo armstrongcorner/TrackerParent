@@ -87,7 +87,7 @@ struct UserListScreen: View {
                 router.dismissScreen()
             }
         } message: {
-            Text("Logout current user: \(UserDefaults.standard.string(forKey: "username") ?? "")?")
+            Text("Logout current user: \(userViewModel.getCurrentUsername())?")
         }
         .onAppear {
             Task {
@@ -96,6 +96,7 @@ struct UserListScreen: View {
                 }
             }
         }
+        .navigationTitle("User List")
         .navigationBarBackButtonHidden()
     }
 }

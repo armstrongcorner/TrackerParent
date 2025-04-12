@@ -43,14 +43,72 @@ final class MockSettingViewModel: SettingViewModelProtocol {
     }
     
     func addNewSetting() async {
-        //
+        // Mock loading
+        addDataState = .loading
+        errMsg = nil
+        
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if shouldReturnError {
+            // Mock error
+            addDataState = .error
+            errMsg = "Mock adding setting data error occurred"
+        } else {
+            // Mock added data
+            let addedSetting = SettingModel(
+                id: 3,
+                userName: "test_username",
+                collectionFrequency: 10,
+                pushFrequency: 10,
+                distanceFilter: 100,
+                startTime: "14:00:00",
+                endTime: "18:00:00",
+                accuracy: "Medium"
+            )
+            settingList?.append(addedSetting)
+            addDataState = .done
+        }
     }
     
     func updateCurrentSetting() async {
-        //
+        // Mock loading
+        updateDataState = .loading
+        errMsg = nil
+        currentSetting = mockSetting1
+        
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if shouldReturnError {
+            // Mock error
+            updateDataState = .error
+            errMsg = "Mock updating setting data error occurred"
+        } else {
+            // Mock updated data
+            var updatedSetting = mockSetting1
+            updatedSetting.distanceFilter = 100
+            updatedSetting.startTime = "14:00:00"
+            updatedSetting.endTime = "18:00:00"
+            updatedSetting.accuracy = "Low"
+            
+            currentSetting = updatedSetting
+            settingList?.replace([mockSetting1], with: [currentSetting!])
+            updateDataState = .done
+        }
     }
     
     func deleteCurrentSetting() async {
-        //
+        // Mock loading
+        deleteDataState = .loading
+        errMsg = nil
+        currentSetting = mockSetting1
+        
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if shouldReturnError {
+            deleteDataState = .error
+            errMsg = "Mock deleting setting data error occurred"
+        } else {
+            deleteDataState = .done
+        }
     }
 }

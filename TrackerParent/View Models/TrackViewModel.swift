@@ -22,7 +22,6 @@ protocol TrackViewModelProtocol: Sendable {
     var errMsg: String? { get }
 
     func fetchTrack(username: String?, fromDate: Date, toDate: Date) async
-    func logout()
 }
 
 @MainActor
@@ -99,17 +98,6 @@ final class TrackViewModel: TrackViewModelProtocol {
         } catch {
             handleError(error)
         }
-    }
-    
-    func logout() {
-        let service = Bundle.main.bundleIdentifier ?? ""
-        let account = UserDefaults.standard.string(forKey: "username") ?? ""
-        
-        // Clear cached username
-        UserDefaults.standard.set(nil, forKey: "username")
-        
-        // Clear cached authModel in keychain
-        KeyChainUtil.shared.delete(service: service, account: account)
     }
     
     private func handleError(_ error: Error) {
