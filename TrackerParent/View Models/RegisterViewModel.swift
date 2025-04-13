@@ -123,12 +123,12 @@ final class RegisterViewModel: RegisterViewModelProtocol {
             startCountDown()
 
             // 3) Use the super user login to get the token
-//            guard let authResponse = try await loginService.login(username: "matrixthoughtsadmin", password: "Nbq4dcz123") else {
-//                throw CommError.unknown
-//            }
-            guard let authResponse = try await loginService.login(username: "withouthammer", password: "withouthammer") else {
+            guard let authResponse = try await loginService.login(username: "matrixthoughtsadmin", password: "Nbq4dcz123") else {
                 throw CommError.unknown
             }
+//            guard let authResponse = try await loginService.login(username: "withouthammer", password: "withouthammer") else {
+//                throw CommError.unknown
+//            }
             
             if authResponse.isSuccess, let authModel = authResponse.value {
                 logger.debug("--- super user auth model: \(String(describing: authModel))")
