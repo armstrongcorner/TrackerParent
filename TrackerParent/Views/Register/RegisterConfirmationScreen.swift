@@ -92,9 +92,21 @@ struct RegisterConfirmationScreen: View {
     }
 }
 
-#Preview {
-    RouterView { router in
-        RegisterConfirmationScreen(router: router)
+#Preview("completion failed") {
+    let mockRegisterViewModel = MockRegisterViewModel()
+    mockRegisterViewModel.shouldReturnError = true
+    
+    return RouterView { router in
+        RegisterConfirmationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("completion success") {
+    let mockRegisterViewModel = MockRegisterViewModel()
+    
+    return RouterView { router in
+        RegisterConfirmationScreen(router: router, registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }

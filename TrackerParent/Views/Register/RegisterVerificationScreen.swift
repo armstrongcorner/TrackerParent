@@ -131,9 +131,53 @@ struct RegisterVerificationScreen: View {
     }
 }
 
-#Preview {
-    RouterView { router in
-        RegisterVerificationScreen(router: router)
+#Preview("user unavailable") {
+    let mockRegisterViewModel = MockRegisterViewModel()
+    mockRegisterViewModel.shouldReturnUserUnavailable = true
+    
+    return RouterView { router in
+        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("send code failed") {
+    let mockRegisterViewModel = MockRegisterViewModel()
+    mockRegisterViewModel.shouldReturnUserUnavailable = false
+    mockRegisterViewModel.shouldReturnError = true
+    
+    return RouterView { router in
+        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("code not match") {
+    let mockRegisterViewModel = MockRegisterViewModel()
+    mockRegisterViewModel.shouldReturnVerificationCodeNotMatch = true
+    
+    return RouterView { router in
+        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("verifying failed") {
+    let mockRegisterViewModel = MockRegisterViewModel()
+    mockRegisterViewModel.shouldReturnVerificationCodeNotMatch = false
+    mockRegisterViewModel.shouldReturnError = true
+    
+    return RouterView { router in
+        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    }
+    .environment(ToastViewObserver())
+}
+
+#Preview("verifying success") {
+    let mockRegisterViewModel = MockRegisterViewModel()
+    
+    return RouterView { router in
+        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }
