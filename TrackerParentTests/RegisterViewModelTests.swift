@@ -54,7 +54,6 @@ final class RegisterViewModelTests: XCTestCase {
         
         // When
         await sut.requestVerificationCode()
-        let _ = try? mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: sut.email, object: mockAuth1)
         let loadedAuthModel = try? mockKeyChainUtil.loadObject(service: "com.example.TrackerParent", account: sut.email, type: AuthModel.self)
         
         // Then
@@ -184,5 +183,83 @@ final class RegisterViewModelTests: XCTestCase {
         try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.registerState, .failure, "Register state should be failure.")
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAuthResponseWithFailureReason.failureReason ?? "").errorDescription, "Register verifying code should be failed with code not match error.")
+    }
+    
+    func testCompleteRegistrationSuccess() async {
+        // Given
+        sut.email = "test@example.com"
+        sut.password = "123"
+        sut.confirmPassword = "123"
+        await mockUserService.setShouldReturnError(false)
+        await mockUserService.setAuthResponse(mockAuthResponse1)
+        
+        // When
+        await sut.register()
+//        let _ = try? mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: sut.email, object: mockAuth1)
+        let loadedAuthModel = try? mockKeyChainUtil.loadObject(service: "com.example.TrackerParent", account: sut.email, type: AuthModel.self)
+
+        // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(sut.registerState, .success, "Register state should be success with complete registration.")
+        XCTAssertNil(sut.errMsg, "Complete registration should succeed and no error message.")
+        XCTAssertEqual(loadedAuthModel?.token, mockAuth1.token, "Keychain should store the auth token correctly.")
+    }
+    
+    func testCompleteRegistrationFailWithNoPassword() async {
+        // Given
+        sut.password = ""
+        
+        // When
+        await sut.register()
+        
+        // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(sut.registerState, .failure, "Register state should be failure.")
+        XCTAssertEqual(sut.errMsg, RegisterError.emptyPassword.errorDescription, "Complete registration should be failed with empty password error.")
+    }
+    
+    func testCompleteRegistrationFailWithNoConfirmPassword() async {
+        // Given
+        sut.password = "123"
+        sut.confirmPassword = ""
+        
+        // When
+        await sut.register()
+        
+        // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(sut.registerState, .failure, "Register state should be failure.")
+        XCTAssertEqual(sut.errMsg, RegisterError.emptyConfirmPassword.errorDescription, "Complete registration should be failed with empty confirm password error.")
+    }
+    
+    func testCompleteRegistrationFailWithPasswordNotMatch() async {
+        // Given
+        sut.password = "123"
+        sut.confirmPassword = "456"
+        
+        // When
+        await sut.register()
+        
+        // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(sut.registerState, .failure, "Register state should be failure.")
+        XCTAssertEqual(sut.errMsg, RegisterError.passwordNotMatch.errorDescription, "Complete registration should be failed with password not match error.")
+    }
+    
+    func testCompleteRegistrationFailWithServerResponseError() async {
+        // Given
+        sut.email = "test@example.com"
+        sut.password = "123"
+        sut.confirmPassword = "123"
+        await mockUserService.setShouldReturnError(false)
+        await mockUserService.setAuthResponse(mockAuthResponseWithFailureReason)
+
+        // When
+        await sut.register()
+        
+        // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        XCTAssertEqual(sut.registerState, .failure, "Register state should be failure.")
+        XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAuthResponseWithFailureReason.failureReason ?? "").errorDescription, "Register should be failed with server response error.")
     }
 }
