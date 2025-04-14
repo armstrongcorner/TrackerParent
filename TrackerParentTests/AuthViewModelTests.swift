@@ -52,12 +52,13 @@ final class AuthViewModelTests: XCTestCase {
         sut.username = "test_username"
         sut.password = "test_password"
         await mockLoginService.setShouldReturnError(false)
-        await mockLoginService.setAuthResponse(mockAuthResponse)
+        await mockLoginService.setAuthResponse(mockAuthResponse1)
         
         // When
         await sut.login()
         
         // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.loginState, .success, "Login should be successful.")
         XCTAssertNil(sut.errMsg, "Login successful, error message should be nil.")
     }
@@ -73,6 +74,7 @@ final class AuthViewModelTests: XCTestCase {
         await sut.login()
         
         // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.loginState, .failure, "Login should be failed.")
         XCTAssertEqual(sut.errMsg, LoginError.invalidCredentials.errorDescription, "Login failed with invalid credentails.")
     }
@@ -86,6 +88,7 @@ final class AuthViewModelTests: XCTestCase {
         await sut.login()
         
         // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.loginState, .failure, "Login should be failed.")
         XCTAssertEqual(sut.errMsg, LoginError.emptyUsername.errorDescription, "Login should be failed with empty username.")
     }
@@ -99,6 +102,7 @@ final class AuthViewModelTests: XCTestCase {
         await sut.login()
         
         // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.loginState, .failure, "Login should be failed.")
         XCTAssertEqual(sut.errMsg, LoginError.emptyPassword.errorDescription, "Login should be failed with empty password.")
     }
@@ -114,6 +118,7 @@ final class AuthViewModelTests: XCTestCase {
         await sut.login()
         
         // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.loginState, .failure, "Login should be failed.")
         XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Login failed with unknown error.")
     }
@@ -129,6 +134,7 @@ final class AuthViewModelTests: XCTestCase {
         await sut.login()
         
         // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.loginState, .failure, "Login should be failed.")
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAuthResponseWithFailureReason.failureReason ?? "").errorDescription, "Login failed with server response error.")
     }
@@ -147,6 +153,7 @@ final class AuthViewModelTests: XCTestCase {
             await sut.loginWithFaceId()
             
             // Then
+            try? await Task.sleep(nanoseconds: 100_000_000)
             XCTAssertEqual(sut.loginState, .success, "Login with FacdId should be success.")
             XCTAssertEqual(sut.role, mockUser1.role, "The retrieved user role should be correct.")
             XCTAssertNil(sut.errMsg, "Success login should not have error message.")
@@ -163,6 +170,7 @@ final class AuthViewModelTests: XCTestCase {
         await sut.loginWithFaceId()
         
         // Then
+        try? await Task.sleep(nanoseconds: 100_000_000)
         XCTAssertEqual(sut.loginState, .none, "Login with FaceId should not succeed.")
         XCTAssertNil(sut.errMsg, "Login with FaceId should not succeed, but no err msg returned.")
         
@@ -181,6 +189,7 @@ final class AuthViewModelTests: XCTestCase {
             await sut.loginWithFaceId()
             
             // Then
+            try? await Task.sleep(nanoseconds: 100_000_000)
             XCTAssertEqual(sut.loginState, .failure, "Login with FaceId should be failed.")
             XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockUserResponseWithFailureReason.failureReason ?? "").errorDescription, "Login with FaceId failed with server response error.")
         } catch {
@@ -200,6 +209,7 @@ final class AuthViewModelTests: XCTestCase {
             await sut.loginWithFaceId()
             
             // Then
+            try? await Task.sleep(nanoseconds: 100_000_000)
             XCTAssertEqual(sut.loginState, .failure, "Login with FaceId should be failed.")
             XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Login failed with unknown error.")
         } catch {

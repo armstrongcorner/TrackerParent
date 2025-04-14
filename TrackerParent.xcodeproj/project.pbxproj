@@ -41,6 +41,7 @@
 		22F160D72DA642DF00C4528E /* MockRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160D62DA642DF00C4528E /* MockRegisterViewModel.swift */; };
 		22F160D92DA666D900C4528E /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160D82DA666D900C4528E /* StringUtil.swift */; };
 		22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160DA2DA7B7E400C4528E /* Constant.swift */; };
+		22F66A2A2DABA84400A3C888 /* RegisterViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */; };
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
@@ -120,6 +121,7 @@
 		22F160D62DA642DF00C4528E /* MockRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRegisterViewModel.swift; sourceTree = "<group>"; };
 		22F160D82DA666D900C4528E /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		22F160DA2DA7B7E400C4528E /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModelTests.swift; sourceTree = "<group>"; };
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				224A3E282D824EFE00815897 /* AuthViewModelTests.swift */,
+				22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */,
 				2234991F2DA22B0C00E810FF /* BiometricsUtilTests.swift */,
 				223499232DA2960500E810FF /* KeyChainUtilTests.swift */,
 			);
@@ -600,6 +603,7 @@
 				223499202DA22B0C00E810FF /* BiometricsUtilTests.swift in Sources */,
 				223499242DA2960500E810FF /* KeyChainUtilTests.swift in Sources */,
 				224A3E2A2D824EFE00815897 /* AuthViewModelTests.swift in Sources */,
+				22F66A2A2DABA84400A3C888 /* RegisterViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

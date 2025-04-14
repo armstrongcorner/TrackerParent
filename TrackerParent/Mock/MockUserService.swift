@@ -10,6 +10,8 @@ import Foundation
 actor MockUserService: UserServiceProtocol {
     var userResponse: UserResponse?
     var userListResponse: UserListResponse?
+    var userExistResponse: UserExistResponse?
+    var authResponse: AuthResponse?
     var shouldReturnError: Bool = false
     var commError: CommError?
     
@@ -20,7 +22,15 @@ actor MockUserService: UserServiceProtocol {
     func setUserListResponse(_ userListResponse: UserListResponse?) {
         self.userListResponse = userListResponse
     }
+    
+    func setUserExistResponse(_ userExistResponse: UserExistResponse?) {
+        self.userExistResponse = userExistResponse
+    }
 
+    func setAuthResponse(_ authResponse: AuthResponse?) {
+        self.authResponse = authResponse
+    }
+    
     func setShouldReturnError(_ shouldReturnError: Bool) {
         self.shouldReturnError = shouldReturnError
     }
@@ -61,22 +71,54 @@ actor MockUserService: UserServiceProtocol {
     }
     
     func checkUserExists(username: String) async throws -> UserExistResponse? {
-        //
-        return nil
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let userExistResponse = userExistResponse, !shouldReturnError {
+            return userExistResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
     }
     
     func sendVerificationEmail(username: String) async throws -> AuthResponse? {
-        //
-        return nil
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let authResponse = authResponse, !shouldReturnError {
+            return authResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
     }
     
     func verifyEmail(username: String, code: String) async throws -> UserResponse? {
-        //
-        return nil
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let userResponse = userResponse, !shouldReturnError {
+            return userResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
     }
     
     func completeRegister(username: String, password: String) async throws -> AuthResponse? {
-        //
-        return nil
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let authResponse = authResponse, !shouldReturnError {
+            return authResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
     }
 }

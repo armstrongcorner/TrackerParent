@@ -9,7 +9,8 @@ import Foundation
 
 let mockAuth1 = AuthModel(token: "123456", userRole: "User", validInMins: 20, validUntilUTC: "2025-03-26T01:29:38.946042Z")
 let mockAuth2 = AuthModel(token: "mock_token", userRole: "Administrator", validInMins: 2000, validUntilUTC: "2025-03-26T01:29:38.946042Z")
-let mockAuthResponse = AuthResponse(value: mockAuth1, failureReason: nil, isSuccess: true)
+let mockAuthResponse1 = AuthResponse(value: mockAuth1, failureReason: nil, isSuccess: true)
+let mockAuthResponse2 = AuthResponse(value: mockAuth2, failureReason: nil, isSuccess: true)
 let mockAuthResponseWithFailureReason = AuthResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 
 let mockUser1 = UserModel(
@@ -49,6 +50,8 @@ let mockUser2 = UserModel(
 let mockUserResponse1 = UserResponse(value: mockUser1, failureReason: nil, isSuccess: true)
 let mockUserResponse2 = UserResponse(value: mockUser2, failureReason: nil, isSuccess: true)
 let mockUserResponseWithFailureReason = UserResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+let mockUserExistResponseTrue = UserExistResponse(value: true, failureReason: nil, isSuccess: true)
+let mockUserExistResponseFalse = UserExistResponse(value: false, failureReason: nil, isSuccess: true)
 
 let mockSetting1 = SettingModel(
     id: 1,
