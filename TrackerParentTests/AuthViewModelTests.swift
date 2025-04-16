@@ -14,7 +14,7 @@ final class AuthViewModelTests: XCTestCase {
     var mockLoginService: MockLoginService!
     var mockUserService: MockUserService!
     var mockBiometricsUtil: MockBiometricsUtil!
-    var mockKeyChainUtil: MockKeyChainUtil!
+    var mockKeyChainUtil: KeyChainUtil!
     var mockUserDefaults: UserDefaults!
     
     override func setUpWithError() throws {
@@ -23,7 +23,7 @@ final class AuthViewModelTests: XCTestCase {
         mockLoginService = MockLoginService()
         mockUserService = MockUserService()
         mockBiometricsUtil = MockBiometricsUtil()
-        mockKeyChainUtil = MockKeyChainUtil()
+        mockKeyChainUtil = KeyChainUtil(bundleId: "com.example.TrackerParent")
         mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
         
         sut = AuthViewModel(
@@ -39,6 +39,8 @@ final class AuthViewModelTests: XCTestCase {
         mockLoginService = nil
         mockUserService = nil
         mockBiometricsUtil = nil
+        // Ensure deleting test data before every test round
+        mockKeyChainUtil.delete(account: mockUser1.userName ?? "test_username")
         mockKeyChainUtil = nil
         mockUserDefaults.removePersistentDomain(forName: "au.com.matrixthoughts.TrackerParent.mock")
         mockUserDefaults = nil
@@ -142,7 +144,7 @@ final class AuthViewModelTests: XCTestCase {
     func testLoginWithFaceIdSuccess() async {
         do {
             // Given
-            try mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: mockUser1.userName ?? "test_username", object: mockAuth1)
+            try mockKeyChainUtil.saveObject(account: mockUser1.userName ?? "test_username", object: mockAuth1)
             mockBiometricsUtil.canAuthenticate = true
             mockUserDefaults.set(mockUser1.userName, forKey: "username")
             await mockUserService.setShouldReturnError(false)
@@ -179,7 +181,7 @@ final class AuthViewModelTests: XCTestCase {
     func testLoginWithFaceIdWithUserServiceServerResponseError() async {
         do {
             // Given
-            try mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: mockUser1.userName ?? "test_username", object: mockAuth1)
+            try mockKeyChainUtil.saveObject(account: mockUser1.userName ?? "test_username", object: mockAuth1)
             mockBiometricsUtil.canAuthenticate = true
             mockUserDefaults.set(mockUser1.userName, forKey: "username")
             await mockUserService.setShouldReturnError(false)
@@ -199,7 +201,7 @@ final class AuthViewModelTests: XCTestCase {
     
     func testLoginWithFaceIdFailWithUserServiceUnknownError() async {
         do {
-            try mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: mockUser1.userName ?? "test_username", object: mockAuth1)
+            try mockKeyChainUtil.saveObject(account: mockUser1.userName ?? "test_username", object: mockAuth1)
             mockBiometricsUtil.canAuthenticate = true
             mockUserDefaults.set(mockUser1.userName, forKey: "username")
             await mockUserService.setShouldReturnError(true)

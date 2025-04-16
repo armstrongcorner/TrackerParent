@@ -128,8 +128,7 @@ final class AuthViewModel: AuthViewModelProtocol {
                 userDefaults.set(username, forKey: "username")
                 
                 // Save the auth model to Keychain
-                let bundleId = Bundle.main.bundleIdentifier ?? ""
-                try keyChainUtil.saveObject(service: bundleId, account: username, object: authModel)
+                try keyChainUtil.saveObject(account: username, object: authModel)
                 
                 role = authModel.userRole
                 loginState = .success
@@ -149,9 +148,8 @@ final class AuthViewModel: AuthViewModelProtocol {
             loginState = .loading
             
             if try await biometricsUtil.canUseBiometrics() {
-                let bundleId = Bundle.main.bundleIdentifier ?? ""
                 let account = userDefaults.string(forKey: "username") ?? ""
-                if let savedAuthModel = try keyChainUtil.loadObject(service: bundleId, account: account, type: AuthModel.self) {
+                if let savedAuthModel = try keyChainUtil.loadObject(account: account, type: AuthModel.self) {
                     logger.debug("--- auth model in keychain: \(String(describing: savedAuthModel))")
                     guard let userResponse = try await userService.getUserInfo(username: account) else {
                         throw CommError.unknown

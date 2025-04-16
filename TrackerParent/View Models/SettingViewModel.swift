@@ -188,15 +188,17 @@ final class SettingViewModel: SettingViewModelProtocol {
     }
     
     private func handleError(_ error: Error, type: SettingType) {
-        switch type {
-        case .fetch:
-            fetchDataState = .error
-        case .add:
-            addDataState = .error
-        case .update:
-            updateDataState = .error
-        case .delete:
-            deleteDataState = .error
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            switch type {
+            case .fetch:
+                self.fetchDataState = .error
+            case .add:
+                self.addDataState = .error
+            case .update:
+                self.updateDataState = .error
+            case .delete:
+                self.deleteDataState = .error
+            }
         }
         
         switch error {

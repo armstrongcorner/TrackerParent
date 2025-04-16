@@ -33,16 +33,20 @@ final class TrackViewModel: TrackViewModelProtocol {
 
     @ObservationIgnored
     private let trackService: TrackServiceProtocol
-    
+    @ObservationIgnored
+    private let userDefaults: UserDefaults
+
     @ObservationIgnored
     private let logger: Logger
     
     init(
         trackService: TrackServiceProtocol = TrackService(),
+        userDefaults: UserDefaults = .standard,
         fetchDataState: FetchDataState = .idle,
         errMsg: String? = nil
     ) {
         self.trackService = trackService
+        self.userDefaults = userDefaults
         self.fetchDataState = fetchDataState
         self.errMsg = errMsg
         
@@ -57,7 +61,7 @@ final class TrackViewModel: TrackViewModelProtocol {
             errMsg = nil
             
             // Call get track list service
-            let theUsername = username ?? UserDefaults.standard.string(forKey: "username") ?? ""
+            let theUsername = username ?? userDefaults.string(forKey: "username") ?? ""
             let fromDate = DateUtil.shared.startOfTheDate(date: fromDate)
             let endDate = DateUtil.shared.endOfTheDate(date: toDate)
             
@@ -101,7 +105,9 @@ final class TrackViewModel: TrackViewModelProtocol {
     }
     
     private func handleError(_ error: Error) {
-        fetchDataState = .error
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.fetchDataState = .error
+        }
         
         switch error {
         case let commError as CommError:

@@ -17,14 +17,14 @@ final class KeyChainUtilTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        sut = KeyChainUtil()
+        sut = KeyChainUtil(bundleId: serviceName)
         // Ensure deleting test data before every test round
-        sut.delete(service: serviceName, account: accountName)
+        sut.delete(account: accountName)
     }
 
     override func tearDownWithError() throws {
         // Ensure deleting test data after every test round
-        sut.delete(service: serviceName, account: accountName)
+        sut.delete(account: accountName)
         sut = nil
         
         try super.tearDownWithError()
@@ -34,14 +34,14 @@ final class KeyChainUtilTests: XCTestCase {
         do {
             // Save the object
             // When
-            let status = try sut.saveObject(service: serviceName, account: accountName, object: mockAuth1)
+            let status = try sut.saveObject(account: accountName, object: mockAuth1)
             
             // Then
             XCTAssertEqual(status, errSecSuccess, "Saving AuthModel should succeed")
             
             // Load the object
             // When
-            let loadedObj: AuthModel? = try sut.loadObject(service: serviceName, account: accountName, type: AuthModel.self)
+            let loadedObj: AuthModel? = try sut.loadObject(account: accountName, type: AuthModel.self)
             // Then
             XCTAssertNotNil(loadedObj, "Loaded AuthModel should not be nil")
             XCTAssertEqual(loadedObj?.token, mockAuth1.token, "Loaded AuthModel should equal the saved object")
@@ -59,11 +59,11 @@ final class KeyChainUtilTests: XCTestCase {
         }
         
         // When
-        let status = sut.save(service: serviceName, account: accountName, data: mockData)
+        let status = sut.save(account: accountName, data: mockData)
         XCTAssertEqual(status, errSecSuccess, "Saving Data should succeed")
         
         // When
-        let loadedData: Data? = sut.load(service: serviceName, account: accountName)
+        let loadedData: Data? = sut.load(account: accountName)
         
         // Then
         XCTAssertNotNil(loadedData, "Loaded Data should not be nil")
@@ -73,14 +73,14 @@ final class KeyChainUtilTests: XCTestCase {
     func testDeleteDataSuccess() {
         do {
             // When
-            try sut.saveObject(service: serviceName, account: accountName, object: mockAuth1)
-            let deleteStatus = sut.delete(service: serviceName, account: accountName)
+            try sut.saveObject(account: accountName, object: mockAuth1)
+            let deleteStatus = sut.delete(account: accountName)
             
             // Then
             XCTAssertEqual(deleteStatus, errSecSuccess, "Deleting AuthModel should succeed")
             
             // When
-            let loadedObject: AuthModel? = try sut.loadObject(service: serviceName, account: accountName, type: AuthModel.self)
+            let loadedObject: AuthModel? = try sut.loadObject(account: accountName, type: AuthModel.self)
             
             // Then
             XCTAssertNil(loadedObject, "AuthModel should be nil after deletion")
@@ -92,7 +92,7 @@ final class KeyChainUtilTests: XCTestCase {
     func testLoadNonExistingObject() {
         do {
             // When
-            let loadedObject: AuthModel? = try sut.loadObject(service: serviceName, account: accountName, type: AuthModel.self)
+            let loadedObject: AuthModel? = try sut.loadObject(account: accountName, type: AuthModel.self)
             
             // Then
             XCTAssertNil(loadedObject, "AuthModel should be nil for non existing object")

@@ -66,8 +66,16 @@ actor MockUserService: UserServiceProtocol {
     }
     
     func updateUserInfo(newUserModel: UserModel) async throws -> UserResponse? {
-        //
-        return nil
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let userResponse = userResponse, !shouldReturnError {
+            return userResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
     }
     
     func checkUserExists(username: String) async throws -> UserExistResponse? {

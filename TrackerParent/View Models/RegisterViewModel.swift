@@ -134,8 +134,7 @@ final class RegisterViewModel: RegisterViewModelProtocol {
                 logger.debug("--- super user auth model: \(String(describing: authModel))")
                 
                 // Save the super user auth model to Keychain for registration use
-                let bundleId = Bundle.main.bundleIdentifier ?? ""
-                try keyChainUtil.saveObject(service: bundleId, account: email, object: authModel)
+                try keyChainUtil.saveObject(account: email, object: authModel)
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
                 throw CommError.serverReturnedError(failureReason)
             } else {
@@ -151,8 +150,7 @@ final class RegisterViewModel: RegisterViewModelProtocol {
                 logger.debug("--- auth model: \(String(describing: authModel))")
                 
                 // Save user auth model to Keychain
-                let bundleId = Bundle.main.bundleIdentifier ?? ""
-                try keyChainUtil.saveObject(service: bundleId, account: email, object: authModel)
+                try keyChainUtil.saveObject(account: email, object: authModel)
                 
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
@@ -213,8 +211,7 @@ final class RegisterViewModel: RegisterViewModelProtocol {
                 userDefaults.set(email, forKey: "username")
                 
                 // Save the auth model to Keychain
-                let bundleId = Bundle.main.bundleIdentifier ?? ""
-                try keyChainUtil.saveObject(service: bundleId, account: email, object: authModel)
+                try keyChainUtil.saveObject(account: email, object: authModel)
                 
                 // Reset the time left when finish registration
                 RegisterViewModel.timeLeft = 0

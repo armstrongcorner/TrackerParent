@@ -47,11 +47,31 @@ let mockUser2 = UserModel(
     updatedBy: "test_username2"
 )
 
+let mockUser3 = UserModel(
+    id: 1,
+    userName: "test_username3",
+    password: "abcdefg123456",
+    photo: "123456abcdefg",
+    role: "User",
+    mobile: "",
+    email: "",
+    serviceLevel: 1,
+    tokenDurationInMin: 14400,
+    isActive: false,
+    createdDateTime: "2024-03-05T12:06:20.1476085Z",
+    updatedDateTime: "2024-03-05T12:06:20.1476085Z",
+    createdBy: "test_username3",
+    updatedBy: ""
+)
+
 let mockUserResponse1 = UserResponse(value: mockUser1, failureReason: nil, isSuccess: true)
 let mockUserResponse2 = UserResponse(value: mockUser2, failureReason: nil, isSuccess: true)
+let mockUserResponse3 = UserResponse(value: mockUser3, failureReason: nil, isSuccess: true)
 let mockUserResponseWithFailureReason = UserResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 let mockUserExistResponseTrue = UserExistResponse(value: true, failureReason: nil, isSuccess: true)
 let mockUserExistResponseFalse = UserExistResponse(value: false, failureReason: nil, isSuccess: true)
+let mockUserListResponse = UserListResponse(value: [mockUser1, mockUser2], failureReason: nil, isSuccess: true)
+let mockUserListResponseWithFailureReason = UserListResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 
 let mockSetting1 = SettingModel(
     id: 1,
@@ -317,3 +337,6 @@ let mockTrack: [LocationModel] = [
     locationModel19,
     locationModel20
 ]
+
+let mockLocationResponse = LocationResponse(value: mockTrack, failureReason: nil, isSuccess: true)
+let mockLocationResponseWithFailureReason = LocationResponse(value: nil, failureReason: "Server response error message", isSuccess: false)

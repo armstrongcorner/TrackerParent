@@ -134,14 +134,13 @@ final class UserViewModel: UserViewModelProtocol {
     }
     
     func logout() {
-        let service = Bundle.main.bundleIdentifier ?? ""
         let account = userDefaults.string(forKey: "username") ?? ""
         
         // Clear cached username
         userDefaults.set(nil, forKey: "username")
         
         // Clear cached authModel in keychain
-        keyChainUtil.delete(service: service, account: account)
+        keyChainUtil.delete(account: account)
     }
     
     private func handleError(_ error: Error) {

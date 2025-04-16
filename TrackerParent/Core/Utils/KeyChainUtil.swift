@@ -9,17 +9,46 @@ import Foundation
 import Security
 
 protocol KeyChainUtilProtocol {
-    func save(service: String, account: String, data: Data) -> OSStatus
+    func save(service: String?, account: String, data: Data) -> OSStatus
     @discardableResult
-    func saveObject<T: Encodable>(service: String, account: String, object: T) throws -> OSStatus
-    func load(service: String, account: String) -> Data?
-    func loadObject<T: Decodable>(service: String, account: String, type: T.Type) throws -> T?
+    func saveObject<T: Encodable>(service: String?, account: String, object: T) throws -> OSStatus
+    func load(service: String?, account: String) -> Data?
+    func loadObject<T: Decodable>(service: String?, account: String, type: T.Type) throws -> T?
     @discardableResult
-    func delete(service: String, account: String) -> OSStatus
+    func delete(service: String?, account: String) -> OSStatus
+}
+
+extension KeyChainUtilProtocol {
+    func save(service: String? = nil, account: String, data: Data) -> OSStatus {
+        save(service: service, account: account, data: data)
+    }
+    
+    @discardableResult
+    func saveObject<T: Encodable>(service: String? = nil, account: String, object: T) throws -> OSStatus {
+        try saveObject(service: service, account: account, object: object)
+    }
+    
+    func load(service: String? = nil, account: String) -> Data? {
+        load(service: service, account: account)
+    }
+    
+    func loadObject<T: Decodable>(service: String? = nil, account: String, type: T.Type) throws -> T? {
+        try loadObject(service: service, account: account, type: type)
+    }
+    
+    @discardableResult
+    func delete(service: String? = nil, account: String) -> OSStatus {
+        delete(service: service, account: account)
+    }
 }
 
 struct KeyChainUtil: KeyChainUtilProtocol {
     static let shared = KeyChainUtil()
+    
+    var bundleId: String
+    init(bundleId: String = Bundle.main.bundleIdentifier ?? "") {
+        self.bundleId = bundleId
+    }
     
     /// Save original binary data to keychain
     /// - Parameters:
@@ -28,10 +57,11 @@ struct KeyChainUtil: KeyChainUtilProtocol {
     ///   - data: Original binary data which needs to be saved to the keychain
     /// - Returns: OSStatus code，errSecSuccess means operation success
     @discardableResult
-    func save(service: String, account: String, data: Data) -> OSStatus {
+    func save(service: String?, account: String, data: Data) -> OSStatus {
+        let serviceValue = service ?? bundleId
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
+            kSecAttrService as String: serviceValue,
             kSecAttrAccount as String: account,
             kSecValueData as String: data
         ]
@@ -51,7 +81,7 @@ struct KeyChainUtil: KeyChainUtilProtocol {
     ///   - object: Object (Encodable) which needs to be saved to the keychain
     /// - Returns: OSStatus code，errSecSuccess means operation success
     @discardableResult
-    func saveObject<T: Encodable>(service: String, account: String, object: T) throws -> OSStatus {
+    func saveObject<T: Encodable>(service: String?, account: String, object: T) throws -> OSStatus {
         do {
             let data = try JSONEncoder().encode(object)
             let result = save(service: service, account: account, data: data)
@@ -67,10 +97,11 @@ struct KeyChainUtil: KeyChainUtilProtocol {
     ///   - account: Used to distinguish different items in keychain. eg: username for saving different auth token
     /// - Returns: OSStatus code，errSecSuccess means operation success
     @discardableResult
-    func delete(service: String, account: String) -> OSStatus {
+    func delete(service: String?, account: String) -> OSStatus {
+        let serviceValue = service ?? bundleId
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
+            kSecAttrService as String: serviceValue,
             kSecAttrAccount as String: account
         ]
         
@@ -83,10 +114,11 @@ struct KeyChainUtil: KeyChainUtilProtocol {
     ///   - service: Consider service name is app's bundle id
     ///   - account: Used to distinguish different items in keychain. eg: username for saving different auth token
     /// - Returns: Return the exactly matched one binary data, otherwise return nil
-    func load(service: String, account: String) -> Data? {
+    func load(service: String?, account: String) -> Data? {
+        let serviceValue = service ?? bundleId
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
+            kSecAttrService as String: serviceValue,
             kSecAttrAccount as String: account,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne
@@ -108,7 +140,7 @@ struct KeyChainUtil: KeyChainUtilProtocol {
     ///   - account: Used to distinguish different items in keychain. eg: username for saving different auth token
     ///   - type: Type of loaded object
     /// - Returns: Return the exactly matched one object (Decodable), otherwise return nil
-    func loadObject<T: Decodable>(service: String, account: String, type: T.Type) throws -> T? {
+    func loadObject<T: Decodable>(service: String?, account: String, type: T.Type) throws -> T? {
         guard let data = load(service: service, account: account) else { return nil }
         
         do {
@@ -123,10 +155,11 @@ struct KeyChainUtil: KeyChainUtilProtocol {
     /// - Parameters:
     ///   - service: Consider service name is app's bundle id
     /// - Returns: Return the items matched with the service name, otherwise return nil
-    func loadAllItems(service: String) throws -> [[String: Any]]? {
+    func loadAllItems(service: String?) throws -> [[String: Any]]? {
+        let serviceValue = service ?? bundleId
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
+            kSecAttrService as String: serviceValue,
             kSecReturnAttributes as String: true,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitAll

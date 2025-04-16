@@ -34,6 +34,8 @@
 		2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D1572D86BD0F004D9644 /* KeyChainUtil.swift */; };
 		2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */; };
 		2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */; };
+		22863BFB2DAF59560076194A /* TrackViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFA2DAF59560076194A /* TrackViewModelTests.swift */; };
+		22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFC2DAF5A910076194A /* MockTrackService.swift */; };
 		22B295062D989C6800AB6A5D /* SettingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295052D989C6800AB6A5D /* SettingListScreen.swift */; };
 		22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */; };
 		22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */; };
@@ -42,6 +44,7 @@
 		22F160D92DA666D900C4528E /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160D82DA666D900C4528E /* StringUtil.swift */; };
 		22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F160DA2DA7B7E400C4528E /* Constant.swift */; };
 		22F66A2A2DABA84400A3C888 /* RegisterViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */; };
+		22F66A2C2DACF89700A3C888 /* UserViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F66A2B2DACF89700A3C888 /* UserViewModelTests.swift */; };
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
@@ -114,6 +117,8 @@
 		2266D1572D86BD0F004D9644 /* KeyChainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainUtil.swift; sourceTree = "<group>"; };
 		2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsUtil.swift; sourceTree = "<group>"; };
 		2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButtonModifier.swift; sourceTree = "<group>"; };
+		22863BFA2DAF59560076194A /* TrackViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModelTests.swift; sourceTree = "<group>"; };
+		22863BFC2DAF5A910076194A /* MockTrackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackService.swift; sourceTree = "<group>"; };
 		22B295052D989C6800AB6A5D /* SettingListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListScreen.swift; sourceTree = "<group>"; };
 		22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailScreen.swift; sourceTree = "<group>"; };
 		22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListItem.swift; sourceTree = "<group>"; };
@@ -122,6 +127,7 @@
 		22F160D82DA666D900C4528E /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		22F160DA2DA7B7E400C4528E /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModelTests.swift; sourceTree = "<group>"; };
+		22F66A2B2DACF89700A3C888 /* UserViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModelTests.swift; sourceTree = "<group>"; };
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
@@ -204,6 +210,8 @@
 			children = (
 				224A3E282D824EFE00815897 /* AuthViewModelTests.swift */,
 				22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */,
+				22F66A2B2DACF89700A3C888 /* UserViewModelTests.swift */,
+				22863BFA2DAF59560076194A /* TrackViewModelTests.swift */,
 				2234991F2DA22B0C00E810FF /* BiometricsUtilTests.swift */,
 				223499232DA2960500E810FF /* KeyChainUtilTests.swift */,
 			);
@@ -269,6 +277,7 @@
 				2266D13A2D86605A004D9644 /* MockData.swift */,
 				2266D1382D862EDC004D9644 /* MockLoginService.swift */,
 				223499252DA3CF4C00E810FF /* MockUserService.swift */,
+				22863BFC2DAF5A910076194A /* MockTrackService.swift */,
 				AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */,
 				AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */,
 				2234991B2DA1247900E810FF /* MockUserViewModel.swift */,
@@ -580,6 +589,7 @@
 				AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */,
 				223499132DA0CC9100E810FF /* UserListScreen.swift in Sources */,
 				2234991A2DA10ED500E810FF /* UserViewModel.swift in Sources */,
+				22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */,
 				22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */,
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
 				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
@@ -601,8 +611,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				223499202DA22B0C00E810FF /* BiometricsUtilTests.swift in Sources */,
+				22F66A2C2DACF89700A3C888 /* UserViewModelTests.swift in Sources */,
 				223499242DA2960500E810FF /* KeyChainUtilTests.swift in Sources */,
 				224A3E2A2D824EFE00815897 /* AuthViewModelTests.swift in Sources */,
+				22863BFB2DAF59560076194A /* TrackViewModelTests.swift in Sources */,
 				22F66A2A2DABA84400A3C888 /* RegisterViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

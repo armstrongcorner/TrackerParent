@@ -13,7 +13,7 @@ final class RegisterViewModelTests: XCTestCase {
     var sut: RegisterViewModel!
     var mockLoginService: MockLoginService!
     var mockUserService: MockUserService!
-    var mockKeyChainUtil: MockKeyChainUtil!
+    var mockKeyChainUtil: KeyChainUtil!
     var mockUserDefaults: UserDefaults!
 
     override func setUpWithError() throws {
@@ -21,7 +21,7 @@ final class RegisterViewModelTests: XCTestCase {
         
         mockLoginService = MockLoginService()
         mockUserService = MockUserService()
-        mockKeyChainUtil = MockKeyChainUtil()
+        mockKeyChainUtil = KeyChainUtil(bundleId: "com.example.TrackerParent")
         mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
         
         sut = RegisterViewModel(
@@ -35,6 +35,8 @@ final class RegisterViewModelTests: XCTestCase {
     override func tearDownWithError() throws {
         mockUserService = nil
         mockLoginService = nil
+        // Ensure deleting test data before every test round
+        mockKeyChainUtil.delete(account: sut.email)
         mockKeyChainUtil = nil
         mockUserDefaults.removePersistentDomain(forName: "au.com.matrixthoughts.TrackerParent.mock")
         mockUserDefaults = nil
@@ -54,7 +56,7 @@ final class RegisterViewModelTests: XCTestCase {
         
         // When
         await sut.requestVerificationCode()
-        let loadedAuthModel = try? mockKeyChainUtil.loadObject(service: "com.example.TrackerParent", account: sut.email, type: AuthModel.self)
+        let loadedAuthModel = try? mockKeyChainUtil.loadObject(account: sut.email, type: AuthModel.self)
         
         // Then
         try? await Task.sleep(nanoseconds: 100_000_000)
@@ -196,7 +198,7 @@ final class RegisterViewModelTests: XCTestCase {
         // When
         await sut.register()
 //        let _ = try? mockKeyChainUtil.saveObject(service: "com.example.TrackerParent", account: sut.email, object: mockAuth1)
-        let loadedAuthModel = try? mockKeyChainUtil.loadObject(service: "com.example.TrackerParent", account: sut.email, type: AuthModel.self)
+        let loadedAuthModel = try? mockKeyChainUtil.loadObject(account: sut.email, type: AuthModel.self)
 
         // Then
         try? await Task.sleep(nanoseconds: 100_000_000)
