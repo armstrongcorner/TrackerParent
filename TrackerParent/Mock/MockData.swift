@@ -95,6 +95,13 @@ let mockSetting2 = SettingModel(
     accuracy: "High"
 )
 
+let mockAllSettingsResponse = AllSettingsResponse(value: [mockSetting1, mockSetting2], failureReason: nil, isSuccess: true)
+let mockAllSettingsResponseWithFailureReason = AllSettingsResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+let mockSettingResponse = SettingResponse(value: mockSetting1, failureReason: nil, isSuccess: true)
+let mockSettingResponseWithFailureReason = SettingResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+let mockDeleteSettingResponse = DeleteSettingResponse(value: true, failureReason: nil, isSuccess: true)
+let mockDeleteSettingResponseWithFailureReason = DeleteSettingResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+
 let locationModel1 = LocationModel(
     id: 964,
     userName: "armstrong.liu@matrixthoughts.com.au",

@@ -36,6 +36,8 @@
 		2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */; };
 		22863BFB2DAF59560076194A /* TrackViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFA2DAF59560076194A /* TrackViewModelTests.swift */; };
 		22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFC2DAF5A910076194A /* MockTrackService.swift */; };
+		22863BFF2DAFCAB90076194A /* SettingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFE2DAFCAB90076194A /* SettingViewModelTests.swift */; };
+		22863C012DB06A200076194A /* MockSettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863C002DB06A200076194A /* MockSettingService.swift */; };
 		22B295062D989C6800AB6A5D /* SettingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295052D989C6800AB6A5D /* SettingListScreen.swift */; };
 		22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */; };
 		22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */; };
@@ -119,6 +121,8 @@
 		2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButtonModifier.swift; sourceTree = "<group>"; };
 		22863BFA2DAF59560076194A /* TrackViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModelTests.swift; sourceTree = "<group>"; };
 		22863BFC2DAF5A910076194A /* MockTrackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackService.swift; sourceTree = "<group>"; };
+		22863BFE2DAFCAB90076194A /* SettingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModelTests.swift; sourceTree = "<group>"; };
+		22863C002DB06A200076194A /* MockSettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingService.swift; sourceTree = "<group>"; };
 		22B295052D989C6800AB6A5D /* SettingListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListScreen.swift; sourceTree = "<group>"; };
 		22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailScreen.swift; sourceTree = "<group>"; };
 		22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListItem.swift; sourceTree = "<group>"; };
@@ -212,6 +216,7 @@
 				22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */,
 				22F66A2B2DACF89700A3C888 /* UserViewModelTests.swift */,
 				22863BFA2DAF59560076194A /* TrackViewModelTests.swift */,
+				22863BFE2DAFCAB90076194A /* SettingViewModelTests.swift */,
 				2234991F2DA22B0C00E810FF /* BiometricsUtilTests.swift */,
 				223499232DA2960500E810FF /* KeyChainUtilTests.swift */,
 			);
@@ -278,6 +283,7 @@
 				2266D1382D862EDC004D9644 /* MockLoginService.swift */,
 				223499252DA3CF4C00E810FF /* MockUserService.swift */,
 				22863BFC2DAF5A910076194A /* MockTrackService.swift */,
+				22863C002DB06A200076194A /* MockSettingService.swift */,
 				AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */,
 				AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */,
 				2234991B2DA1247900E810FF /* MockUserViewModel.swift */,
@@ -594,6 +600,7 @@
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
 				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
 				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
+				22863C012DB06A200076194A /* MockSettingService.swift in Sources */,
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,
 				223499262DA3CF4C00E810FF /* MockUserService.swift in Sources */,
 				224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */,
@@ -615,6 +622,7 @@
 				223499242DA2960500E810FF /* KeyChainUtilTests.swift in Sources */,
 				224A3E2A2D824EFE00815897 /* AuthViewModelTests.swift in Sources */,
 				22863BFB2DAF59560076194A /* TrackViewModelTests.swift in Sources */,
+				22863BFF2DAFCAB90076194A /* SettingViewModelTests.swift in Sources */,
 				22F66A2A2DABA84400A3C888 /* RegisterViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
