@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ApiError: Error {
+enum ApiError: Error, Equatable {
     case invalidUrl
     case decodingFailed(String)
     case encodingFailed(String)
@@ -37,7 +37,7 @@ extension ApiClientProtocol {
     }
 }
 
-final class ApiClient: ApiClientProtocol {
+actor ApiClient: ApiClientProtocol {
     // GET
     func get<T: Decodable & Sendable>(
         urlString: String,
