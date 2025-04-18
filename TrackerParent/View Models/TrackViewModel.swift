@@ -110,6 +110,14 @@ final class TrackViewModel: TrackViewModelProtocol {
                     tracks.append(newTrack)
                 }
                 
+                // Sort the tracks by descending dateTimeOcurred of the first location model
+                tracks.sort { trackA, trackB in
+                    guard let firstA = trackA.first, let firstB = trackB.first else {
+                        return false
+                    }
+                    return firstA.dateTimeOcurred > firstB.dateTimeOcurred
+                }
+                
                 fetchDataState = .done
                 
                 logger.debug("--- track count: \(self.tracks.count)")
