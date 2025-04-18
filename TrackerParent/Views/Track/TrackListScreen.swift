@@ -40,17 +40,27 @@ struct TrackListScreen: View {
         VStack {
             switch trackViewModel.fetchDataState {
             case .done:
-                List {
-                    ForEach(trackViewModel.tracks, id: \.self) { track in
-                        Button {
-                            router.showScreen(.push) { router2 in
-                                TrackDetailScreen(router: router2, track: track)
+                if !trackViewModel.tracks.isEmpty {
+                    List {
+                        ForEach(trackViewModel.tracks, id: \.self) { track in
+                            Button {
+                                router.showScreen(.push) { router2 in
+                                    TrackDetailScreen(router: router2, track: track)
+                                }
+                            } label: {
+                                TrackListItem(track: track)
                             }
-                        } label: {
-                            TrackListItem(track: track)
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
+                } else {
+                    // Show empty tip
+                    Spacer()
+                    
+                    Text("No track data for this date range.")
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
                 }
             case .loading:
                 ProgressView("Loading")
@@ -170,6 +180,22 @@ struct TrackListScreen: View {
         .toastView(toastViewObserver: toastViewObserver)
         .navigationBarBackButtonHidden(username == nil)
     }
+}
+
+#Preview("empty data") {
+    let mockTrackViewModel = MockTrackViewModel()
+    mockTrackViewModel.shouldKeepLoading = false
+    mockTrackViewModel.shouldReturnError = false
+    mockTrackViewModel.shouldReturnEmptyData = true
+    
+    return RouterView { router in
+        TrackListScreen(
+            router: router,
+            trackViewModel: mockTrackViewModel,
+            userViewModel: MockUserViewModel()
+        )
+    }
+    .environment(ToastViewObserver())
 }
 
 #Preview("without username") {

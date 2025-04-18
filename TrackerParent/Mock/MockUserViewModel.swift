@@ -16,6 +16,7 @@ final class MockUserViewModel: UserViewModelProtocol {
     
     var shouldKeepLoading = false
     var shouldReturnError = false
+    var shouldReturnEmptyData = false
 
     func fetchUsers() async {
         // Mock loading
@@ -29,6 +30,9 @@ final class MockUserViewModel: UserViewModelProtocol {
                 // Mock error
                 fetchDataState = .error
                 errMsg = "Mock fetching users error occurred"
+            } else if shouldReturnEmptyData {
+                // Mock empty data
+                fetchDataState = .done
             } else {
                 // Mock loaded data
                 users.append(contentsOf: [mockUser1, mockUser2])

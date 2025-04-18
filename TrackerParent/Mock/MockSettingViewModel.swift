@@ -21,6 +21,7 @@ final class MockSettingViewModel: SettingViewModelProtocol {
     
     var shouldKeepLoading = false
     var shouldReturnError = false
+    var shouldReturnEmptyData = false
 
     func fetchSettingList() async {
         // Mock loading
@@ -34,6 +35,10 @@ final class MockSettingViewModel: SettingViewModelProtocol {
                 // Mock error
                 fetchDataState = .error
                 errMsg = "Mock fetching setting data error occurred"
+            } else if shouldReturnEmptyData {
+                // Mock empty data
+                settingList = []
+                fetchDataState = .done
             } else {
                 // Mock loaded data
                 settingList = [mockSetting1, mockSetting2]

@@ -26,17 +26,27 @@ struct UserListScreen: View {
         VStack {
             switch userViewModel.fetchDataState {
             case .done:
-                List {
-                    ForEach(userViewModel.users, id: \.self) { user in
-                        Button {
-                            router.showScreen(.push) { router2 in
-                                TrackListScreen(router: router2, username: user.userName)
+                if !userViewModel.users.isEmpty {
+                    List {
+                        ForEach(userViewModel.users, id: \.self) { user in
+                            Button {
+                                router.showScreen(.push) { router2 in
+                                    TrackListScreen(router: router2, username: user.userName)
+                                }
+                            } label: {
+                                UserListItem(user: user)
                             }
-                        } label: {
-                            UserListItem(user: user)
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
+                } else {
+                    // Show empty tip
+                    Spacer()
+                    
+                    Text("No user data.")
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
                 }
             case .loading:
                 ProgressView("Loading")
@@ -105,6 +115,17 @@ struct UserListScreen: View {
     let mockUserViewModel = MockUserViewModel()
     mockUserViewModel.shouldKeepLoading = false
     mockUserViewModel.shouldReturnError = false
+    
+    return RouterView { router in
+        UserListScreen(router: router, userViewModel: mockUserViewModel)
+    }
+}
+
+#Preview("empty data") {
+    let mockUserViewModel = MockUserViewModel()
+    mockUserViewModel.shouldKeepLoading = false
+    mockUserViewModel.shouldReturnError = false
+    mockUserViewModel.shouldReturnEmptyData = true
     
     return RouterView { router in
         UserListScreen(router: router, userViewModel: mockUserViewModel)

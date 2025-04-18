@@ -16,6 +16,7 @@ final class MockTrackViewModel: TrackViewModelProtocol {
     
     var shouldKeepLoading = false
     var shouldReturnError = false
+    var shouldReturnEmptyData = false
 
     func fetchTrack(username: String?, fromDate: Date, toDate: Date) async {
         // Mock loading
@@ -29,6 +30,9 @@ final class MockTrackViewModel: TrackViewModelProtocol {
                 // Mock error
                 fetchDataState = .error
                 errMsg = "Mock fetching tracks data error occurred"
+            } else if shouldReturnEmptyData {
+                // Mock empty data
+                fetchDataState = .done
             } else {
                 // Mock loaded data
                 tracks.append(mockTrack)
