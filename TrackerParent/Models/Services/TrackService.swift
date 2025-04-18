@@ -15,6 +15,7 @@ struct LocationRequestBody: Encodable {
 
 protocol TrackServiceProtocol: Sendable {
     func getLocationsByDateTime(username: String, fromDateStr: String, toDateStr: String) async throws -> LocationResponse?
+    func getLocationsByDateTimeWithAdmin(username: String, fromDateStr: String, toDateStr: String) async throws -> LocationResponse?
 }
 
 actor TrackService: TrackServiceProtocol, BaseServiceProtocol {
@@ -30,6 +31,20 @@ actor TrackService: TrackServiceProtocol, BaseServiceProtocol {
         
         let response = try await apiClient.post(
             urlString: Endpoint.tracks.urlString,
+            headers: defaultHeaders,
+            body: requestBody,
+            responseType: LocationResponse.self
+        )
+        
+        return response
+    }
+    
+    func getLocationsByDateTimeWithAdmin(username: String, fromDateStr: String, toDateStr: String) async throws -> LocationResponse? {
+        let defaultHeaders = try getDefaultHeaders()
+        let requestBody = LocationRequestBody(username: username, startDate: fromDateStr, endDate: toDateStr)
+        
+        let response = try await apiClient.post(
+            urlString: Endpoint.allTracks.urlString,
             headers: defaultHeaders,
             body: requestBody,
             responseType: LocationResponse.self

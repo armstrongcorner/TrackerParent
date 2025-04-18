@@ -26,6 +26,23 @@ final class TrackServiceTests: XCTestCase {
         try super.tearDownWithError()
     }
 
+    func testGetLocationsByDateTimeWithAdminSuccess() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockLocationResponse)
+            
+            // When
+            let result = try await sut.getLocationsByDateTimeWithAdmin(username: mockUser1.userName ?? "", fromDateStr: DateUtil.shared.convertToISO8601Str(date: .now), toDateStr: DateUtil.shared.convertToISO8601Str(date: .now))
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, true, "Get locations should be successful.")
+            XCTAssertEqual(result?.value?.count, mockTrack.count, "Get locations should return the correct number of locations.")
+            XCTAssertNil(result?.failureReason, "Get locations should be no failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testGetLocationsByDateTimeSuccess() async {
         do {
             // Given

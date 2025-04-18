@@ -34,6 +34,8 @@ final class TrackViewModel: TrackViewModelProtocol {
     @ObservationIgnored
     private let trackService: TrackServiceProtocol
     @ObservationIgnored
+    private let keyChainUtil: KeyChainUtilProtocol
+    @ObservationIgnored
     private let userDefaults: UserDefaults
 
     @ObservationIgnored
@@ -41,11 +43,13 @@ final class TrackViewModel: TrackViewModelProtocol {
     
     init(
         trackService: TrackServiceProtocol = TrackService(),
+        keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
         userDefaults: UserDefaults = .standard,
         fetchDataState: FetchDataState = .idle,
         errMsg: String? = nil
     ) {
         self.trackService = trackService
+        self.keyChainUtil = keyChainUtil
         self.userDefaults = userDefaults
         self.fetchDataState = fetchDataState
         self.errMsg = errMsg
@@ -60,20 +64,35 @@ final class TrackViewModel: TrackViewModelProtocol {
             fetchDataState = .loading
             errMsg = nil
             
+            // Load auth model from keychain
+            let loadedAuthModel = try keyChainUtil.loadObject(account: userDefaults.string(forKey: "username") ?? "", type: AuthModel.self)
+            
             // Call get track list service
             let theUsername = username ?? userDefaults.string(forKey: "username") ?? ""
             let fromDate = DateUtil.shared.startOfTheDate(date: fromDate)
             let endDate = DateUtil.shared.endOfTheDate(date: toDate)
             
-            guard let locationResponse = try await trackService.getLocationsByDateTime(
-                username: theUsername,
-                fromDateStr: DateUtil.shared.convertToISO8601Str(date: fromDate),
-                toDateStr: DateUtil.shared.convertToISO8601Str(date: endDate)) else {
-                throw CommError.unknown
+            var locationResponse: LocationResponse?
+            if loadedAuthModel?.userRole == "User" {
+                guard let locationResp = try await trackService.getLocationsByDateTime(
+                    username: theUsername,
+                    fromDateStr: DateUtil.shared.convertToISO8601Str(date: fromDate),
+                    toDateStr: DateUtil.shared.convertToISO8601Str(date: endDate)) else {
+                    throw CommError.unknown
+                }
+                locationResponse = locationResp
+            } else if loadedAuthModel?.userRole == "Administrator" {
+                guard let locationResp = try await trackService.getLocationsByDateTimeWithAdmin(
+                    username: theUsername,
+                    fromDateStr: DateUtil.shared.convertToISO8601Str(date: fromDate),
+                    toDateStr: DateUtil.shared.convertToISO8601Str(date: endDate)) else {
+                    throw CommError.unknown
+                }
+                locationResponse = locationResp
             }
             
             // Build tracks from retrieved locations
-            if locationResponse.isSuccess, let locationList = locationResponse.value {
+            if let locationResponse = locationResponse, locationResponse.isSuccess, let locationList = locationResponse.value {
                 logger.debug("--- location count: \(locationList.count)")
                 
                 var lastLocation: LocationModel? = nil
@@ -94,7 +113,7 @@ final class TrackViewModel: TrackViewModelProtocol {
                 fetchDataState = .done
                 
                 logger.debug("--- track count: \(self.tracks.count)")
-            } else if !locationResponse.isSuccess, let failureReason = locationResponse.failureReason {
+            } else if let locationResponse = locationResponse, !locationResponse.isSuccess, let failureReason = locationResponse.failureReason {
                 throw CommError.serverReturnedError(failureReason)
             } else {
                 throw CommError.unknown

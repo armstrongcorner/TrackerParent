@@ -36,4 +36,17 @@ actor MockTrackService: TrackServiceProtocol {
             throw CommError.unknown
         }
     }
+    
+    func getLocationsByDateTimeWithAdmin(username: String, fromDateStr: String, toDateStr: String) async throws -> LocationResponse? {
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let locationResponse = locationResponse, !shouldReturnError {
+            return locationResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
+    }
 }
