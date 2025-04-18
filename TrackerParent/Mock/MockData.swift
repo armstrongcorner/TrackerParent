@@ -70,6 +70,7 @@ let mockUserResponse3 = UserResponse(value: mockUser3, failureReason: nil, isSuc
 let mockUserResponseWithFailureReason = UserResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 let mockUserExistResponseTrue = UserExistResponse(value: true, failureReason: nil, isSuccess: true)
 let mockUserExistResponseFalse = UserExistResponse(value: false, failureReason: nil, isSuccess: true)
+let mockUserExistResponseWithFailureReason = UserExistResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 let mockUserListResponse = UserListResponse(value: [mockUser1, mockUser2], failureReason: nil, isSuccess: true)
 let mockUserListResponseWithFailureReason = UserListResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 

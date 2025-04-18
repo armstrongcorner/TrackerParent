@@ -43,6 +43,23 @@ final class LoginServiceTests: XCTestCase {
         }
     }
     
+    func testLoginFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockAuthResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.login(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Login should be failed.")
+            XCTAssertNil(result?.value, "Login result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockAuthResponseWithFailureReason.failureReason, "Login should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+    
     func testLoginFailWithEncodingError() async {
         do {
             // Given

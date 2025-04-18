@@ -43,6 +43,23 @@ final class TrackServiceTests: XCTestCase {
         }
     }
     
+    func testGetLocationsByDateTimeFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockLocationResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.getLocationsByDateTime(username: mockUser1.userName ?? "", fromDateStr: DateUtil.shared.convertToISO8601Str(date: .now), toDateStr: DateUtil.shared.convertToISO8601Str(date: .now))
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Get locations should be failed.")
+            XCTAssertNil(result?.value, "Get locations result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockLocationResponseWithFailureReason.failureReason, "Get locations result should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testGetLocationsByDateTimeFailWithEncodingError() async {
         do {
             // Given

@@ -43,6 +43,23 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
+    func testGetUserInfoFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockUserResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.getUserInfo(username: mockUser1.userName ?? "")
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Get user info should be failed.")
+            XCTAssertNil(result?.value, "Get user info result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockUserResponseWithFailureReason.failureReason, "Get user info should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testGetUserInfoFailWithAnyApiError() async {
         do {
             // Given
@@ -76,6 +93,23 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
+    func testGetUserListFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockUserListResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.getUserList()
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Get user list should be failed.")
+            XCTAssertNil(result?.value, "Get user list result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockUserListResponseWithFailureReason.failureReason, "Get user list should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testGetUserListFailWithAnyApiError() async {
         do {
             // Given
@@ -109,6 +143,23 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
+    func testUpdateUserInfoFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockUserResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.updateUserInfo(newUserModel: mockUser1)
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Update user info should be failed.")
+            XCTAssertNil(result?.value, "Update user info result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockUserResponseWithFailureReason.failureReason, "Update user info should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testUpdateUserInfoFailWithAnyApiError() async {
         do {
             // Given
@@ -159,6 +210,23 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
+    func testCheckUserExistsFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockUserExistResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.checkUserExists(username: mockUser1.userName ?? "")
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Check user exist should be failed.")
+            XCTAssertNil(result?.value, "Check user exist result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockUserExistResponseWithFailureReason.failureReason, "Check user exist result should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testSendVerificationEmailSuccess() async {
         do {
             // Given
@@ -176,6 +244,23 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
+    func testSendVerificationEmailFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockAuthResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.sendVerificationEmail(username: mockUser1.userName ?? "")
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Send verification email should be failed.")
+            XCTAssertNil(result?.value, "Send verification email result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockAuthResponseWithFailureReason.failureReason, "Send verification email result should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testSendVerificationEmailFailWithAnyApiError() async {
         do {
             // Given
@@ -210,6 +295,23 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
+    func testVerifyEmailFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockUserResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.verifyEmail(username: mockUser3.userName ?? "", code: "123")
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Verify email should be failed.")
+            XCTAssertNil(result?.value, "Verify email result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockUserResponseWithFailureReason.failureReason, "Verify email result should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testVerifyEmailFailWithAnyApiError() async {
         do {
             // Given
@@ -243,6 +345,23 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
+    func testCompleteRegisterFailWithServerResponseError() async {
+        do {
+            // Given
+            await mockApiClient.setMockResponse(mockAuthResponseWithFailureReason)
+            
+            // When
+            let result = try await sut.completeRegister(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
+            
+            // Then
+            XCTAssertEqual(result?.isSuccess, false, "Complete register should be failed.")
+            XCTAssertNil(result?.value, "Complete register result value should be nil.")
+            XCTAssertEqual(result?.failureReason, mockAuthResponseWithFailureReason.failureReason, "Complete register result should be failed with failure reason.")
+        } catch {
+            XCTFail("Unexpected error: \(error).")
+        }
+    }
+
     func testCompleteRegisterFailWithAnyApiError() async {
         do {
             // Given
