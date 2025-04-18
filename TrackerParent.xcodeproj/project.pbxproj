@@ -42,6 +42,7 @@
 		22863C1B2DB0ED410076194A /* LoginServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863C1A2DB0ED410076194A /* LoginServiceTests.swift */; };
 		22863C1D2DB109210076194A /* UserServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863C1C2DB109210076194A /* UserServiceTests.swift */; };
 		22863C1F2DB1B1670076194A /* TrackServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863C1E2DB1B1670076194A /* TrackServiceTests.swift */; };
+		22863C212DB1BAA90076194A /* SettingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863C202DB1BAA90076194A /* SettingServiceTests.swift */; };
 		22B295062D989C6800AB6A5D /* SettingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295052D989C6800AB6A5D /* SettingListScreen.swift */; };
 		22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */; };
 		22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */; };
@@ -131,6 +132,7 @@
 		22863C1A2DB0ED410076194A /* LoginServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginServiceTests.swift; sourceTree = "<group>"; };
 		22863C1C2DB109210076194A /* UserServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceTests.swift; sourceTree = "<group>"; };
 		22863C1E2DB1B1670076194A /* TrackServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackServiceTests.swift; sourceTree = "<group>"; };
+		22863C202DB1BAA90076194A /* SettingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingServiceTests.swift; sourceTree = "<group>"; };
 		22B295052D989C6800AB6A5D /* SettingListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListScreen.swift; sourceTree = "<group>"; };
 		22B295072D98A2E600AB6A5D /* SettingDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailScreen.swift; sourceTree = "<group>"; };
 		22B2950A2D98A30A00AB6A5D /* SettingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListItem.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				22863C1A2DB0ED410076194A /* LoginServiceTests.swift */,
 				22863C1C2DB109210076194A /* UserServiceTests.swift */,
 				22863C1E2DB1B1670076194A /* TrackServiceTests.swift */,
+				22863C202DB1BAA90076194A /* SettingServiceTests.swift */,
 				224A3E282D824EFE00815897 /* AuthViewModelTests.swift */,
 				22F66A292DABA84400A3C888 /* RegisterViewModelTests.swift */,
 				22F66A2B2DACF89700A3C888 /* UserViewModelTests.swift */,
@@ -638,6 +641,7 @@
 				22863C1D2DB109210076194A /* UserServiceTests.swift in Sources */,
 				22863BFF2DAFCAB90076194A /* SettingViewModelTests.swift in Sources */,
 				22F66A2A2DABA84400A3C888 /* RegisterViewModelTests.swift in Sources */,
+				22863C212DB1BAA90076194A /* SettingServiceTests.swift in Sources */,
 				22863C1B2DB0ED410076194A /* LoginServiceTests.swift in Sources */,
 				22863C1F2DB1B1670076194A /* TrackServiceTests.swift in Sources */,
 			);
