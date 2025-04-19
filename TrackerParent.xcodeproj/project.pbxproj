@@ -34,6 +34,8 @@
 		2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D1572D86BD0F004D9644 /* KeyChainUtil.swift */; };
 		2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */; };
 		2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */; };
+		226FA7952DB301FE00276568 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226FA7942DB301FE00276568 /* MockURLProtocol.swift */; };
+		226FA7972DB356CE00276568 /* ApiClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226FA7962DB356CE00276568 /* ApiClientTests.swift */; };
 		22863BFB2DAF59560076194A /* TrackViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFA2DAF59560076194A /* TrackViewModelTests.swift */; };
 		22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFC2DAF5A910076194A /* MockTrackService.swift */; };
 		22863BFF2DAFCAB90076194A /* SettingViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22863BFE2DAFCAB90076194A /* SettingViewModelTests.swift */; };
@@ -124,6 +126,8 @@
 		2266D1572D86BD0F004D9644 /* KeyChainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainUtil.swift; sourceTree = "<group>"; };
 		2266D1582D86BD0F004D9644 /* BiometricsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsUtil.swift; sourceTree = "<group>"; };
 		2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButtonModifier.swift; sourceTree = "<group>"; };
+		226FA7942DB301FE00276568 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		226FA7962DB356CE00276568 /* ApiClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClientTests.swift; sourceTree = "<group>"; };
 		22863BFA2DAF59560076194A /* TrackViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModelTests.swift; sourceTree = "<group>"; };
 		22863BFC2DAF5A910076194A /* MockTrackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTrackService.swift; sourceTree = "<group>"; };
 		22863BFE2DAFCAB90076194A /* SettingViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModelTests.swift; sourceTree = "<group>"; };
@@ -222,6 +226,7 @@
 		224A3E292D824EFE00815897 /* TrackerParentTests */ = {
 			isa = PBXGroup;
 			children = (
+				226FA7962DB356CE00276568 /* ApiClientTests.swift */,
 				22863C1A2DB0ED410076194A /* LoginServiceTests.swift */,
 				22863C1C2DB109210076194A /* UserServiceTests.swift */,
 				22863C1E2DB1B1670076194A /* TrackServiceTests.swift */,
@@ -306,6 +311,7 @@
 				223499212DA2733200E810FF /* MockLAContext.swift */,
 				223499272DA3E44800E810FF /* MockBiometricsUtil.swift */,
 				223499292DA3E53000E810FF /* MockKeyChainUtil.swift */,
+				226FA7942DB301FE00276568 /* MockURLProtocol.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -582,6 +588,7 @@
 				22F160D92DA666D900C4528E /* StringUtil.swift in Sources */,
 				224A3E332D824EFE00815897 /* LoginScreen.swift in Sources */,
 				22863C192DB0E3040076194A /* MockApiClient.swift in Sources */,
+				226FA7952DB301FE00276568 /* MockURLProtocol.swift in Sources */,
 				2266D13D2D866F74004D9644 /* ApiClient.swift in Sources */,
 				22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */,
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
@@ -636,6 +643,7 @@
 				223499202DA22B0C00E810FF /* BiometricsUtilTests.swift in Sources */,
 				22F66A2C2DACF89700A3C888 /* UserViewModelTests.swift in Sources */,
 				223499242DA2960500E810FF /* KeyChainUtilTests.swift in Sources */,
+				226FA7972DB356CE00276568 /* ApiClientTests.swift in Sources */,
 				224A3E2A2D824EFE00815897 /* AuthViewModelTests.swift in Sources */,
 				22863BFB2DAF59560076194A /* TrackViewModelTests.swift in Sources */,
 				22863C1D2DB109210076194A /* UserServiceTests.swift in Sources */,

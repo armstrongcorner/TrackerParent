@@ -38,6 +38,12 @@ extension ApiClientProtocol {
 }
 
 actor ApiClient: ApiClientProtocol {
+    private let urlSession: URLSession
+    
+    init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
+    }
+    
     // GET
     func get<T: Decodable & Sendable>(
         urlString: String,
@@ -116,7 +122,9 @@ actor ApiClient: ApiClientProtocol {
         timeout: TimeInterval,
         responseType: T.Type
     ) async throws -> T? {
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: urlString),
+              let scheme = url.scheme?.lowercased(),
+              ["http", "https"].contains(scheme) else {
             throw ApiError.invalidUrl
         }
         
@@ -137,7 +145,7 @@ actor ApiClient: ApiClientProtocol {
         }
         
         // Make the request
-        let (data, resp) = try await URLSession.shared.data(for: req)
+        let (data, resp) = try await urlSession.data(for: req)
         
         // No response
         guard let httpResponse = resp as? HTTPURLResponse else {
