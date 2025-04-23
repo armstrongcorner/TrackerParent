@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		222B733C2DB6517600DF1599 /* LoginScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222B733B2DB6517600DF1599 /* LoginScreenUITests.swift */; };
 		223499132DA0CC9100E810FF /* UserListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223499122DA0CC9100E810FF /* UserListScreen.swift */; };
 		223499182DA10E8800E810FF /* UserListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223499172DA10E8800E810FF /* UserListItem.swift */; };
 		2234991A2DA10ED500E810FF /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223499192DA10ED500E810FF /* UserViewModel.swift */; };
@@ -96,6 +97,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		222B733B2DB6517600DF1599 /* LoginScreenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreenUITests.swift; sourceTree = "<group>"; };
 		223499122DA0CC9100E810FF /* UserListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListScreen.swift; sourceTree = "<group>"; };
 		223499172DA10E8800E810FF /* UserListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListItem.swift; sourceTree = "<group>"; };
 		223499192DA10ED500E810FF /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			children = (
 				224A3E352D824EFE00815897 /* TrackerParentUITests.swift */,
 				224A3E362D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift */,
+				222B733B2DB6517600DF1599 /* LoginScreenUITests.swift */,
 			);
 			path = TrackerParentUITests;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				224A3E382D824EFE00815897 /* TrackerParentUITests.swift in Sources */,
+				222B733C2DB6517600DF1599 /* LoginScreenUITests.swift in Sources */,
 				224A3E392D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
