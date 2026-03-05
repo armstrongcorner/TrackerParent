@@ -10,7 +10,8 @@ import MapKit
 import SwiftfulRouting
 
 struct TrackDetailScreen: View {
-    let router: AnyRouter
+    @Environment(\.router) var router
+    
     let track: [LocationModel]
     
     @State private var displayedLocations: [LocationModel]
@@ -24,8 +25,7 @@ struct TrackDetailScreen: View {
     @State private var mapLineColor: Color = .gray
     @State private var mapUserRotationAngle: Double = 0
     
-    init(router: AnyRouter, track: [LocationModel]) {
-        self.router = router
+    init(track: [LocationModel]) {
         self.track = track
         
         // Calculate the original region to cover all locations of the track
@@ -226,7 +226,7 @@ struct TrackDetailScreen: View {
 }
 
 #Preview {
-    RouterView { router in
-        TrackDetailScreen(router: router, track: mockTrack)
+    RouterView { _ in
+        TrackDetailScreen(track: mockTrack)
     }
 }

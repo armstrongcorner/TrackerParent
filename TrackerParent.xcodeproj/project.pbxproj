@@ -58,8 +58,8 @@
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
+		AE9994782EF78F1A00B7C404 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = AE9994772EF78F1A00B7C404 /* SwiftfulRouting */; };
 		AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */; };
-		AEE6B4CC2D8807290094EB82 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = AEE6B4CB2D8807290094EB82 /* SwiftfulRouting */; };
 		AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */; };
 		AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CF2D8957C90094EB82 /* UserService.swift */; };
 		AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4D12D8958660094EB82 /* UserModel.swift */; };
@@ -176,7 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEE6B4CC2D8807290094EB82 /* SwiftfulRouting in Frameworks */,
+				AE9994782EF78F1A00B7C404 /* SwiftfulRouting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,7 +460,7 @@
 			);
 			name = TrackerParent;
 			packageProductDependencies = (
-				AEE6B4CB2D8807290094EB82 /* SwiftfulRouting */,
+				AE9994772EF78F1A00B7C404 /* SwiftfulRouting */,
 			);
 			productName = TrackerParent;
 			productReference = 224A3DFB2D824EE200815897 /* TrackerParent.app */;
@@ -539,7 +539,7 @@
 			mainGroup = 224A3DF22D824EE200815897;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				AEE6B4CA2D8807290094EB82 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
+				AE9994762EF78F1A00B7C404 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 224A3DFC2D824EE200815897 /* Products */;
@@ -983,20 +983,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AEE6B4CA2D8807290094EB82 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
+		AE9994762EF78F1A00B7C404 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting.git";
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.3.6;
+				minimumVersion = 6.1.8;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AEE6B4CB2D8807290094EB82 /* SwiftfulRouting */ = {
+		AE9994772EF78F1A00B7C404 /* SwiftfulRouting */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AEE6B4CA2D8807290094EB82 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
+			package = AE9994762EF78F1A00B7C404 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
 			productName = SwiftfulRouting;
 		};
 /* End XCSwiftPackageProductDependency section */

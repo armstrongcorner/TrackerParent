@@ -9,16 +9,11 @@ import SwiftUI
 import SwiftfulRouting
 
 struct UserListScreen: View {
+    @Environment(\.router) var router
     @State private var userViewModel: UserViewModelProtocol
     @State private var showConfirmLogout: Bool = false
     
-    let router: AnyRouter
-    
-    init(
-        router: AnyRouter,
-        userViewModel: UserViewModelProtocol = UserViewModel()
-    ) {
-        self.router = router
+    init(userViewModel: UserViewModelProtocol = UserViewModel()) {
         self.userViewModel = userViewModel
     }
     
@@ -30,8 +25,8 @@ struct UserListScreen: View {
                     List {
                         ForEach(userViewModel.users, id: \.self) { user in
                             Button {
-                                router.showScreen(.push) { router2 in
-                                    TrackListScreen(router: router2, username: user.userName)
+                                router.showScreen(.push) { _ in
+                                    TrackListScreen(username: user.userName)
                                 }
                             } label: {
                                 UserListItem(user: user)
@@ -52,10 +47,11 @@ struct UserListScreen: View {
                 ProgressView("Loading")
                     .progressViewStyle(CircularProgressViewStyle())
             case .error:
-                Text("Error:\n\(userViewModel.errMsg ?? "")")
+                let extractedExpr: some View = Text("Error:\n\(userViewModel.errMsg ?? "")")
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
                     .padding()
+                extractedExpr
                 Button("Retry") {
                     Task {
                         await userViewModel.fetchUsers()
@@ -70,8 +66,8 @@ struct UserListScreen: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button {
-                        router.showScreen(.push) { router2 in
-                            SettingListScreen(router: router2)
+                        router.showScreen(.push) { _ in
+                            SettingListScreen()
                         }
                     } label: {
                         Text("Track setting")
@@ -116,8 +112,8 @@ struct UserListScreen: View {
     mockUserViewModel.shouldKeepLoading = false
     mockUserViewModel.shouldReturnError = false
     
-    return RouterView { router in
-        UserListScreen(router: router, userViewModel: mockUserViewModel)
+    return RouterView { _ in
+        UserListScreen(userViewModel: mockUserViewModel)
     }
 }
 
@@ -127,8 +123,8 @@ struct UserListScreen: View {
     mockUserViewModel.shouldReturnError = false
     mockUserViewModel.shouldReturnEmptyData = true
     
-    return RouterView { router in
-        UserListScreen(router: router, userViewModel: mockUserViewModel)
+    return RouterView { _ in
+        UserListScreen(userViewModel: mockUserViewModel)
     }
 }
 
@@ -137,8 +133,8 @@ struct UserListScreen: View {
     mockUserViewModel.shouldKeepLoading = false
     mockUserViewModel.shouldReturnError = true
     
-    return RouterView { router in
-        UserListScreen(router: router, userViewModel: mockUserViewModel)
+    return RouterView { _ in
+        UserListScreen(userViewModel: mockUserViewModel)
     }
 }
 
@@ -147,7 +143,7 @@ struct UserListScreen: View {
     mockUserViewModel.shouldKeepLoading = true
     mockUserViewModel.shouldReturnError = false
     
-    return RouterView { router in
-        UserListScreen(router: router, userViewModel: mockUserViewModel)
+    return RouterView { _ in
+        UserListScreen(userViewModel: mockUserViewModel)
     }
 }

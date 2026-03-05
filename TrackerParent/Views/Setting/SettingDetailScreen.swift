@@ -9,20 +9,18 @@ import SwiftUI
 import SwiftfulRouting
 
 struct SettingDetailScreen: View {
+    @Environment(\.router) var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var settingViewModel: SettingViewModelProtocol
     @State private var userViewModel: UserViewModelProtocol
-    let router: AnyRouter
     var isNewSetting: Bool
     
     init(
-        router: AnyRouter,
         settingViewModel: SettingViewModelProtocol = SettingViewModel(),
         userViewModel: UserViewModelProtocol = UserViewModel(),
         isNewSetting: Bool = false
     ) {
-        self.router = router
         self.settingViewModel = settingViewModel
         self.userViewModel = userViewModel
         self.isNewSetting = isNewSetting
@@ -201,9 +199,8 @@ struct SettingDetailScreen: View {
     
     let mockUserViewModel = MockUserViewModel()
     
-    return RouterView { router in
+    return RouterView { _ in
         SettingDetailScreen(
-            router: router,
             settingViewModel: mockSettingViewModel,
             userViewModel: mockUserViewModel
         )
@@ -219,9 +216,8 @@ struct SettingDetailScreen: View {
     
     let mockUserViewModel = MockUserViewModel()
     
-    return RouterView { router in
+    return RouterView { _ in
         SettingDetailScreen(
-            router: router,
             settingViewModel: mockSettingViewModel,
             userViewModel: mockUserViewModel
         )
@@ -237,9 +233,8 @@ struct SettingDetailScreen: View {
     
     let mockUserViewModel = MockUserViewModel()
     
-    return RouterView { router in
+    return RouterView { _ in
         SettingDetailScreen(
-            router: router,
             settingViewModel: mockSettingViewModel,
             userViewModel: mockUserViewModel,
             isNewSetting: true
@@ -256,9 +251,8 @@ struct SettingDetailScreen: View {
     
     let mockUserViewModel = MockUserViewModel()
     
-    return RouterView { router in
+    return RouterView { _ in
         SettingDetailScreen(
-            router: router,
             settingViewModel: mockSettingViewModel,
             userViewModel: mockUserViewModel,
             isNewSetting: true

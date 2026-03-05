@@ -9,16 +9,12 @@ import SwiftUI
 import SwiftfulRouting
 
 struct RegisterVerificationScreen: View {
+    @Environment(\.router) var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var registerViewModel: RegisterViewModelProtocol
-    let router: AnyRouter
     
-    init(
-        router: AnyRouter,
-        registerViewModel: RegisterViewModelProtocol = RegisterViewModel()
-    ) {
-        self.router = router
+    init(registerViewModel: RegisterViewModelProtocol = RegisterViewModel()) {
         self.registerViewModel = registerViewModel
     }
     
@@ -106,8 +102,8 @@ struct RegisterVerificationScreen: View {
                 
                 registerViewModel.verificationCode = ""
                 
-                router.showScreen(.push) { router2 in
-                    RegisterConfirmationScreen(router: router2, registerViewModel: registerViewModel)
+                router.showScreen(.push) { _ in
+                    RegisterConfirmationScreen(registerViewModel: registerViewModel)
                 }
             case .failure:
                 if let errMsg = registerViewModel.errMsg {
@@ -135,8 +131,8 @@ struct RegisterVerificationScreen: View {
     let mockRegisterViewModel = MockRegisterViewModel()
     mockRegisterViewModel.shouldReturnUserUnavailable = true
     
-    return RouterView { router in
-        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    return RouterView { _ in
+        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -146,8 +142,8 @@ struct RegisterVerificationScreen: View {
     mockRegisterViewModel.shouldReturnUserUnavailable = false
     mockRegisterViewModel.shouldReturnError = true
     
-    return RouterView { router in
-        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    return RouterView { _ in
+        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -156,8 +152,8 @@ struct RegisterVerificationScreen: View {
     let mockRegisterViewModel = MockRegisterViewModel()
     mockRegisterViewModel.shouldReturnVerificationCodeNotMatch = true
     
-    return RouterView { router in
-        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    return RouterView { _ in
+        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -167,8 +163,8 @@ struct RegisterVerificationScreen: View {
     mockRegisterViewModel.shouldReturnVerificationCodeNotMatch = false
     mockRegisterViewModel.shouldReturnError = true
     
-    return RouterView { router in
-        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    return RouterView { _ in
+        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -176,8 +172,8 @@ struct RegisterVerificationScreen: View {
 #Preview("verifying success") {
     let mockRegisterViewModel = MockRegisterViewModel()
     
-    return RouterView { router in
-        RegisterVerificationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    return RouterView { _ in
+        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }

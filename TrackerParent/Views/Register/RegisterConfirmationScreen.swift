@@ -9,16 +9,12 @@ import SwiftUI
 import SwiftfulRouting
 
 struct RegisterConfirmationScreen: View {
+    @Environment(\.router) var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var registerViewModel: RegisterViewModelProtocol
-    let router: AnyRouter
     
-    init(
-        router: AnyRouter,
-        registerViewModel: RegisterViewModelProtocol = RegisterViewModel()
-    ) {
-        self.router = router
+    init(registerViewModel: RegisterViewModelProtocol = RegisterViewModel()) {
         self.registerViewModel = registerViewModel
     }
     
@@ -75,8 +71,8 @@ struct RegisterConfirmationScreen: View {
             case .success:
                 toastViewObserver.dismissLoading()
                 
-                router.showScreen(.push) { router2 in
-                    TrackListScreen(router: router2)
+                router.showScreen(.push) { _ in
+                    TrackListScreen()
                 }
             case .failure:
                 if let errMsg = registerViewModel.errMsg {
@@ -96,8 +92,8 @@ struct RegisterConfirmationScreen: View {
     let mockRegisterViewModel = MockRegisterViewModel()
     mockRegisterViewModel.shouldReturnError = true
     
-    return RouterView { router in
-        RegisterConfirmationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    return RouterView { _ in
+        RegisterConfirmationScreen(registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -105,8 +101,8 @@ struct RegisterConfirmationScreen: View {
 #Preview("completion success") {
     let mockRegisterViewModel = MockRegisterViewModel()
     
-    return RouterView { router in
-        RegisterConfirmationScreen(router: router, registerViewModel: mockRegisterViewModel)
+    return RouterView { _ in
+        RegisterConfirmationScreen(registerViewModel: mockRegisterViewModel)
     }
     .environment(ToastViewObserver())
 }

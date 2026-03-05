@@ -9,16 +9,12 @@ import SwiftUI
 import SwiftfulRouting
 
 struct LoginScreen: View {
+    @Environment(\.router) var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var authViewModel: AuthViewModelProtocol
-    let router: AnyRouter
     
-    init(
-        router: AnyRouter,
-        authViewModel: AuthViewModelProtocol = AuthViewModel()
-    ) {
-        self.router = router
+    init(authViewModel: AuthViewModelProtocol = AuthViewModel()) {
         self.authViewModel = authViewModel
     }
     
@@ -106,8 +102,8 @@ struct LoginScreen: View {
             Spacer()
             
             Button {
-                router.showScreen(.push) { router2 in
-                    RegisterVerificationScreen(router: router2)
+                router.showScreen(.push) { _ in
+                    RegisterVerificationScreen()
                 }
             } label: {
                 Text("Create new account")
@@ -125,12 +121,8 @@ struct LoginScreen: View {
                 authViewModel.username = ""
                 authViewModel.password = ""
                 
-                router.showScreen(.push) { router2 in
-                    if authViewModel.role == "User" {
-                        TrackListScreen(router: router2)
-                    } else if authViewModel.role == "Administrator" {
-                        UserListScreen(router: router2)
-                    }
+                router.showScreen(.push) { _ in
+                    loginSuccessSection
                 }
             case .failure:
                 if let errMsg = authViewModel.errMsg {
@@ -143,9 +135,22 @@ struct LoginScreen: View {
     }
 }
 
+extension LoginScreen {
+    @ViewBuilder
+    private var loginSuccessSection: some View {
+        if authViewModel.role == "User" {
+            TrackListScreen()
+        } else if authViewModel.role == "Administrator" {
+            UserListScreen()
+        } else {
+            EmptyView()
+        }
+    }
+}
+
 #Preview {
-    RouterView { router in
-        LoginScreen(router: router)
+    RouterView { _ in
+        LoginScreen()
     }
     .environment(ToastViewObserver())
 }

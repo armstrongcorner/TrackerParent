@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftfulRouting
 
 struct TrackListScreen: View {
+    @Environment(\.router) var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
@@ -21,16 +22,13 @@ struct TrackListScreen: View {
     @State private var startDate: Date = .now
     @State private var endDate: Date = .now
     
-    let router: AnyRouter
     let username: String?
     
     init(
-        router: AnyRouter,
         trackViewModel: TrackViewModelProtocol = TrackViewModel(),
         userViewModel: UserViewModelProtocol = UserViewModel(),
         username: String? = nil
     ) {
-        self.router = router
         self.trackViewModel = trackViewModel
         self.userViewModel = userViewModel
         self.username = username
@@ -44,8 +42,8 @@ struct TrackListScreen: View {
                     List {
                         ForEach(trackViewModel.tracks, id: \.self) { track in
                             Button {
-                                router.showScreen(.push) { router2 in
-                                    TrackDetailScreen(router: router2, track: track)
+                                router.showScreen(.push) { _ in
+                                    TrackDetailScreen(track: track)
                                 }
                             } label: {
                                 TrackListItem(track: track)
@@ -94,8 +92,8 @@ struct TrackListScreen: View {
                 Menu {
                     // Track setting
                     Button {
-                        router.showScreen(.push) { router2 in
-                            SettingListScreen(router: router2)
+                        router.showScreen(.push) { _ in
+                            SettingListScreen()
                         }
                     } label: {
                         Text("Track setting")
@@ -129,7 +127,7 @@ struct TrackListScreen: View {
             Button("OK", role: .destructive) {
                 userViewModel.logout()
                 
-                router.dismissScreenStack()
+                router.dismissPushStack()
             }
         } message: {
             Text("Logout current user: \(userViewModel.getCurrentUsername())?")
@@ -170,7 +168,7 @@ struct TrackListScreen: View {
             case .done:
                 toastViewObserver.dismissLoading()
 
-                router.dismissScreenStack()
+                router.dismissPushStack()
             case .error:
                 if let errMsg = userViewModel.errMsg {
                     toastViewObserver.showToast(message: errMsg)
@@ -188,9 +186,8 @@ struct TrackListScreen: View {
     mockTrackViewModel.shouldReturnError = false
     mockTrackViewModel.shouldReturnEmptyData = true
     
-    return RouterView { router in
+    return RouterView { _ in
         TrackListScreen(
-            router: router,
             trackViewModel: mockTrackViewModel,
             userViewModel: MockUserViewModel()
         )
@@ -205,9 +202,8 @@ struct TrackListScreen: View {
     
     let mockUserViewModel = MockUserViewModel()
     
-    return RouterView { router in
+    return RouterView { _ in
         TrackListScreen(
-            router: router,
             trackViewModel: mockTrackViewModel,
             userViewModel: mockUserViewModel
         )
@@ -220,8 +216,11 @@ struct TrackListScreen: View {
     mockTrackViewModel.shouldKeepLoading = false
     mockTrackViewModel.shouldReturnError = false
     
-    return RouterView { router in
-        TrackListScreen(router: router, trackViewModel: mockTrackViewModel, username: "testUsername")
+    return RouterView { _ in
+        TrackListScreen(
+            trackViewModel: mockTrackViewModel,
+            username: "testUsername"
+        )
     }
     .environment(ToastViewObserver())
 }
@@ -234,9 +233,8 @@ struct TrackListScreen: View {
     let mockUserViewModel = MockUserViewModel()
     mockUserViewModel.shouldReturnError = false
     
-    return RouterView { router in
+    return RouterView { _ in
         TrackListScreen(
-            router: router,
             trackViewModel: mockTrackViewModel,
             userViewModel: mockUserViewModel
         )
@@ -252,9 +250,8 @@ struct TrackListScreen: View {
     let mockUserViewModel = MockUserViewModel()
     mockUserViewModel.shouldReturnError = true
     
-    return RouterView { router in
+    return RouterView { _ in
         TrackListScreen(
-            router: router,
             trackViewModel: mockTrackViewModel,
             userViewModel: mockUserViewModel
         )
@@ -267,8 +264,8 @@ struct TrackListScreen: View {
     mockTrackViewModel.shouldKeepLoading = false
     mockTrackViewModel.shouldReturnError = true
     
-    return RouterView { router in
-        TrackListScreen(router: router, trackViewModel: mockTrackViewModel)
+    return RouterView { _ in
+        TrackListScreen(trackViewModel: mockTrackViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -278,8 +275,8 @@ struct TrackListScreen: View {
     mockTrackViewModel.shouldKeepLoading = true
     mockTrackViewModel.shouldReturnError = false
     
-    return RouterView { router in
-        TrackListScreen(router: router, trackViewModel: mockTrackViewModel)
+    return RouterView { _ in
+        TrackListScreen(trackViewModel: mockTrackViewModel)
     }
     .environment(ToastViewObserver())
 }

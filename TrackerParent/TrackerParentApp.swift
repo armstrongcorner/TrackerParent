@@ -12,8 +12,8 @@ import SwiftfulRouting
 struct TrackerParentApp: App {
     var body: some Scene {
         WindowGroup {
-            RouterView { router in
-                LoginScreen(router: router)
+            RouterView { _ in
+                LoginScreen()
             }
             .environment(ToastViewObserver())
         }

@@ -9,19 +9,16 @@ import SwiftUI
 import SwiftfulRouting
 
 struct SettingListScreen: View {
+    @Environment(\.router) var router
+    
     @Environment(ToastViewObserver.self) var toastViewObserver
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     @State private var showingDeleteConfirmation = false
     
     @State private var settingViewModel: SettingViewModelProtocol
-    let router: AnyRouter
     
-    init(
-        router: AnyRouter,
-        settingViewModel: SettingViewModelProtocol = SettingViewModel()
-    ) {
-        self.router = router
+    init(settingViewModel: SettingViewModelProtocol = SettingViewModel()) {
         self.settingViewModel = settingViewModel
     }
 
@@ -29,53 +26,64 @@ struct SettingListScreen: View {
         VStack {
             switch settingViewModel.fetchDataState {
             case .done:
-                if settingViewModel.settingList != nil && !(settingViewModel.settingList?.isEmpty ?? false) {
-                    List {
-                        ForEach(settingViewModel.settingList ?? [], id: \.self) { setting in
-                            SettingListItem(setting: setting)
-                                .onTapGesture {
-                                    router.showResizableSheet(sheetDetents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)], selection: nil, showDragIndicator: true) { router2 in
-                                        settingViewModel.currentSetting = setting
-                                        return SettingDetailScreen(router: router2, settingViewModel: settingViewModel)
-                                    }
-                                }
-                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    HStack {
-                                        Button(role: .destructive) {
-                                            settingViewModel.currentSetting = setting
-                                            showingDeleteConfirmation = true
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
-                                        }
-                                    }
-                                }
-                        }
-                    }
-                } else {
-                    // Show empty tip
-                    Spacer()
-                    
-                    Text("No track setting for the user.")
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 20)
-                    
-                    Button {
-                        // Add new setting
-                        router.showResizableSheet(sheetDetents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)], selection: nil, showDragIndicator: true) { router2 in
-                            settingViewModel.currentSetting = nil
-                            return SettingDetailScreen(router: router2, settingViewModel: settingViewModel, isNewSetting: true)
-                        }
-                    } label: {
-                        Text("Add New Setting")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(width: 180, height: 40)
-                            .background(.primary)
-                            .cornerRadius(10)
-                    }
-                    
-                    Spacer()
-                }
+//                if settingViewModel.settingList != nil && !(settingViewModel.settingList?.isEmpty ?? false) {
+//                    List {
+//                        ForEach(settingViewModel.settingList ?? [], id: \.self) { setting in
+//                            SettingListItem(setting: setting)
+//                                .onTapGesture {
+//                                    let config = ResizableSheetConfig(
+//                                        detents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)],
+//                                        selection: nil,
+//                                        dragIndicator: .visible
+//                                    )
+//                                    router.showScreen(.sheetConfig(config: config)) {
+//                                        settingViewModel.currentSetting = setting
+//                                        return SettingDetailScreen(settingViewModel: settingViewModel)
+//                                    }
+//                                }
+//                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+//                                    HStack {
+//                                        Button(role: .destructive) {
+//                                            settingViewModel.currentSetting = setting
+//                                            showingDeleteConfirmation = true
+//                                        } label: {
+//                                            Label("Delete", systemImage: "trash")
+//                                        }
+//                                    }
+//                                }
+//                        }
+//                    }
+//                } else {
+//                    // Show empty tip
+//                    Spacer()
+//                    
+//                    Text("No track setting for the user.")
+//                        .foregroundColor(.secondary)
+//                        .padding(.bottom, 20)
+//                    
+//                    Button {
+//                        // Add new setting
+//                        let config = ResizableSheetConfig(
+//                            detents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)],
+//                            selection: nil,
+//                            dragIndicator: .visible
+//                        )
+//                        router.showScreen(.sheetConfig(config: config)) {
+//                            settingViewModel.currentSetting = nil
+//                            return SettingDetailScreen(settingViewModel: settingViewModel, isNewSetting: true)
+//                        }
+//                    } label: {
+//                        Text("Add New Setting")
+//                            .font(.headline)
+//                            .foregroundColor(.white)
+//                            .frame(width: 180, height: 40)
+//                            .background(.primary)
+//                            .cornerRadius(10)
+//                    }
+//                    
+//                    Spacer()
+//                }
+                Text("aaa")
             case .loading:
                 ProgressView("Loading")
                     .progressViewStyle(CircularProgressViewStyle())
@@ -98,9 +106,14 @@ struct SettingListScreen: View {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     // Add new setting
-                    router.showResizableSheet(sheetDetents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)], selection: nil, showDragIndicator: true) { router2 in
+                    let config = ResizableSheetConfig(
+                        detents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)],
+                        selection: nil,
+                        dragIndicator: .visible
+                    )
+                    router.showScreen(.sheetConfig(config: config)) { _ in
                         settingViewModel.currentSetting = nil
-                        return SettingDetailScreen(router: router2, settingViewModel: settingViewModel, isNewSetting: true)
+                        return SettingDetailScreen(settingViewModel: settingViewModel, isNewSetting: true)
                     }
                 } label: {
                     Image(systemName: "plus.circle")
@@ -150,8 +163,8 @@ struct SettingListScreen: View {
     mockSettingViewModel.shouldKeepLoading = false
     mockSettingViewModel.shouldReturnError = false
     
-    return RouterView { router in
-        SettingListScreen(router: router, settingViewModel: mockSettingViewModel)
+    return RouterView { _ in
+        SettingListScreen(settingViewModel: mockSettingViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -162,8 +175,8 @@ struct SettingListScreen: View {
     mockSettingViewModel.shouldReturnError = false
     mockSettingViewModel.shouldReturnEmptyData = true
     
-    return RouterView { router in
-        SettingListScreen(router: router, settingViewModel: mockSettingViewModel)
+    return RouterView { _ in
+        SettingListScreen(settingViewModel: mockSettingViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -173,8 +186,8 @@ struct SettingListScreen: View {
     mockSettingViewModel.shouldKeepLoading = true
     mockSettingViewModel.shouldReturnError = false
     
-    return RouterView { router in
-        SettingListScreen(router: router, settingViewModel: mockSettingViewModel)
+    return RouterView { _ in
+        SettingListScreen(settingViewModel: mockSettingViewModel)
     }
     .environment(ToastViewObserver())
 }
@@ -184,8 +197,8 @@ struct SettingListScreen: View {
     mockSettingViewModel.shouldKeepLoading = false
     mockSettingViewModel.shouldReturnError = true
     
-    return RouterView { router in
-        SettingListScreen(router: router, settingViewModel: mockSettingViewModel)
+    return RouterView { _ in
+        SettingListScreen(settingViewModel: mockSettingViewModel)
     }
     .environment(ToastViewObserver())
 }
