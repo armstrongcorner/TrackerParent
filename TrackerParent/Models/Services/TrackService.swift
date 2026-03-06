@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LocationRequestBody: Encodable {
+struct LocationRequestBody: Codable {
     let username: String
     let startDate: String
     let endDate: String

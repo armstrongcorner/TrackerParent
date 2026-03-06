@@ -15,24 +15,67 @@ enum ApiError: Error, Equatable {
     case httpErrorCode(Int)
 }
 
+enum HttpMethod: String {
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
+}
+
 let defaultTimeout: TimeInterval = 120
 
 protocol ApiClientProtocol: Sendable {
-    func get<T: Decodable & Sendable>(urlString: String, headers: [String : String]?, timeout: TimeInterval, responseType: T.Type) async throws -> T?
-    func post<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]?, body: R?, timeout: TimeInterval, responseType: T.Type) async throws -> T?
-    func delete<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]?, body: R?, timeout: TimeInterval, responseType: T.Type) async throws -> T?
+    func get<T: Codable & Sendable>(
+        urlString: String,
+        headers: [String : String]?,
+        timeout: TimeInterval,
+        responseType: T.Type
+    ) async throws -> T?
+    
+    func post<T: Codable & Sendable, R: Codable & Sendable>(
+        urlString: String,
+        headers: [String : String]?,
+        body: R?,
+        timeout: TimeInterval,
+        responseType: T.Type
+    ) async throws -> T?
+    
+    func delete<T: Codable & Sendable, R: Codable & Sendable>(
+        urlString: String,
+        headers: [String : String]?,
+        body: R?,
+        timeout: TimeInterval,
+        responseType: T.Type
+    ) async throws -> T?
 }
 
 extension ApiClientProtocol {
-    func get<T: Decodable & Sendable>(urlString: String, headers: [String : String]? = nil, timeout: TimeInterval = defaultTimeout, responseType: T.Type) async throws -> T? {
+    func get<T: Codable & Sendable>(
+        urlString: String,
+        headers: [String : String]? = nil,
+        timeout: TimeInterval = defaultTimeout,
+        responseType: T.Type
+    ) async throws -> T? {
         try await get(urlString: urlString, headers: headers, timeout: timeout, responseType: responseType)
     }
     
-    func post<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]? = nil, body: R?, timeout: TimeInterval = defaultTimeout, responseType: T.Type) async throws -> T? {
+    func post<T: Codable & Sendable, R: Codable & Sendable>(
+        urlString: String,
+        headers: [String : String]? = nil,
+        body: R?,
+        timeout: TimeInterval = defaultTimeout,
+        responseType: T.Type
+    ) async throws -> T? {
         try await post(urlString: urlString, headers: headers, body: body, timeout: timeout, responseType: responseType)
     }
     
-    func delete<T: Decodable & Sendable, R: Encodable & Sendable>(urlString: String, headers: [String : String]? = nil, body: R?, timeout: TimeInterval = defaultTimeout, responseType: T.Type) async throws -> T? {
+    func delete<T: Codable & Sendable, R: Codable & Sendable>(
+        urlString: String,
+        headers: [String : String]? = nil,
+        body: R?,
+        timeout: TimeInterval = defaultTimeout,
+        responseType: T.Type
+    ) async throws -> T? {
         try await delete(urlString: urlString, headers: headers, body: body, timeout: timeout, responseType: responseType)
     }
 }
@@ -45,7 +88,7 @@ actor ApiClient: ApiClientProtocol {
     }
     
     // GET
-    func get<T: Decodable & Sendable>(
+    func get<T: Codable & Sendable>(
         urlString: String,
         headers: [String : String]?,
         timeout: TimeInterval,
@@ -53,7 +96,7 @@ actor ApiClient: ApiClientProtocol {
     ) async throws -> T? {
         return try await performRequest(
             urlString: urlString,
-            method: "GET",
+            method: .get,
             headers: headers,
             timeout: timeout,
             responseType: responseType
@@ -61,7 +104,7 @@ actor ApiClient: ApiClientProtocol {
     }
     
     // POST
-    func post<T: Decodable & Sendable, R: Encodable & Sendable>(
+    func post<T: Codable & Sendable, R: Codable & Sendable>(
         urlString: String,
         headers: [String : String]?,
         body: R?,
@@ -69,17 +112,17 @@ actor ApiClient: ApiClientProtocol {
         responseType: T.Type
     ) async throws -> T? {
         var bodyData: Data?
-        if let body = body {
+        if let body {
             do {
                 bodyData = try JSONEncoder().encode(body)
             } catch {
                 throw ApiError.encodingFailed("Failed to encode body: \(error)")
             }
         }
-        
+
         return try await performRequest(
             urlString: urlString,
-            method: "POST",
+            method: .post,
             headers: headers,
             body: bodyData,
             timeout: timeout,
@@ -88,7 +131,7 @@ actor ApiClient: ApiClientProtocol {
     }
     
     // DELETE
-    func delete<T: Decodable & Sendable, R: Encodable & Sendable>(
+    func delete<T: Codable & Sendable, R: Codable & Sendable>(
         urlString: String,
         headers: [String : String]?,
         body: R?,
@@ -96,7 +139,7 @@ actor ApiClient: ApiClientProtocol {
         responseType: T.Type
     ) async throws -> T? {
         var bodyData: Data?
-        if let body = body {
+        if let body {
             do {
                 bodyData = try JSONEncoder().encode(body)
             } catch {
@@ -106,17 +149,19 @@ actor ApiClient: ApiClientProtocol {
         
         return try await performRequest(
             urlString: urlString,
-            method: "DELETE",
+            method: .delete,
             headers: headers,
             body: bodyData,
             timeout: timeout,
             responseType: responseType
         )
     }
-    
-    private func performRequest<T: Decodable>(
+}
+
+extension ApiClient {
+    private func performRequest<T: Codable>(
         urlString: String,
-        method: String,
+        method: HttpMethod,
         headers: [String : String]? = nil,
         body: Data? = nil,
         timeout: TimeInterval,
@@ -129,7 +174,7 @@ actor ApiClient: ApiClientProtocol {
         }
         
         var req = URLRequest(url: url)
-        req.httpMethod = method
+        req.httpMethod = method.rawValue
         req.timeoutInterval = timeout
         
         // Set customized header
@@ -140,8 +185,8 @@ actor ApiClient: ApiClientProtocol {
         }
 
         // Set body
-        if let bodyData = body {
-            req.httpBody = bodyData
+        if let body {
+            req.httpBody = body
         }
         
         // Make the request

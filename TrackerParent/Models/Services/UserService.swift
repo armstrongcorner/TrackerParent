@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SendVerificationEmailBody: Encodable {
+struct SendVerificationEmailBody: Codable {
     let username: String
     let role: String
     let language: String
@@ -16,13 +16,13 @@ struct SendVerificationEmailBody: Encodable {
     let isActive: Bool
 }
 
-struct CompleteRegisterBody: Encodable {
+struct CompleteRegisterBody: Codable {
     let username: String
     let password: String
     let activateUser: Bool
 }
 
-struct UpdateUserInfoBody: Encodable {
+struct UpdateUserInfoBody: Codable {
     let userName: String?
     let photo: String?
     let role: String?
