@@ -27,7 +27,7 @@ final class SettingViewModelTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testFetchSettingListSuccess() async {
+    func test_SettingViewModel_fetchSettingList_shouldSuccess() async {
         // Given
         await mockSettingService.setShouldReturnError(false)
         await mockSettingService.setAllSettingsResponse(mockAllSettingsResponse)
@@ -42,7 +42,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.settingList?.count, mockAllSettingsResponse.value?.count, "Fetched setting list count should match the mock response count.")
     }
 
-    func testFetchSettingListFailWithServerResponseError() async {
+    func test_SettingViewModel_fetchSettingList_shouldFailed_withServerResponseError() async {
         // Given
         await mockSettingService.setShouldReturnError(false)
         await mockSettingService.setAllSettingsResponse(mockAllSettingsResponseWithFailureReason)
@@ -56,7 +56,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAllSettingsResponseWithFailureReason.failureReason ?? "").errorDescription, "Fetch setting list should be failed with server response error.")
     }
     
-    func testFetchSettingListFailWithUnknownError() async {
+    func test_SettingViewModel_fetchSettingList_shouldFailed_withUnknownError() async {
         // Given
         await mockSettingService.setAllSettingsResponse(nil)
         
@@ -69,7 +69,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Fetch setting list should be failed with unknown error.")
     }
 
-    func testAddSettingSuccess() async {
+    func test_SettingViewModel_addNewSetting_shouldSuccess() async {
         // Given
         await mockSettingService.setShouldReturnError(false)
         await mockSettingService.setSettingResponse(mockSettingResponse)
@@ -85,7 +85,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.settingList?.count, 1, "Setting list should have one item after adding.")
     }
 
-    func testAddSettingFailWithServerResponseError() async {
+    func test_SettingViewModel_addNewSetting_shouldFailed_withServerResponseError() async {
         // Given
         await mockSettingService.setShouldReturnError(false)
         await mockSettingService.setSettingResponse(mockSettingResponseWithFailureReason)
@@ -99,7 +99,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockSettingResponseWithFailureReason.failureReason ?? "").errorDescription, "Add setting should be failed with server response error.")
     }
     
-    func testAddSettingFailWithUnknownError() async {
+    func test_SettingViewModel_addNewSetting_shouldFailed_withUnknownError() async {
         // Given
         await mockSettingService.setSettingResponse(nil)
 
@@ -112,7 +112,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Add setting should be failed with unknown error.")
     }
 
-    func testUpdateSettingSuccess() async {
+    func test_SettingViewModel_updateCurrentSetting_shouldSuccess() async {
         // Given
         sut.settingList = [mockSetting1, mockSetting2]
         sut.currentSetting = SettingModel(
@@ -140,7 +140,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(updatedSetting?.accuracy, sut.currentSetting?.accuracy, "Updated accuracy should be same with current setting.")
     }
     
-    func testUpdateSettingFailWithServerResponseError() async {
+    func test_SettingViewModel_updateCurrentSetting_shouldFailed_withServerResponseError() async {
         // Given
         await mockSettingService.setShouldReturnError(false)
         await mockSettingService.setSettingResponse(mockSettingResponseWithFailureReason)
@@ -154,7 +154,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockSettingResponseWithFailureReason.failureReason ?? "").errorDescription, "Update setting should be failed with server response error.")
     }
     
-    func testUpdateSettingFailWithUnknownError() async {
+    func test_SettingViewModel_updateCurrentSetting_shouldFailed_withUnknownError() async {
         // Given
         await mockSettingService.setSettingResponse(nil)
 
@@ -167,7 +167,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Update setting should be failed with unknown error.")
     }
 
-    func testDeleteSettingSuccess() async {
+    func test_SettingViewModel_deleteCurrentSetting_shouldSuccess() async {
         // Given
         await mockSettingService.setShouldReturnError(false)
         await mockSettingService.setDeleteSettingResponse(mockDeleteSettingResponse)
@@ -181,7 +181,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertNil(sut.errMsg, "Delete setting should succeed and no error message.")
     }
 
-    func testDeleteSettingFailWithServerResponseError() async {
+    func test_SettingViewModel_deleteCurrentSetting_shouldFailed_withServerResponseError() async {
         // Given
         await mockSettingService.setShouldReturnError(false)
         await mockSettingService.setDeleteSettingResponse(mockDeleteSettingResponseWithFailureReason)
@@ -195,7 +195,7 @@ final class SettingViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockDeleteSettingResponseWithFailureReason.failureReason ?? "").errorDescription, "Delete setting should be failed with server response error.")
     }
     
-    func testDeleteSettingFailWithUnknownError() async {
+    func test_SettingViewModel_deleteCurrentSetting_shouldFailed_withUnknownError() async {
         // Given
         await mockSettingService.setDeleteSettingResponse(nil)
 

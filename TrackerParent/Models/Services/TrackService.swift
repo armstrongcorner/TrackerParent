@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MTNetworkManager
 
 struct LocationRequestBody: Codable {
     let username: String
@@ -19,9 +20,9 @@ protocol TrackServiceProtocol: Sendable {
 }
 
 actor TrackService: TrackServiceProtocol, BaseServiceProtocol {
-    private let apiClient: ApiClientProtocol
+    private let apiClient: MTApiClientProtocol
     
-    init(apiClient: ApiClientProtocol = ApiClient()) {
+    init(apiClient: MTApiClientProtocol = MTApiClient()) {
         self.apiClient = apiClient
     }
     

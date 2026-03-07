@@ -7,15 +7,16 @@
 
 import XCTest
 @testable import TrackerParent
+@testable import MTNetworkManager
 
 final class UserServiceTests: XCTestCase {
     var sut: UserService!
-    var mockApiClient: MockApiClient!
+    var mockApiClient: MockMTApiClient!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        mockApiClient = MockApiClient()
+        mockApiClient = MockMTApiClient()
         sut = UserService(apiClient: mockApiClient)
     }
 
@@ -26,7 +27,7 @@ final class UserServiceTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testGetUserInfoSuccess() async {
+    func test_UserService_getUserInfo_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserResponse1)
@@ -43,7 +44,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testGetUserInfoFailWithServerResponseError() async {
+    func test_UserService_getUserInfo_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserResponseWithFailureReason)
@@ -60,15 +61,15 @@ final class UserServiceTests: XCTestCase {
         }
     }
 
-    func testGetUserInfoFailWithAnyApiError() async {
+    func test_UserService_getUserInfo_shouldFailed_withAnyApiError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.invalidUrl)
+            await mockApiClient.setErrorToThrow(MTApiError.invalidUrl)
             
             // When
             let _ = try await sut.getUserInfo(username: mockUser1.userName ?? "")
-            XCTFail("Expected ApiError.invalidUrl error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.invalidUrl error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .invalidUrl, "Get user info should be failed due to invalid url.")
         } catch {
@@ -76,7 +77,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testGetUserListSuccess() async {
+    func test_UserService_getUserList_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserListResponse)
@@ -93,7 +94,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testGetUserListFailWithServerResponseError() async {
+    func test_UserService_getUserList_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserListResponseWithFailureReason)
@@ -110,15 +111,15 @@ final class UserServiceTests: XCTestCase {
         }
     }
 
-    func testGetUserListFailWithAnyApiError() async {
+    func test_UserService_getUserList_shouldFailed_withAnyApiError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.decodingFailed("Failed to decode user list response"))
+            await mockApiClient.setErrorToThrow(MTApiError.decodingFailed("Failed to decode user list response"))
             
             // When
             let _ = try await sut.getUserList()
-            XCTFail("Expected ApiError.decodingFailed error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.decodingFailed error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .decodingFailed("Failed to decode user list response"), "Get user list should be failed due to response decoded incorrectly.")
         } catch {
@@ -126,7 +127,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testUpdateUserInfoSuccess() async {
+    func test_UserService_updateUserInfo_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserResponse1)
@@ -143,7 +144,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testUpdateUserInfoFailWithServerResponseError() async {
+    func test_UserService_updateUserInfo_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserResponseWithFailureReason)
@@ -160,15 +161,15 @@ final class UserServiceTests: XCTestCase {
         }
     }
 
-    func testUpdateUserInfoFailWithAnyApiError() async {
+    func test_UserService_updateUserInfo_shouldFailed_withAnyApiError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.encodingFailed("Failed to encode update user info request body"))
+            await mockApiClient.setErrorToThrow(MTApiError.encodingFailed("Failed to encode update user info request body"))
             
             // When
             let _ = try await sut.updateUserInfo(newUserModel: mockUser1)
-            XCTFail("Expected ApiError.encodingFailed error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.encodingFailed error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .encodingFailed("Failed to encode update user info request body"), "Update user info should be failed due to request body encoded incorrectly.")
         } catch {
@@ -176,7 +177,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testCheckUserExistsTrueSuccess() async {
+    func test_UserService_checkUserExists_shouldSuccess_withTrue() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserExistResponseTrue)
@@ -193,7 +194,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testCheckUserExistsFalseSuccess() async {
+    func test_UserService_checkUserExists_shouldSuccess_withFalse() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserExistResponseFalse)
@@ -210,7 +211,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testCheckUserExistsFailWithServerResponseError() async {
+    func test_UserService_checkUserExists_shouldFailed_WithServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserExistResponseWithFailureReason)
@@ -227,7 +228,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
 
-    func testSendVerificationEmailSuccess() async {
+    func test_UserService_sendVerificationEmail_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAuthResponse1)
@@ -244,7 +245,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testSendVerificationEmailFailWithServerResponseError() async {
+    func test_UserService_sendVerificationEmail_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAuthResponseWithFailureReason)
@@ -261,15 +262,15 @@ final class UserServiceTests: XCTestCase {
         }
     }
 
-    func testSendVerificationEmailFailWithAnyApiError() async {
+    func test_UserService_sendVerificationEmail_shouldFailed_withAnyApiError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.invalidResponse)
+            await mockApiClient.setErrorToThrow(MTApiError.invalidResponse)
             
             // When
             let _ = try await sut.sendVerificationEmail(username: mockUser1.userName ?? "")
-            XCTFail("Expected ApiError.invalidResponse error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.invalidResponse error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .invalidResponse, "Send verification email should be failed due to invalid response.")
         } catch {
@@ -277,7 +278,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testVerifyEmailSuccess() async {
+    func test_UserService_verifyEmail_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserResponse3)
@@ -295,7 +296,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testVerifyEmailFailWithServerResponseError() async {
+    func test_UserService_verifyEmail_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockUserResponseWithFailureReason)
@@ -312,15 +313,15 @@ final class UserServiceTests: XCTestCase {
         }
     }
 
-    func testVerifyEmailFailWithAnyApiError() async {
+    func test_UserService_verifyEmail_shouldFailed_withAnyApiError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.httpErrorCode(401))
+            await mockApiClient.setErrorToThrow(MTApiError.httpErrorCode(401))
             
             // When
             let _ = try await sut.verifyEmail(username: mockUser3.userName ?? "", code: "123")
-            XCTFail("Expected ApiError.httpErrorCode error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.httpErrorCode error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .httpErrorCode(401), "Verify email should be failed due to httpErrorCode response.")
         } catch {
@@ -328,7 +329,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testCompleteRegisterSuccess() async {
+    func test_UserService_completeRegister_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAuthResponse1)
@@ -345,7 +346,7 @@ final class UserServiceTests: XCTestCase {
         }
     }
     
-    func testCompleteRegisterFailWithServerResponseError() async {
+    func test_UserService_completeRegister_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAuthResponseWithFailureReason)
@@ -362,15 +363,15 @@ final class UserServiceTests: XCTestCase {
         }
     }
 
-    func testCompleteRegisterFailWithAnyApiError() async {
+    func test_UserService_completeRegister_shouldFailed_withAnyApiError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.invalidResponse)
+            await mockApiClient.setErrorToThrow(MTApiError.invalidResponse)
             
             // When
             let _ = try await sut.completeRegister(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
-            XCTFail("Expected ApiError.invalidResponse error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.invalidResponse error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .invalidResponse, "Complete register should be failed due to invalid response.")
         } catch {

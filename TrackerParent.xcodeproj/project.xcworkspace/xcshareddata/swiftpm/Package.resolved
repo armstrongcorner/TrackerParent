@@ -1,6 +1,15 @@
 {
-  "originHash" : "97cdfa34525ff9906433d2c2952d0a513e18e7a78aa31f4e94fc1ef354cb58c9",
+  "originHash" : "ce80d066f8e2cf79b98552a344d88727eda0bf00f53fad9037ede9965516297a",
   "pins" : [
+    {
+      "identity" : "mtnetworkmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/armstrongcorner/MTNetworkManager.git",
+      "state" : {
+        "revision" : "1221926214004907307b268a1b8d74366c12a74f",
+        "version" : "0.2.0"
+      }
+    },
     {
       "identity" : "swiftfulrecursiveui",
       "kind" : "remoteSourceControl",

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MTNetworkManager
 
 struct SendVerificationEmailBody: Codable {
     let username: String
@@ -44,9 +45,9 @@ protocol UserServiceProtocol: Sendable {
 }
 
 actor UserService: UserServiceProtocol, BaseServiceProtocol {
-    private let apiClient: ApiClientProtocol
+    private let apiClient: MTApiClientProtocol
     
-    init(apiClient: ApiClientProtocol = ApiClient()) {
+    init(apiClient: MTApiClientProtocol = MTApiClient()) {
         self.apiClient = apiClient
     }
 

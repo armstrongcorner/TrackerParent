@@ -39,7 +39,7 @@ final class UserViewModelTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testFetchUsersSuccess() async {
+    func test_UserViewModel_fetchUsers_shouldSuccess() async {
         // Given
         await mockUserService.setShouldReturnError(false)
         await mockUserService.setUserListResponse(mockUserListResponse)
@@ -54,7 +54,7 @@ final class UserViewModelTests: XCTestCase {
         XCTAssertEqual(sut.users.count, mockUserListResponse.value?.count, "Fetched users count should match the mock response count.")
     }
 
-    func testFetchUsersFailWithServerResponseError() async {
+    func test_UserViewModel_fetchUsers_shouldFailed_withServerResponseError() async {
         // Given
         await mockUserService.setShouldReturnError(false)
         await mockUserService.setUserListResponse(mockUserListResponseWithFailureReason)
@@ -68,7 +68,7 @@ final class UserViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockUserListResponseWithFailureReason.failureReason ?? "").errorDescription, "Fetch users should be failed with server response error.")
     }
     
-    func testFetchUsersFailWithUnknownError() async {
+    func test_UserViewModel_fetchUsers_shouldFailed_withUnknownError() async {
         // Given
         await mockUserService.setUserListResponse(nil)
         
@@ -81,7 +81,7 @@ final class UserViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Fetch users should be failed with unknown error.")
     }
     
-    func testDeactivateUserSuccess() async {
+    func test_UserViewModel_deactivateUser_shouldSuccess() async {
         // Given
         await mockUserService.setShouldReturnError(false)
         await mockUserService.setUserResponse(mockUserResponse3)
@@ -95,7 +95,7 @@ final class UserViewModelTests: XCTestCase {
         XCTAssertNil(sut.errMsg, "Deactivate user should succeed and no error message.")
     }
 
-    func testDeactivateUserFailWithServerResponseError() async {
+    func test_UserViewModel_deactivateUser_shouldFailed_withServerResponseError() async {
         // Given
         await mockUserService.setShouldReturnError(false)
         await mockUserService.setUserResponse(mockUserResponseWithFailureReason)
@@ -109,7 +109,7 @@ final class UserViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockUserResponseWithFailureReason.failureReason ?? "").errorDescription, "Deactivate user should be failed with server response error.")
     }
     
-    func testLogoutSuccess() async {
+    func test_UserViewModel_logout_shouldSuccess() async {
         do {
             // Given
             mockUserDefaults.set(mockUser1.userName ?? "test@example.com", forKey: "username")

@@ -7,6 +7,7 @@
 
 import Foundation
 import Security
+import MTNetworkManager
 
 protocol KeyChainUtilProtocol {
     func save(service: String?, account: String, data: Data) -> OSStatus
@@ -87,7 +88,7 @@ struct KeyChainUtil: KeyChainUtilProtocol {
             let result = save(service: service, account: account, data: data)
             return result
         } catch {
-            throw ApiError.encodingFailed("Failed to encode response data: \(error)")
+            throw MTApiError.encodingFailed("Failed to encode response data: \(error)")
         }
     }
     
@@ -147,7 +148,7 @@ struct KeyChainUtil: KeyChainUtilProtocol {
             let object = try JSONDecoder().decode(type, from: data)
             return object
         } catch {
-            throw ApiError.decodingFailed("Failed to decode response data: \(error)")
+            throw MTApiError.decodingFailed("Failed to decode response data: \(error)")
         }
     }
     

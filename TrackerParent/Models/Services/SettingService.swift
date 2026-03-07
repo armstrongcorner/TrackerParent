@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MTNetworkManager
 
 protocol SettingServiceProtocol: Sendable {
     func getSettings() async throws -> AllSettingsResponse?
@@ -15,9 +16,9 @@ protocol SettingServiceProtocol: Sendable {
 }
 
 actor SettingService: SettingServiceProtocol, BaseServiceProtocol {
-    private let apiClient: ApiClientProtocol
+    private let apiClient: MTApiClientProtocol
     
-    init(apiClient: ApiClientProtocol = ApiClient()) {
+    init(apiClient: MTApiClientProtocol = MTApiClient()) {
         self.apiClient = apiClient
     }
     

@@ -49,7 +49,7 @@ final class AuthViewModelTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testLoginSuccess() async {
+    func test_AuthViewModel_login_shouldSuccess() async {
         // Given
         sut.username = "test_username"
         sut.password = "test_password"
@@ -65,7 +65,7 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertNil(sut.errMsg, "Login successful, error message should be nil.")
     }
     
-    func testLoginFailureWithInvalidCredentials() async {
+    func test_AuthViewModel_login_shouldFailed_withInvalidCredentials() async {
         // Given
         sut.username = "test_username"
         sut.password = "wrong_password"
@@ -81,7 +81,7 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, LoginError.invalidCredentials.errorDescription, "Login failed with invalid credentails.")
     }
     
-    func testLoginFailWithEmptyUsername() async {
+    func test_AuthViewModel_login_shouldFailed_withEmptyUsername() async {
         // Given
         sut.username = ""
         sut.password = "test_password"
@@ -95,7 +95,7 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, LoginError.emptyUsername.errorDescription, "Login should be failed with empty username.")
     }
     
-    func testLoginFailWithEmptyPassword() async {
+    func test_AuthViewModel_login_shouldFailed_withEmptyPassword() async {
         // Given
         sut.username = "test_username"
         sut.password = ""
@@ -109,7 +109,7 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, LoginError.emptyPassword.errorDescription, "Login should be failed with empty password.")
     }
     
-    func testLoginFailWithUnknownError() async {
+    func test_AuthViewModel_login_shouldFailed_withUnknownError() async {
         // Given
         sut.username = "test_username"
         sut.password = "test_password"
@@ -125,7 +125,7 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Login failed with unknown error.")
     }
     
-    func testLoginFailWithServerResponseError() async {
+    func test_AuthViewModel_login_shouldFailed_withServerResponseError() async {
         // Given
         sut.username = "test_username"
         sut.password = "test_password"
@@ -141,7 +141,7 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAuthResponseWithFailureReason.failureReason ?? "").errorDescription, "Login failed with server response error.")
     }
     
-    func testLoginWithFaceIdSuccess() async {
+    func test_AuthViewModel_loginWithFaceId_shouldSuccess() async {
         do {
             // Given
             try mockKeyChainUtil.saveObject(account: mockUser1.userName ?? "test_username", object: mockAuth1)
@@ -164,7 +164,7 @@ final class AuthViewModelTests: XCTestCase {
         }
     }
     
-    func testLoginWithFaceIdAuthenticationFailure() async {
+    func test_AuthViewModel_loginWithFaceId_shouldFailed_withAuthenticationFailure() async {
         // Given
         mockBiometricsUtil.canAuthenticate = false
         
@@ -178,7 +178,7 @@ final class AuthViewModelTests: XCTestCase {
         
     }
     
-    func testLoginWithFaceIdWithUserServiceServerResponseError() async {
+    func test_AuthViewModel_loginWithFaceId_shouldFailed_withUserServiceServerResponseError() async {
         do {
             // Given
             try mockKeyChainUtil.saveObject(account: mockUser1.userName ?? "test_username", object: mockAuth1)
@@ -199,7 +199,7 @@ final class AuthViewModelTests: XCTestCase {
         }
     }
     
-    func testLoginWithFaceIdFailWithUserServiceUnknownError() async {
+    func test_AuthViewModel_loginWithFaceId_shouldFailed_withUserServiceUnknownError() async {
         do {
             try mockKeyChainUtil.saveObject(account: mockUser1.userName ?? "test_username", object: mockAuth1)
             mockBiometricsUtil.canAuthenticate = true

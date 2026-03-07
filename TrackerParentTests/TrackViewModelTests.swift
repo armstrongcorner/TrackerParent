@@ -41,7 +41,7 @@ final class TrackViewModelTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testFetchTrackWithUserSuccess() async {
+    func test_TrackViewModel_fetchTrack_shouldSuccess_withUser() async {
         do {
             // Given
             mockUserDefaults.set(mockUser1.userName, forKey: "username")
@@ -64,7 +64,7 @@ final class TrackViewModelTests: XCTestCase {
         }
     }
 
-    func testFetchTrackWithAdminSuccess() async {
+    func test_TrackViewModel_fetchTrack_shouldSuccess_withAdmin() async {
         do {
             // Given
             mockUserDefaults.set(mockUser2.userName, forKey: "username")
@@ -87,7 +87,7 @@ final class TrackViewModelTests: XCTestCase {
         }
     }
 
-    func testFetchUsersFailWithServerResponseError() async {
+    func test_TrackViewModel_fetchTrack_shouldFailed_withServerResponseError() async {
         do {
             // Given
             mockUserDefaults.set(mockUser1.userName, forKey: "username")
@@ -107,7 +107,7 @@ final class TrackViewModelTests: XCTestCase {
         }
     }
     
-    func testFetchUsersFailWithUnknownError() async {
+    func test_TrackViewModel_fetchTrack_shouldFailed_withUnknownError() async {
         // Given
         await mockTrackService.setLocationResponse(nil)
         

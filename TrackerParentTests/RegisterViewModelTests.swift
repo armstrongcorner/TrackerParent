@@ -45,7 +45,7 @@ final class RegisterViewModelTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testRequestVerificationCodeSuccess() async {
+    func test_RegisterViewModel_requestVerificationCode_shouldSuccess() async {
         // Given
         sut.email = "test@example.com"
         await mockUserService.setUserExistResponse(mockUserExistResponseFalse)
@@ -65,7 +65,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(loadedAuthModel?.token, mockAuth1.token, "Keychain should store the auth token correctly.")
     }
     
-    func testRequestVerificationCodeFailWithEmptyEmail() async {
+    func test_RegisterViewModel_requestVerificationCode_shouldFailed_withEmptyEmail() async {
         // Given
         sut.email = ""
         
@@ -78,7 +78,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, RegisterError.emptyEmail.errorDescription, "Register should be failed with empty email error.")
     }
     
-    func testRequestVerificationCodeFailWithInvalidEmail() async {
+    func test_RegisterViewModel_requestVerificationCode_shouldFailed_withInvalidEmail() async {
         // Given
         sut.email = "invalid_format_email"
         
@@ -91,7 +91,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, RegisterError.invalidEmail.errorDescription, "Register should be failed with invalid format email error.")
     }
     
-    func testRequestVerificationCodeFailWithUserUnavailable() async {
+    func test_RegisterViewModel_requestVerificationCode_shouldFailed_withUserUnavailable() async {
         // Given
         sut.email = "test@example.com"
         await mockUserService.setUserExistResponse(mockUserExistResponseTrue)
@@ -105,7 +105,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, "\(sut.email) is unavailable", "Register should be failed with user unavailable error.")
     }
     
-    func testRequestVerificationCodeFailWithServerResponseError() async {
+    func test_RegisterViewModel_requestVerificationCode_shouldFailed_withServerResponseError() async {
         // Given
         sut.email = "test@example.com"
         await mockUserService.setUserExistResponse(mockUserExistResponseFalse)
@@ -123,7 +123,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAuthResponseWithFailureReason.failureReason ?? "").errorDescription, "Register should be failed with server response error.")
     }
     
-    func testRequestVerificationCodeFailWithUnknownError() async {
+    func test_RegisterViewModel_requestVerificationCode_shouldFailed_withUnknownError() async {
         // Given
         sut.email = "test@example.com"
         await mockUserService.setUserExistResponse(mockUserExistResponseFalse)
@@ -141,7 +141,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.unknown.errorDescription, "Register should be failed with unknown error.")
     }
     
-    func testVerifyEmailSuccess() async {
+    func test_RegisterViewModel_verifyEmail_shouldSuccess() async {
         // Given
         sut.email = "test@example.com"
         sut.verificationCode = "123456"
@@ -157,7 +157,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertNil(sut.errMsg, "Verifying code should succeed and no error message.")
     }
     
-    func testVerifyEmailFailWithNoCode() async {
+    func test_RegisterViewModel_verifyEmail_shouldFailed_withNoCode() async {
         // Given
         sut.email = "test@example.com"
         sut.verificationCode = ""
@@ -171,7 +171,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, RegisterError.emptyVerificationCode.errorDescription, "Register verifying code should be failed with empty code error.")
     }
     
-    func testVerifyEmailFailWithInvalidCode() async {
+    func test_RegisterViewModel_verifyEmail_shouldFailed_withInvalidCode() async {
         // Given
         sut.email = "test@example.com"
         sut.verificationCode = "654321"
@@ -187,7 +187,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, CommError.serverReturnedError(mockAuthResponseWithFailureReason.failureReason ?? "").errorDescription, "Register verifying code should be failed with code not match error.")
     }
     
-    func testCompleteRegistrationSuccess() async {
+    func test_RegisterViewModel_register_shouldSuccess() async {
         // Given
         sut.email = "test@example.com"
         sut.password = "123"
@@ -207,7 +207,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(loadedAuthModel?.token, mockAuth1.token, "Keychain should store the auth token correctly.")
     }
     
-    func testCompleteRegistrationFailWithNoPassword() async {
+    func test_RegisterViewModel_register_shouldFailed_withNoPassword() async {
         // Given
         sut.password = ""
         
@@ -220,7 +220,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, RegisterError.emptyPassword.errorDescription, "Complete registration should be failed with empty password error.")
     }
     
-    func testCompleteRegistrationFailWithNoConfirmPassword() async {
+    func test_RegisterViewModel_register_shouldFailed_withNoConfirmPassword() async {
         // Given
         sut.password = "123"
         sut.confirmPassword = ""
@@ -234,7 +234,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, RegisterError.emptyConfirmPassword.errorDescription, "Complete registration should be failed with empty confirm password error.")
     }
     
-    func testCompleteRegistrationFailWithPasswordNotMatch() async {
+    func test_RegisterViewModel_register_shouldFailed_withPasswordNotMatch() async {
         // Given
         sut.password = "123"
         sut.confirmPassword = "456"
@@ -248,7 +248,7 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errMsg, RegisterError.passwordNotMatch.errorDescription, "Complete registration should be failed with password not match error.")
     }
     
-    func testCompleteRegistrationFailWithServerResponseError() async {
+    func test_RegisterViewModel_register_shouldFailed_withServerResponseError() async {
         // Given
         sut.email = "test@example.com"
         sut.password = "123"

@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import MTNetworkManager
 
-actor MockApiClient: ApiClientProtocol {
-    var mockResponse: Decodable?
+actor MockMTApiClient: MTApiClientProtocol {
+    var mockResponse: Codable?
     var errorToThrow: Error?
     
-    func setMockResponse(_ response: Decodable?) {
+    func setMockResponse(_ response: Codable?) {
         self.mockResponse = response
     }
     
@@ -20,7 +21,7 @@ actor MockApiClient: ApiClientProtocol {
     }
     
     // GET
-    func get<T: Decodable & Sendable>(
+    func get<T: Codable & Sendable>(
         urlString: String,
         headers: [String : String]?,
         timeout: TimeInterval,
@@ -34,7 +35,7 @@ actor MockApiClient: ApiClientProtocol {
     }
     
     // POST
-    func post<T: Decodable & Sendable, R: Encodable & Sendable>(
+    func post<T: Codable & Sendable, R: Codable & Sendable>(
         urlString: String,
         headers: [String : String]?,
         body: R?,
@@ -49,7 +50,7 @@ actor MockApiClient: ApiClientProtocol {
     }
     
     // DELETE
-    func delete<T: Decodable & Sendable, R: Encodable & Sendable>(
+    func delete<T: Codable & Sendable, R: Codable & Sendable>(
         urlString: String,
         headers: [String : String]?,
         body: R?,

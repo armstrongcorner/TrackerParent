@@ -28,7 +28,7 @@ final class BiometricsUtilTests: XCTestCase {
         try super.tearDownWithError()
     }
     
-    func testBiometricsSuccess() async throws {
+    func test_BiometricsUtil_canUseBiometrics_shouldSuccess() async throws {
         // Given
         mockLAContext.canEvaluate = true
         mockLAContext.evalucateResult = true
@@ -40,7 +40,7 @@ final class BiometricsUtilTests: XCTestCase {
         XCTAssertTrue(result, "Expected biometrics authentication to succeed")
     }
     
-    func testBiometricsNotEnrolledFailure() async throws {
+    func test_BiometricsUtil_canUseBiometrics_shouldFailed_withNotEnrolled() async throws {
         // Given
         mockLAContext.canEvaluate = false
         mockLAContext.errorToThrow = LAError(.biometryNotEnrolled)
@@ -55,7 +55,7 @@ final class BiometricsUtilTests: XCTestCase {
         }
     }
     
-    func testBiometricsNotAvailableFailure() async throws {
+    func test_BiometricsUtil_canUseBiometrics_shouldFailed_withNotAvailable() async throws {
         // Given
         mockLAContext.canEvaluate = false
         mockLAContext.errorToThrow = LAError(.biometryNotAvailable)
@@ -70,7 +70,7 @@ final class BiometricsUtilTests: XCTestCase {
         }
     }
     
-    func testBiometricsOtherErrorFailure() async throws {
+    func test_BiometricsUtil_canUseBiometrics_shouldFailed_withOtherError() async throws {
         // Given
         mockLAContext.canEvaluate = false
         mockLAContext.errorToThrow = LAError(.authenticationFailed) // Give any kind LAError type

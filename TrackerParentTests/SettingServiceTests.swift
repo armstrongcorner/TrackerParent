@@ -7,15 +7,16 @@
 
 import XCTest
 @testable import TrackerParent
+@testable import MTNetworkManager
 
 final class SettingServiceTests: XCTestCase {
     var sut: SettingService!
-    var mockApiClient: MockApiClient!
+    var mockApiClient: MockMTApiClient!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        mockApiClient = MockApiClient()
+        mockApiClient = MockMTApiClient()
         sut = SettingService(apiClient: mockApiClient)
     }
 
@@ -26,7 +27,7 @@ final class SettingServiceTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testGetSettingsSuccess() async {
+    func test_SettingService_getSettings_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAllSettingsResponse)
@@ -43,7 +44,7 @@ final class SettingServiceTests: XCTestCase {
         }
     }
     
-    func testGetSettingsFailWithServerResponseError() async {
+    func test_SettingService_getSettings_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAllSettingsResponseWithFailureReason)
@@ -60,7 +61,7 @@ final class SettingServiceTests: XCTestCase {
         }
     }
 
-    func testAddSettingSuccess() async {
+    func test_SettingService_addSetting_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockSettingResponse)
@@ -77,7 +78,7 @@ final class SettingServiceTests: XCTestCase {
         }
     }
     
-    func testAddSettingFailWithServerResponseError() async {
+    func test_SettingService_addSetting_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockSettingResponseWithFailureReason)
@@ -94,7 +95,7 @@ final class SettingServiceTests: XCTestCase {
         }
     }
 
-    func testUpdateSettingSuccess() async {
+    func test_SettingService_updateSetting_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockSettingResponse)
@@ -111,13 +112,13 @@ final class SettingServiceTests: XCTestCase {
         }
     }
     
-    func testUpdateSettingFailWithServerResponseError() async {
+    func test_SettingService_updateSetting_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockSettingResponseWithFailureReason)
             
             // When
-            let result = try await sut.addSetting(newSetting: mockSetting1)
+            let result = try await sut.updateSetting(newSetting: mockSetting1)
             
             // Then
             XCTAssertEqual(result?.isSuccess, false, "Update setting should be failed.")
@@ -128,7 +129,7 @@ final class SettingServiceTests: XCTestCase {
         }
     }
 
-    func testDeleteSettingSuccess() async {
+    func test_SettingService_deleteSetting_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockDeleteSettingResponse)
@@ -145,7 +146,7 @@ final class SettingServiceTests: XCTestCase {
         }
     }
     
-    func testDeleteSettingFailWithServerResponseError() async {
+    func test_SettingService_deleteSetting_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockDeleteSettingResponseWithFailureReason)

@@ -7,15 +7,16 @@
 
 import XCTest
 @testable import TrackerParent
+@testable import MTNetworkManager
 
 final class LoginServiceTests: XCTestCase {
     var sut: LoginService!
-    var mockApiClient: MockApiClient!
+    var mockApiClient: MockMTApiClient!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        mockApiClient = MockApiClient()
+        mockApiClient = MockMTApiClient()
         sut = LoginService(apiClient: mockApiClient)
     }
 
@@ -26,7 +27,7 @@ final class LoginServiceTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testLoginSuccess() async {
+    func test_LoginService_login_shouldSuccess() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAuthResponse1)
@@ -43,7 +44,7 @@ final class LoginServiceTests: XCTestCase {
         }
     }
     
-    func testLoginFailWithServerResponseError() async {
+    func test_LoginService_login_shouldFailed_withServerResponseError() async {
         do {
             // Given
             await mockApiClient.setMockResponse(mockAuthResponseWithFailureReason)
@@ -60,15 +61,15 @@ final class LoginServiceTests: XCTestCase {
         }
     }
     
-    func testLoginFailWithEncodingError() async {
+    func test_LoginService_login_shouldFailed_withEncodingError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.encodingFailed("Failed to encode login request body"))
+            await mockApiClient.setErrorToThrow(MTApiError.encodingFailed("Failed to encode login request body"))
             
             // When
             let _ = try await sut.login(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
-            XCTFail("Expected ApiError.encodingFailed error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.encodingFailed error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .encodingFailed("Failed to encode login request body"), "Login should be failed due to request body encoded incorrectly.")
         } catch {
@@ -76,15 +77,15 @@ final class LoginServiceTests: XCTestCase {
         }
     }
     
-    func testLoginFailWithDecodingError() async {
+    func test_LoginService_login_shouldFailed_withDecodingError() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.decodingFailed("Failed to decode login response"))
+            await mockApiClient.setErrorToThrow(MTApiError.decodingFailed("Failed to decode login response"))
             
             // When
             let _ = try await sut.login(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
-            XCTFail("Expected ApiError.decodingFailed error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.decodingFailed error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .decodingFailed("Failed to decode login response"), "Login should be failed due to response decoded incorrectly.")
         } catch {
@@ -92,15 +93,15 @@ final class LoginServiceTests: XCTestCase {
         }
     }
     
-    func testLoginFailWithInvalidUrl() async {
+    func test_LoginService_login_shouldFailed_withInvalidUrl() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.invalidUrl)
+            await mockApiClient.setErrorToThrow(MTApiError.invalidUrl)
             
             // When
             let _ = try await sut.login(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
-            XCTFail("Expected ApiError.invalidUrl error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.invalidUrl error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .invalidUrl, "Login should be failed due to invalid url.")
         } catch {
@@ -108,15 +109,15 @@ final class LoginServiceTests: XCTestCase {
         }
     }
     
-    func testLoginFailWithInvalidResponse() async {
+    func test_LoginService_login_shouldFailed_withInvalidResponse() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.invalidResponse)
+            await mockApiClient.setErrorToThrow(MTApiError.invalidResponse)
             
             // When
             let _ = try await sut.login(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
-            XCTFail("Expected ApiError.invalidResponse error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.invalidResponse error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .invalidResponse, "Login should be failed due to invalid response.")
         } catch {
@@ -124,15 +125,15 @@ final class LoginServiceTests: XCTestCase {
         }
     }
     
-    func testLoginFailWithHttpErrorCode() async {
+    func test_LoginService_login_shouldFailed_withHttpErrorCode() async {
         do {
             // Given
-            await mockApiClient.setErrorToThrow(ApiError.httpErrorCode(404))
+            await mockApiClient.setErrorToThrow(MTApiError.httpErrorCode(404))
             
             // When
             let _ = try await sut.login(username: mockUser1.userName ?? "", password: mockUser1.password ?? "")
-            XCTFail("Expected ApiError.httpErrorCode error to be thrown.")
-        } catch let error as ApiError {
+            XCTFail("Expected MTApiError.httpErrorCode error to be thrown.")
+        } catch let error as MTApiError {
             // Then
             XCTAssertEqual(error, .httpErrorCode(404), "Login should be failed due to http error code.")
         } catch {

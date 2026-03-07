@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MTNetworkManager
 
 struct LoginRequestBody: Codable {
     let username: String
@@ -17,9 +18,9 @@ protocol LoginServiceProtocol: Sendable {
 }
 
 actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
-    private let apiClient: ApiClientProtocol
+    private let apiClient: MTApiClientProtocol
     
-    init(apiClient: ApiClientProtocol = ApiClient()) {
+    init(apiClient: MTApiClientProtocol = MTApiClient()) {
         self.apiClient = apiClient
     }
     

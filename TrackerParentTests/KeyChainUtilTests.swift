@@ -30,7 +30,7 @@ final class KeyChainUtilTests: XCTestCase {
         try super.tearDownWithError()
     }
     
-    func testSaveAndLoadObjectSuccess() {
+    func test_KeyChainUtil_saveObjectAndLoadObject_shouldSuccess() {
         do {
             // Save the object
             // When
@@ -50,7 +50,7 @@ final class KeyChainUtilTests: XCTestCase {
         }
     }
     
-    func testSaveAndLoadDataSuccess() {
+    func test_KeyChainUtil_saveDataAndLoadData_shouldSuccess() {
         // Given
         let mockString = "Mocked string for save to the keychain"
         guard let mockData = mockString.data(using: .utf8) else {
@@ -70,7 +70,7 @@ final class KeyChainUtilTests: XCTestCase {
         XCTAssertEqual(loadedData, mockData, "Loaded Data should match the saved Data")
     }
     
-    func testDeleteDataSuccess() {
+    func test_KeyChainUtil_deleteData_shouldSuccess() {
         do {
             // When
             try sut.saveObject(account: accountName, object: mockAuth1)
@@ -89,7 +89,7 @@ final class KeyChainUtilTests: XCTestCase {
         }
     }
     
-    func testLoadNonExistingObject() {
+    func test_KeyChainUtil_loadObject_shouldNil_withNonExistingObject() {
         do {
             // When
             let loadedObject: AuthModel? = try sut.loadObject(account: accountName, type: AuthModel.self)
