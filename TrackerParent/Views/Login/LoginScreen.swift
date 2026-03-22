@@ -2,116 +2,42 @@
 //  LoginScreen.swift
 //  TrackerParent
 //
-//  Created by Armstrong Liu on 13/03/2025.
+//  Created by Armstrong Liu on 21/03/2026.
 //
 
 import SwiftUI
+import MTAuthHelper
 import SwiftfulRouting
 
 struct LoginScreen: View {
-    @Environment(\.router) var router
-    @Environment(ToastViewObserver.self) var toastViewObserver
+    @Environment(\.router) private var router
+    @Environment(ToastViewObserver.self) private var toastViewObserver
+    @State private var vm: AuthViewModel
     
-    @State private var authViewModel: AuthViewModelProtocol
-    
-    init(authViewModel: AuthViewModelProtocol = AuthViewModel()) {
-//        self.authViewModel = authViewModel
-        _authViewModel = State(wrappedValue: authViewModel)
+    init(vm: AuthViewModel = AuthViewModel()) {
+        _vm = State(wrappedValue: vm)
     }
     
     var body: some View {
-        VStack {
-            Spacer()
+        ZStack {
+            Color.theme.background.ignoresSafeArea()
             
-            // Username
-            HStack {
-                Image(systemName: "person.fill")
+            VStack {
+                Spacer()
+                
+                Image("logo")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20)
-                    .padding(.trailing, 8)
-                TextField("Username", text: $authViewModel.username)
-                    .font(.title2)
-                    .clearButton($authViewModel.username)
-            }
-            .padding([.leading, .trailing], 30)
-            .padding(.bottom, 15)
-            
-            // Password
-            HStack {
-                Image(systemName: "lock.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20)
-                    .padding(.trailing, 8)
-                SecureField("Password", text: $authViewModel.password)
-                    .font(.title2)
-                    .clearButton($authViewModel.password)
-            }
-            .padding([.leading, .trailing], 30)
-            .padding(.bottom, 80)
-            
-            // Login btn
-            Button {
-                Task {
-                    await authViewModel.login()
-                }
-            } label: {
-                Text("Login")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(width: 200, height: 40)
-                    .background(.primary)
-                    .cornerRadius(10)
-            }
-            .padding(.bottom, 40)
-            
-            // Login with faceID
-            Button {
-                Task {
-                    await authViewModel.loginWithFaceId()
-                }
-            } label: {
-                Image(systemName: "faceid")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 60)
-            }
-            .alert("Face ID disabled", isPresented: $authViewModel.showSettingsAlert) {
-                Button("Cancel", role: .cancel) {
-                    toastViewObserver.dismissLoading()
-                }
-                Button("Settings") {
-                    toastViewObserver.dismissLoading()
-                    
-                    if let url = URL(string: UIApplication.openSettingsURLString),
-                       UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url)
-                    }
-                }
-            } message: {
-                Text("Please enable 'Face ID' in the app settings")
-            }
-            .alert("Face ID not enrolled", isPresented: $authViewModel.showEnrolAlert) {
-                Button("OK", role: .cancel) {
-                    toastViewObserver.dismissLoading()
-                }
-            } message: {
-                Text("Please enrol a Face ID first")
-            }
-            
-            Spacer()
-            
-            Button {
-                router.showScreen(.push) { _ in
-                    RegisterVerificationScreen()
-                }
-            } label: {
-                Text("Create new account")
-                    .padding()
+                    .scaledToFit()
+                    .frame(width: 150, height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                
+                Spacer()
+                
+                buttonSection
+                    .frame(maxWidth: .infinity)
             }
         }
-        .onChange(of: authViewModel.loginState, { oldValue, newValue in
+        .onChange(of: vm.loginState) { _, newValue in
             switch newValue {
             case .none:
                 toastViewObserver.dismissLoading()
@@ -119,30 +45,105 @@ struct LoginScreen: View {
                 toastViewObserver.showLoading()
             case .success:
                 toastViewObserver.dismissLoading()
-                authViewModel.username = ""
-                authViewModel.password = ""
-                
                 router.showScreen(.push) { _ in
                     loginSuccessSection
                 }
             case .failure:
-                if let errMsg = authViewModel.errMsg {
+                toastViewObserver.dismissLoading()
+                if let errMsg = vm.errMsg {
                     toastViewObserver.showToast(message: errMsg)
                 }
             }
-        })
-        .padding()
+        }
         .toastView(toastViewObserver: toastViewObserver)
+    }
+}
+
+// MARK: - SignIn button section
+extension LoginScreen {
+    private var buttonSection: some View {
+        VStack(spacing: 13) {
+            appleSignInBtn
+                                
+            googleSignInBtn
+            
+            emailSignInBtn
+        }
+        .padding(.horizontal)
+    }
+
+    // MARK: Apple sign in button
+    private var appleSignInBtn: some View {
+        Button {
+            Task {
+                await vm.loginWithSSO(type: .apple)
+            }
+        } label: {
+            HStack {
+                Image(systemName: "apple.logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+                
+                Text("Continue with Apple")
+                    .font(.headline)
+            }
+            .outlineRoundedButtonStyle()
+        }
+        .withPressableButtonStyle()
+    }
+    
+    // MARK: Google sign in button
+    private var googleSignInBtn: some View {
+        Button {
+            Task {
+                await vm.loginWithSSO(type: .google)
+            }
+        } label: {
+            HStack {
+                Image("google-icon")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+                
+                Text("Continue with Google")
+                    .font(.headline)
+            }
+            .outlineRoundedButtonStyle()
+        }
+        .withPressableButtonStyle()
+    }
+    
+    // MARK: Email sign in button
+    private var emailSignInBtn: some View {
+        Button {
+            router.showScreen(.push) { _ in
+                RegisterVerificationScreen()
+            }
+        } label: {
+            HStack {
+                Image(systemName: "lock.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 23, height: 23)
+                
+                Text("Login or Sign Up")
+                    .font(.headline)
+            }
+            .outlineRoundedButtonStyle()
+            
+        }
+        .withPressableButtonStyle()
     }
 }
 
 extension LoginScreen {
     @ViewBuilder
     private var loginSuccessSection: some View {
-        if authViewModel.role == "User" {
-            TrackListScreen()
-        } else if authViewModel.role == "Administrator" {
+        if vm.role == "Administrator" {
             UserListScreen()
+        } else if vm.role == "User" {
+            TrackListScreen()
         } else {
             EmptyView()
         }
@@ -153,5 +154,5 @@ extension LoginScreen {
     RouterView { _ in
         LoginScreen()
     }
-    .environment(ToastViewObserver())
+        .environment(ToastViewObserver())
 }

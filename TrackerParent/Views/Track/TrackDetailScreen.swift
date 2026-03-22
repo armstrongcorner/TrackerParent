@@ -10,7 +10,7 @@ import MapKit
 import SwiftfulRouting
 
 struct TrackDetailScreen: View {
-    @Environment(\.router) var router
+    @Environment(\.router) private var router
     
     let track: [LocationModel]
     

@@ -86,51 +86,51 @@ final class UserViewModel: UserViewModelProtocol {
     }
     
     func deactivateUser() async {
-        do {
-            fetchDataState = .loading
-            errMsg = nil
-            
-            // 1) Call get user info service
-            let username = userDefaults.string(forKey: "username") ?? ""
-            guard let userInfoResponse = try await userService.getUserInfo(username: username) else {
-                throw CommError.unknown
-            }
-            
-            var newUserModel: UserModel
-            if userInfoResponse.isSuccess, let userInfoModel = userInfoResponse.value {
-                logger.debug("--- user info model: \(String(describing: userInfoModel))")
-                newUserModel = userInfoModel
-            } else if !userInfoResponse.isSuccess, let failureReason = userInfoResponse.failureReason {
-                throw CommError.serverReturnedError(failureReason)
-            } else {
-                throw CommError.unknown
-            }
-            
-            // 2) Call deactivate user service
-            newUserModel.isActive = false
-            guard let deactivateUserResponse = try await userService.updateUserInfo(newUserModel: newUserModel) else {
-                throw CommError.unknown
-            }
-            
-            if deactivateUserResponse.isSuccess, let deactivateUserModel = deactivateUserResponse.value {
-                logger.debug("--- deactivated user info model: \(String(describing: deactivateUserModel))")
-                
-                // 3) Logout
-                logout()
-                
-                fetchDataState = .done
-                errMsg = nil
-            } else if !deactivateUserResponse.isSuccess, let failureReason = deactivateUserResponse.failureReason {
-                throw CommError.serverReturnedError(failureReason)
-            } else {
-                throw CommError.unknown
-            }
-            
-            fetchDataState = .done
-            errMsg = nil
-        } catch {
-            handleError(error)
-        }
+//        do {
+//            fetchDataState = .loading
+//            errMsg = nil
+//            
+//            // 1) Call get user info service
+//            let username = userDefaults.string(forKey: "username") ?? ""
+//            guard let userInfoResponse = try await userService.getUserInfo(username: username) else {
+//                throw CommError.unknown
+//            }
+//            
+//            var newUserModel: UserModel
+//            if userInfoResponse.isSuccess, let userInfoModel = userInfoResponse.value {
+//                logger.debug("--- user info model: \(String(describing: userInfoModel))")
+//                newUserModel = userInfoModel
+//            } else if !userInfoResponse.isSuccess, let failureReason = userInfoResponse.failureReason {
+//                throw CommError.serverReturnedError(failureReason)
+//            } else {
+//                throw CommError.unknown
+//            }
+//            
+//            // 2) Call deactivate user service
+//            newUserModel.isActive = false
+//            guard let deactivateUserResponse = try await userService.updateUserInfo(newUserModel: newUserModel) else {
+//                throw CommError.unknown
+//            }
+//            
+//            if deactivateUserResponse.isSuccess, let deactivateUserModel = deactivateUserResponse.value {
+//                logger.debug("--- deactivated user info model: \(String(describing: deactivateUserModel))")
+//                
+//                // 3) Logout
+//                logout()
+//                
+//                fetchDataState = .done
+//                errMsg = nil
+//            } else if !deactivateUserResponse.isSuccess, let failureReason = deactivateUserResponse.failureReason {
+//                throw CommError.serverReturnedError(failureReason)
+//            } else {
+//                throw CommError.unknown
+//            }
+//            
+//            fetchDataState = .done
+//            errMsg = nil
+//        } catch {
+//            handleError(error)
+//        }
     }
     
     func logout() {

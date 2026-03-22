@@ -8,7 +8,7 @@
 import Foundation
 import OSLog
 
-enum FetchDataState {
+enum FetchDataState: Equatable {
     case done
     case loading
     case error
@@ -73,7 +73,7 @@ final class TrackViewModel: TrackViewModelProtocol {
             let endDate = DateUtil.shared.endOfTheDate(date: toDate)
             
             var locationResponse: LocationResponse?
-            if loadedAuthModel?.userRole == "User" {
+            if loadedAuthModel?.user?.role == "User" {
                 guard let locationResp = try await trackService.getLocationsByDateTime(
                     username: theUsername,
                     fromDateStr: DateUtil.shared.convertToISO8601Str(date: fromDate),
@@ -81,7 +81,7 @@ final class TrackViewModel: TrackViewModelProtocol {
                     throw CommError.unknown
                 }
                 locationResponse = locationResp
-            } else if loadedAuthModel?.userRole == "Administrator" {
+            } else if loadedAuthModel?.user?.role == "Administrator" {
                 guard let locationResp = try await trackService.getLocationsByDateTimeWithAdmin(
                     username: theUsername,
                     fromDateStr: DateUtil.shared.convertToISO8601Str(date: fromDate),

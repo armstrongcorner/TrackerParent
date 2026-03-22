@@ -27,8 +27,7 @@ struct TrackerParentApp: App {
     var body: some Scene {
         WindowGroup {
             RouterView { _ in
-//                LoginScreen()
-                MainScreen()
+                LoginScreen()
             }
             .environment(ToastViewObserver())
         }

@@ -13,7 +13,8 @@ struct UserListItem: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Username: \(user.userName ?? "")")
+//                Text("Username: \(user.userName ?? "")")
+                Text("Username: aaa")
                 
                 Spacer()
             }
