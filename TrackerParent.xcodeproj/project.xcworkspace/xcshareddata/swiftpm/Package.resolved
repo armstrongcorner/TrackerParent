@@ -1,5 +1,5 @@
 {
-  "originHash" : "e1ef3975ea8212f59a7c196c4fdde09992a71dc1484ebef55436f70108433587",
+  "originHash" : "e6ded63fa80b9f3de4b9a75e5b21067d9049293e9a960f1e241223645d45cd2c",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/armstrongcorner/MTAuthHelper",
       "state" : {
-        "branch" : "main",
-        "revision" : "3799b132c802b5986fab9efde1e7e484acc7ef98"
+        "revision" : "3799b132c802b5986fab9efde1e7e484acc7ef98",
+        "version" : "0.1.0"
       }
     },
     {

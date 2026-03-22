@@ -9,14 +9,14 @@ import Foundation
 import OSLog
 import MTAuthHelper
 
-enum CommReqState {
+enum CommReqState: Equatable {
     case none
     case loading
     case success
     case failure
 }
 
-enum SSOType {
+enum SSOType: Equatable {
     case apple
     case google
 }
@@ -56,35 +56,27 @@ enum CommError: Error {
 }
 
 @MainActor
-protocol AuthViewModelProtocol {
-    var username: String { get set }
-    var password: String { get set }
-    var loginState: CommReqState { get }
-    var errMsg: String? { get }
-    var role: String? { get }
-    var showSettingsAlert: Bool { get set }
-    var showEnrolAlert: Bool { get set }
+@Observable
+final class AuthViewModel {
+    var username: String = ""
+    var password: String = ""
+    private(set) var loginState: CommReqState = .none
+    private(set) var errMsg: String?
+    private(set) var role: String?
     
-    func login() async
-    func loginWithFaceId() async
-    func loginWithSSO(type: SSOType) async
-}
-
-final class AuthViewModel: ObservableObject, AuthViewModelProtocol {
-    @Published var username: String = ""
-    @Published var password: String = ""
-    @Published private(set) var loginState: CommReqState = .none
-    @Published private(set) var errMsg: String?
-    @Published private(set) var role: String?
+    var showSettingsAlert: Bool = false
+    var showEnrolAlert: Bool = false
     
-    @Published var showSettingsAlert: Bool = false
-    @Published var showEnrolAlert: Bool = false
-    
+    @ObservationIgnored
     private let loginUseCase: LoginUseCaseProtocol
+    @ObservationIgnored
     private let loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol
+    @ObservationIgnored
     private let loginFirebaseUseCase: LoginFirebaseUseCaseProtocol
+    @ObservationIgnored
     private let biometricsUtil: BiometricsUtilProtocol
     
+    @ObservationIgnored
     private let logger: Logger
     
     init(
@@ -120,7 +112,7 @@ final class AuthViewModel: ObservableObject, AuthViewModelProtocol {
             }
             
             if authResponse.isSuccess, let authModel = authResponse.value {
-                role = authModel.userRole
+                role = authModel.user?.role ?? "User"
                 loginState = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
@@ -172,7 +164,7 @@ final class AuthViewModel: ObservableObject, AuthViewModelProtocol {
             }
             
             if authResponse.isSuccess, let authModel = authResponse.value {
-                role = authModel.userRole
+                role = authModel.user?.role ?? "User"
                 loginState = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {

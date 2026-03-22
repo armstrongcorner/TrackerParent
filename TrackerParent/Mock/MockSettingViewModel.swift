@@ -22,6 +22,14 @@ final class MockSettingViewModel: SettingViewModelProtocol {
     var shouldKeepLoading = false
     var shouldReturnError = false
     var shouldReturnEmptyData = false
+    
+    convenience init(
+        shouldKeepLoading: Bool = false,
+        shouldReturnError: Bool = false,
+        shouldReturnEmptyData: Bool = false
+    ) {
+        self.init()
+    }
 
     func fetchSettingList() async {
         // Mock loading

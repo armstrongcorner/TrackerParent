@@ -23,8 +23,9 @@ extension BaseServiceProtocol {
         } else {
             theAccount = account
         }
-        if let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: theAccount ?? "", type: AuthModel.self) {
-            headers["Authorization"] = "Bearer \(savedAuthModel.token)"
+        if let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: theAccount ?? "", type: AuthModel.self),
+           let accessToken = savedAuthModel.accessToken {
+            headers["Authorization"] = "Bearer \(accessToken)"
         }
         
         return headers

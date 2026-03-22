@@ -21,7 +21,7 @@
 		224A3E2A2D824EFE00815897 /* AuthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E282D824EFE00815897 /* AuthViewModelTests.swift */; };
 		224A3E312D824EFE00815897 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224A3E2B2D824EFE00815897 /* Preview Assets.xcassets */; };
 		224A3E322D824EFE00815897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224A3E2D2D824EFE00815897 /* Assets.xcassets */; };
-		224A3E332D824EFE00815897 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E2E2D824EFE00815897 /* LoginScreen.swift */; };
+		224A3E332D824EFE00815897 /* LoginScreen.swift.bak in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E2E2D824EFE00815897 /* LoginScreen.swift.bak */; };
 		224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E2F2D824EFE00815897 /* TrackerParentApp.swift */; };
 		224A3E382D824EFE00815897 /* TrackerParentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E352D824EFE00815897 /* TrackerParentUITests.swift */; };
 		224A3E392D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A3E362D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift */; };
@@ -61,7 +61,7 @@
 		AE178B3D2F6FB48F00418452 /* MTNetworkManager in Frameworks */ = {isa = PBXBuildFile; productRef = AE178B3C2F6FB48F00418452 /* MTNetworkManager */; };
 		AE1E1E482F6AB5980098AB01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE1E1E472F6AB5980098AB01 /* GoogleService-Info.plist */; };
 		AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDC92F5B6D97007B7502 /* MockMTApiClient.swift */; };
-		AE8DBDDA2F5C30B9007B7502 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDD92F5C30B9007B7502 /* MainScreen.swift */; };
+		AE8DBDDA2F5C30B9007B7502 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDD92F5C30B9007B7502 /* LoginScreen.swift */; };
 		AE8DBDDD2F5C37F8007B7502 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDDC2F5C37F8007B7502 /* Color.swift */; };
 		AE8DBDDF2F5D1A45007B7502 /* PressableButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDDE2F5D1A45007B7502 /* PressableButtonStyle.swift */; };
 		AE8DBDE12F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */; };
@@ -122,7 +122,7 @@
 		224A3E282D824EFE00815897 /* AuthViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelTests.swift; sourceTree = "<group>"; };
 		224A3E2B2D824EFE00815897 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		224A3E2D2D824EFE00815897 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		224A3E2E2D824EFE00815897 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		224A3E2E2D824EFE00815897 /* LoginScreen.swift.bak */ = {isa = PBXFileReference; lastKnownFileType = text; path = LoginScreen.swift.bak; sourceTree = "<group>"; };
 		224A3E2F2D824EFE00815897 /* TrackerParentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerParentApp.swift; sourceTree = "<group>"; };
 		224A3E352D824EFE00815897 /* TrackerParentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerParentUITests.swift; sourceTree = "<group>"; };
 		224A3E362D824EFE00815897 /* TrackerParentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerParentUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -162,7 +162,7 @@
 		AE1E1E472F6AB5980098AB01 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AE1E1E492F6AB5AA0098AB01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AE8DBDC92F5B6D97007B7502 /* MockMTApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMTApiClient.swift; sourceTree = "<group>"; };
-		AE8DBDD92F5C30B9007B7502 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		AE8DBDD92F5C30B9007B7502 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		AE8DBDDC2F5C37F8007B7502 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		AE8DBDDE2F5D1A45007B7502 /* PressableButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableButtonStyle.swift; sourceTree = "<group>"; };
 		AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineRoundedButtonModifier.swift; sourceTree = "<group>"; };
@@ -380,7 +380,6 @@
 				225F20A12DA52B9A00998670 /* Register */,
 				AEE6B4F42D8BFD800094EB82 /* Track */,
 				AEE6B5022D8EA8ED0094EB82 /* Setting */,
-				AE8DBDD92F5C30B9007B7502 /* MainScreen.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -449,7 +448,8 @@
 			isa = PBXGroup;
 			children = (
 				223499142DA10E4E00E810FF /* Cells */,
-				224A3E2E2D824EFE00815897 /* LoginScreen.swift */,
+				224A3E2E2D824EFE00815897 /* LoginScreen.swift.bak */,
+				AE8DBDD92F5C30B9007B7502 /* LoginScreen.swift */,
 				223499122DA0CC9100E810FF /* UserListScreen.swift */,
 			);
 			path = Login;
@@ -638,7 +638,7 @@
 				AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */,
 				22F160D92DA666D900C4528E /* StringUtil.swift in Sources */,
 				AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */,
-				224A3E332D824EFE00815897 /* LoginScreen.swift in Sources */,
+				224A3E332D824EFE00815897 /* LoginScreen.swift.bak in Sources */,
 				22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */,
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
@@ -659,7 +659,7 @@
 				2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */,
 				2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */,
 				2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */,
-				AE8DBDDA2F5C30B9007B7502 /* MainScreen.swift in Sources */,
+				AE8DBDDA2F5C30B9007B7502 /* LoginScreen.swift in Sources */,
 				AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */,
 				AEE6B50F2D9147920094EB82 /* DateRangePickerView.swift in Sources */,
 				AEE6B5062D8EA98C0094EB82 /* SettingViewModel.swift in Sources */,
@@ -1049,8 +1049,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/armstrongcorner/MTAuthHelper";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
 			};
 		};
 		AE9994762EF78F1A00B7C404 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {

@@ -7,61 +7,55 @@
 
 import Foundation
 
-let mockAuth1 = AuthModel(token: "123456", userRole: "User", validInMins: 20, validUntilUTC: "2025-03-26T01:29:38.946042Z")
-let mockAuth2 = AuthModel(token: "mock_token", userRole: "Administrator", validInMins: 2000, validUntilUTC: "2025-03-26T01:29:38.946042Z")
-let mockAuthResponse1 = AuthResponse(value: mockAuth1, failureReason: nil, isSuccess: true)
-let mockAuthResponse2 = AuthResponse(value: mockAuth2, failureReason: nil, isSuccess: true)
-let mockAuthResponseWithFailureReason = AuthResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
-
 let mockUser1 = UserModel(
     id: 1,
-    userName: "test_username1",
+    username: "test_username1",
     password: "abcdefg123456",
-    photo: "123456abcdefg",
+    displayName: "Test User 1",
+    email: "test_username1@example.com",
+    emailVerified: true,
+    disabled: false,
+    photoUrl: "123456abcdefg",
+    firebaseUid: "firebase_uid_1",
+    createdAt: "2024-03-05T12:06:20.1476085Z",
+    updatedAt: "2024-03-05T12:06:20.1476085Z",
+    lastLoginAt: "2024-03-06T08:30:00.0000000Z",
+    signInProvider: "password",
     role: "User",
-    mobile: "",
-    email: "",
-    serviceLevel: 1,
-    tokenDurationInMin: 14400,
-    isActive: true,
-    createdDateTime: "2024-03-05T12:06:20.1476085Z",
-    updatedDateTime: "2024-03-05T12:06:20.1476085Z",
-    createdBy: "test_username1",
-    updatedBy: ""
 )
 
 let mockUser2 = UserModel(
     id: 2,
-    userName: "test_username2",
+    username: "test_username2",
     password: "abcdefg123456",
-    photo: "123456abcdefg",
+    displayName: "Test Admin 2",
+    email: "test_username2@example.com",
+    emailVerified: true,
+    disabled: false,
+    photoUrl: "123456abcdefg",
+    firebaseUid: "firebase_uid_2",
+    createdAt: "2024-03-05T12:06:20.1476085Z",
+    updatedAt: "2024-03-05T12:06:20.1476085Z",
+    lastLoginAt: "2024-03-07T10:45:00.0000000Z",
+    signInProvider: "google.com",
     role: "Administrator",
-    mobile: "111",
-    email: "222",
-    serviceLevel: 1,
-    tokenDurationInMin: 30000,
-    isActive: true,
-    createdDateTime: "2024-03-05T12:06:20.1476085Z",
-    updatedDateTime: "2024-03-05T12:06:20.1476085Z",
-    createdBy: "test_username2",
-    updatedBy: "test_username2"
 )
 
 let mockUser3 = UserModel(
-    id: 1,
-    userName: "test_username3",
+    id: 3,
+    username: "test_username3",
     password: "abcdefg123456",
-    photo: "123456abcdefg",
+    displayName: "Test User 3",
+    email: "test_username3@example.com",
+    emailVerified: false,
+    disabled: true,
+    photoUrl: "123456abcdefg",
+    firebaseUid: "firebase_uid_3",
+    createdAt: "2024-03-05T12:06:20.1476085Z",
+    updatedAt: "2024-03-05T12:06:20.1476085Z",
+    lastLoginAt: "2024-03-08T09:15:00.0000000Z",
+    signInProvider: "apple.com",
     role: "User",
-    mobile: "",
-    email: "",
-    serviceLevel: 1,
-    tokenDurationInMin: 14400,
-    isActive: false,
-    createdDateTime: "2024-03-05T12:06:20.1476085Z",
-    updatedDateTime: "2024-03-05T12:06:20.1476085Z",
-    createdBy: "test_username3",
-    updatedBy: ""
 )
 
 let mockUserResponse1 = UserResponse(value: mockUser1, failureReason: nil, isSuccess: true)
@@ -73,6 +67,24 @@ let mockUserExistResponseFalse = UserExistResponse(value: false, failureReason: 
 let mockUserExistResponseWithFailureReason = UserExistResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 let mockUserListResponse = UserListResponse(value: [mockUser1, mockUser2], failureReason: nil, isSuccess: true)
 let mockUserListResponseWithFailureReason = UserListResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+
+let mockAuth1 = AuthModel(
+    accessToken: "123456",
+    accessTokenExpiresAt: "2025-03-26T01:29:38.946042Z",
+    expiresIn: 20,
+    refreshToken: "refresh_token_1",
+    user: mockUser1
+)
+let mockAuth2 = AuthModel(
+    accessToken: "mock_token",
+    accessTokenExpiresAt: "2025-03-26T01:29:38.946042Z",
+    expiresIn: 2000,
+    refreshToken: "refresh_token_2",
+    user: mockUser2
+)
+let mockAuthResponse1 = AuthResponse(value: mockAuth1, failureReason: nil, isSuccess: true)
+let mockAuthResponse2 = AuthResponse(value: mockAuth2, failureReason: nil, isSuccess: true)
+let mockAuthResponseWithFailureReason = AuthResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 
 let mockSetting1 = SettingModel(
     id: 1,
