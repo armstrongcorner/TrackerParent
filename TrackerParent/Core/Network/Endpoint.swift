@@ -12,7 +12,9 @@ enum Endpoint {
 //    static let locationURL = "https://intensivelocationdev.azurewebsites.net/api"
     static let userURL = "https://intensivecredentialprod.azurewebsites.net/api"
     static let locationURL = "https://intensivelocationprod.azurewebsites.net/api"
+    static let devURL = "http://localhost:3000/api"
 
+    case firebaseLogin
     case login
     case userInfo(String)
     case updateUser
@@ -30,6 +32,8 @@ enum Endpoint {
     
     var urlString: String {
         switch self {
+        case .firebaseLogin:
+            return "\(Endpoint.devURL)/auth/firebase-login"
         case .login:
             return "\(Endpoint.userURL)/identity/token"
         case .userInfo(let username):

@@ -54,8 +54,18 @@
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
-		AE8DBDC82F5AE71D007B7502 /* MTNetworkManager in Frameworks */ = {isa = PBXBuildFile; productRef = AE8DBDC72F5AE71D007B7502 /* MTNetworkManager */; };
+		AE178B2B2F6E231F00418452 /* MTAuthHelper in Frameworks */ = {isa = PBXBuildFile; productRef = AE178B2A2F6E231F00418452 /* MTAuthHelper */; };
+		AE178B302F6E2AB400418452 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B2F2F6E2AB400418452 /* LoginUseCase.swift */; };
+		AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */; };
+		AE178B342F6E705100418452 /* LoginFirebaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */; };
+		AE178B3D2F6FB48F00418452 /* MTNetworkManager in Frameworks */ = {isa = PBXBuildFile; productRef = AE178B3C2F6FB48F00418452 /* MTNetworkManager */; };
+		AE1E1E482F6AB5980098AB01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE1E1E472F6AB5980098AB01 /* GoogleService-Info.plist */; };
 		AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDC92F5B6D97007B7502 /* MockMTApiClient.swift */; };
+		AE8DBDDA2F5C30B9007B7502 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDD92F5C30B9007B7502 /* MainScreen.swift */; };
+		AE8DBDDD2F5C37F8007B7502 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDDC2F5C37F8007B7502 /* Color.swift */; };
+		AE8DBDDF2F5D1A45007B7502 /* PressableButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDDE2F5D1A45007B7502 /* PressableButtonStyle.swift */; };
+		AE8DBDE12F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */; };
+		AE96925D2F6AACB300526A75 /* MTAuthHelper in Frameworks */ = {isa = PBXBuildFile; productRef = AE96925C2F6AACB300526A75 /* MTAuthHelper */; };
 		AE9994782EF78F1A00B7C404 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = AE9994772EF78F1A00B7C404 /* SwiftfulRouting */; };
 		AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */; };
 		AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */; };
@@ -145,7 +155,17 @@
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		AE178B282F6B80C700418452 /* TrackerParent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrackerParent.entitlements; sourceTree = "<group>"; };
+		AE178B2F2F6E2AB400418452 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
+		AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithFaceIdUseCase.swift; sourceTree = "<group>"; };
+		AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFirebaseUseCase.swift; sourceTree = "<group>"; };
+		AE1E1E472F6AB5980098AB01 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AE1E1E492F6AB5AA0098AB01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AE8DBDC92F5B6D97007B7502 /* MockMTApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMTApiClient.swift; sourceTree = "<group>"; };
+		AE8DBDD92F5C30B9007B7502 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		AE8DBDDC2F5C37F8007B7502 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		AE8DBDDE2F5D1A45007B7502 /* PressableButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableButtonStyle.swift; sourceTree = "<group>"; };
+		AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineRoundedButtonModifier.swift; sourceTree = "<group>"; };
 		AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModifier.swift; sourceTree = "<group>"; };
 		AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListScreen.swift; sourceTree = "<group>"; };
 		AEE6B4CF2D8957C90094EB82 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -171,8 +191,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE8DBDC82F5AE71D007B7502 /* MTNetworkManager in Frameworks */,
+				AE96925D2F6AACB300526A75 /* MTAuthHelper in Frameworks */,
 				AE9994782EF78F1A00B7C404 /* SwiftfulRouting in Frameworks */,
+				AE178B3D2F6FB48F00418452 /* MTNetworkManager in Frameworks */,
+				AE178B2B2F6E231F00418452 /* MTAuthHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +229,7 @@
 				224A3E302D824EFE00815897 /* TrackerParent */,
 				224A3E292D824EFE00815897 /* TrackerParentTests */,
 				224A3E372D824EFE00815897 /* TrackerParentUITests */,
+				AE8DBE242F5D54FB007B7502 /* Frameworks */,
 				224A3DFC2D824EE200815897 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -250,13 +273,17 @@
 		224A3E302D824EFE00815897 /* TrackerParent */ = {
 			isa = PBXGroup;
 			children = (
+				AE178B282F6B80C700418452 /* TrackerParent.entitlements */,
+				AE1E1E492F6AB5AA0098AB01 /* Info.plist */,
 				2266D1372D862EC7004D9644 /* Mock */,
 				22FBA7BC2D8569ED002C10B1 /* Core */,
 				22FBA7B82D856942002C10B1 /* Models */,
+				AE178B2E2F6E27A600418452 /* Use Cases */,
 				224A3E3A2D82899200815897 /* View Models */,
 				22FBA7B72D856942002C10B1 /* Views */,
 				224A3E2C2D824EFE00815897 /* Preview Content */,
 				224A3E2D2D824EFE00815897 /* Assets.xcassets */,
+				AE1E1E472F6AB5980098AB01 /* GoogleService-Info.plist */,
 				224A3E2F2D824EFE00815897 /* TrackerParentApp.swift */,
 			);
 			path = TrackerParent;
@@ -325,13 +352,16 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		2266D15B2D86C3A1004D9644 /* Modifiers */ = {
+		2266D15B2D86C3A1004D9644 /* Modifiers+Extension+Style */ = {
 			isa = PBXGroup;
 			children = (
+				AE8DBDDC2F5C37F8007B7502 /* Color.swift */,
 				2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */,
 				AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */,
+				AE8DBDDE2F5D1A45007B7502 /* PressableButtonStyle.swift */,
+				AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */,
 			);
-			path = Modifiers;
+			path = "Modifiers+Extension+Style";
 			sourceTree = "<group>";
 		};
 		22B295092D98A2ED00AB6A5D /* Cells */ = {
@@ -345,11 +375,12 @@
 		22FBA7B72D856942002C10B1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2266D15B2D86C3A1004D9644 /* Modifiers */,
+				2266D15B2D86C3A1004D9644 /* Modifiers+Extension+Style */,
 				AEE6B4F32D8BFD5D0094EB82 /* Login */,
 				225F20A12DA52B9A00998670 /* Register */,
 				AEE6B4F42D8BFD800094EB82 /* Track */,
 				AEE6B5022D8EA8ED0094EB82 /* Setting */,
+				AE8DBDD92F5C30B9007B7502 /* MainScreen.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -395,6 +426,23 @@
 				AEE6B4D32D896BBF0094EB82 /* BaseService.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		AE178B2E2F6E27A600418452 /* Use Cases */ = {
+			isa = PBXGroup;
+			children = (
+				AE178B2F2F6E2AB400418452 /* LoginUseCase.swift */,
+				AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */,
+				AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */,
+			);
+			path = "Use Cases";
+			sourceTree = "<group>";
+		};
+		AE8DBE242F5D54FB007B7502 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		AEE6B4F32D8BFD5D0094EB82 /* Login */ = {
@@ -454,7 +502,9 @@
 			name = TrackerParent;
 			packageProductDependencies = (
 				AE9994772EF78F1A00B7C404 /* SwiftfulRouting */,
-				AE8DBDC72F5AE71D007B7502 /* MTNetworkManager */,
+				AE96925C2F6AACB300526A75 /* MTAuthHelper */,
+				AE178B2A2F6E231F00418452 /* MTAuthHelper */,
+				AE178B3C2F6FB48F00418452 /* MTNetworkManager */,
 			);
 			productName = TrackerParent;
 			productReference = 224A3DFB2D824EE200815897 /* TrackerParent.app */;
@@ -534,7 +584,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				AE9994762EF78F1A00B7C404 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
-				AE8DBDC62F5AE71D007B7502 /* XCRemoteSwiftPackageReference "MTNetworkManager" */,
+				AE178B292F6E231E00418452 /* XCRemoteSwiftPackageReference "MTAuthHelper" */,
+				AE178B3B2F6FB48F00418452 /* XCLocalSwiftPackageReference "../MTNetworkManager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 224A3DFC2D824EE200815897 /* Products */;
@@ -555,6 +606,7 @@
 			files = (
 				224A3E312D824EFE00815897 /* Preview Assets.xcassets in Resources */,
 				224A3E322D824EFE00815897 /* Assets.xcassets in Resources */,
+				AE1E1E482F6AB5980098AB01 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +635,7 @@
 				AEE6B4EC2D8A6AAE0094EB82 /* TrackViewModel.swift in Sources */,
 				2266D1392D862EDC004D9644 /* MockLoginService.swift in Sources */,
 				22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */,
+				AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */,
 				22F160D92DA666D900C4528E /* StringUtil.swift in Sources */,
 				AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */,
 				224A3E332D824EFE00815897 /* LoginScreen.swift in Sources */,
@@ -590,19 +643,23 @@
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
 				2234991C2DA1247900E810FF /* MockUserViewModel.swift in Sources */,
+				AE8DBDDF2F5D1A45007B7502 /* PressableButtonStyle.swift in Sources */,
 				AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */,
 				2266D1552D8688BB004D9644 /* Endpoint.swift in Sources */,
 				AEE6B4F72D8BFDD50094EB82 /* TrackListItem.swift in Sources */,
 				225F20A32DA52BCD00998670 /* RegisterVerificationScreen.swift in Sources */,
 				AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */,
 				AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */,
+				AE8DBDDD2F5C37F8007B7502 /* Color.swift in Sources */,
 				22F160D52DA5CFDE00C4528E /* RegisterViewModel.swift in Sources */,
 				AEE6B4F22D8AC9500094EB82 /* DateUtil.swift in Sources */,
 				22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */,
+				AE178B342F6E705100418452 /* LoginFirebaseUseCase.swift in Sources */,
 				AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */,
 				2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */,
 				2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */,
 				2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */,
+				AE8DBDDA2F5C30B9007B7502 /* MainScreen.swift in Sources */,
 				AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */,
 				AEE6B50F2D9147920094EB82 /* DateRangePickerView.swift in Sources */,
 				AEE6B5062D8EA98C0094EB82 /* SettingViewModel.swift in Sources */,
@@ -614,6 +671,7 @@
 				AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */,
 				223499132DA0CC9100E810FF /* UserListScreen.swift in Sources */,
 				2234991A2DA10ED500E810FF /* UserViewModel.swift in Sources */,
+				AE178B302F6E2AB400418452 /* LoginUseCase.swift in Sources */,
 				22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */,
 				22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */,
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
@@ -627,6 +685,7 @@
 				224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */,
 				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
 				223499182DA10E8800E810FF /* UserListItem.swift in Sources */,
+				AE8DBDE12F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift in Sources */,
 				225F20A52DA52BE800998670 /* RegisterConfirmationScreen.swift in Sources */,
 				2234992A2DA3E53000E810FF /* MockKeyChainUtil.swift in Sources */,
 			);
@@ -800,12 +859,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TrackerParent/TrackerParent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"TrackerParent/Preview Content\"";
 				DEVELOPMENT_TEAM = DXL5PNKGFP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TrackerParent/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "TrackerParent want to use your Face ID to make your login more convenient";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -831,6 +892,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TrackerParent/TrackerParent.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 4;
@@ -839,6 +901,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = DXL5PNKGFP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TrackerParent/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "TrackerParent want to use your Face ID to make your login more convenient";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -974,13 +1037,20 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		AE178B3B2F6FB48F00418452 /* XCLocalSwiftPackageReference "../MTNetworkManager" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../MTNetworkManager;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
-		AE8DBDC62F5AE71D007B7502 /* XCRemoteSwiftPackageReference "MTNetworkManager" */ = {
+		AE178B292F6E231E00418452 /* XCRemoteSwiftPackageReference "MTAuthHelper" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/armstrongcorner/MTNetworkManager.git";
+			repositoryURL = "https://github.com/armstrongcorner/MTAuthHelper";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		AE9994762EF78F1A00B7C404 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
@@ -994,10 +1064,18 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AE8DBDC72F5AE71D007B7502 /* MTNetworkManager */ = {
+		AE178B2A2F6E231F00418452 /* MTAuthHelper */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AE8DBDC62F5AE71D007B7502 /* XCRemoteSwiftPackageReference "MTNetworkManager" */;
+			package = AE178B292F6E231E00418452 /* XCRemoteSwiftPackageReference "MTAuthHelper" */;
+			productName = MTAuthHelper;
+		};
+		AE178B3C2F6FB48F00418452 /* MTNetworkManager */ = {
+			isa = XCSwiftPackageProductDependency;
 			productName = MTNetworkManager;
+		};
+		AE96925C2F6AACB300526A75 /* MTAuthHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MTAuthHelper;
 		};
 		AE9994772EF78F1A00B7C404 /* SwiftfulRouting */ = {
 			isa = XCSwiftPackageProductDependency;

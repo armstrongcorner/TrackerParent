@@ -7,12 +7,18 @@
 
 import Foundation
 import OSLog
+import MTAuthHelper
 
 enum CommReqState {
     case none
     case loading
     case success
     case failure
+}
+
+enum SSOType {
+    case apple
+    case google
 }
 
 enum LoginError: Error {
@@ -61,46 +67,37 @@ protocol AuthViewModelProtocol {
     
     func login() async
     func loginWithFaceId() async
+    func loginWithSSO(type: SSOType) async
 }
 
-@MainActor
-@Observable
-final class AuthViewModel: AuthViewModelProtocol {
-    var username: String = ""
-    var password: String = ""
-    var loginState: CommReqState = .none
-    var errMsg: String?
-    var role: String?
+final class AuthViewModel: ObservableObject, AuthViewModelProtocol {
+    @Published var username: String = ""
+    @Published var password: String = ""
+    @Published private(set) var loginState: CommReqState = .none
+    @Published private(set) var errMsg: String?
+    @Published private(set) var role: String?
     
-    var showSettingsAlert: Bool = false
-    var showEnrolAlert: Bool = false
+    @Published var showSettingsAlert: Bool = false
+    @Published var showEnrolAlert: Bool = false
     
-    @ObservationIgnored
-    private let loginService: LoginServiceProtocol
-    @ObservationIgnored
-    private let userService: UserServiceProtocol
-    @ObservationIgnored
-    private let keyChainUtil: KeyChainUtilProtocol
-    @ObservationIgnored
+    private let loginUseCase: LoginUseCaseProtocol
+    private let loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol
+    private let loginFirebaseUseCase: LoginFirebaseUseCaseProtocol
     private let biometricsUtil: BiometricsUtilProtocol
-    @ObservationIgnored
-    private let userDefaults: UserDefaults
     
-    @ObservationIgnored
     private let logger: Logger
     
     init(
-        loginService: LoginServiceProtocol = LoginService(),
-        userService: UserServiceProtocol = UserService(),
-        keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
+        loginUseCase: LoginUseCaseProtocol = LoginUseCase(),
+        loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol = LoginWithFaceIdUseCase(),
+        loginFirebaseUseCase: LoginFirebaseUseCaseProtocol = LoginFirebaseUseCase(),
         biometricsUtil: BiometricsUtilProtocol = BiometricsUtil.shared,
         userDefaults: UserDefaults = .standard
     ) {
-        self.loginService = loginService
-        self.userService = userService
-        self.keyChainUtil = keyChainUtil
+        self.loginUseCase = loginUseCase
+        self.loginWithFaceIdUseCase = loginWithFaceIdUseCase
+        self.loginFirebaseUseCase = loginFirebaseUseCase
         self.biometricsUtil = biometricsUtil
-        self.userDefaults = userDefaults
         
         self.username = userDefaults.string(forKey: "username") ?? ""
         
@@ -108,6 +105,7 @@ final class AuthViewModel: AuthViewModelProtocol {
         self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
+    // Email login
     func login() async {
         do {
             loginState = .loading
@@ -116,20 +114,12 @@ final class AuthViewModel: AuthViewModelProtocol {
             // Validate input
             try validateInput()
             
-            // Call login service
-            guard let authResponse = try await loginService.login(username: username, password: password) else {
+            // Call login usecase
+            guard let authResponse = try await loginUseCase.execute(username: username, password: password) else {
                 throw CommError.unknown
             }
             
             if authResponse.isSuccess, let authModel = authResponse.value {
-                logger.debug("--- auth model: \(String(describing: authModel))")
-                
-                // Save the username to UserDefault
-                userDefaults.set(username, forKey: "username")
-                
-                // Save the auth model to Keychain
-                try keyChainUtil.saveObject(account: username, object: authModel)
-                
                 role = authModel.userRole
                 loginState = .success
                 errMsg = nil
@@ -139,45 +129,65 @@ final class AuthViewModel: AuthViewModelProtocol {
                 throw CommError.unknown
             }
         } catch {
-            handleLoginError(error)
+            handleError(error)
         }
     }
     
+    // FaceId
     func loginWithFaceId() async {
         do {
             loginState = .loading
             
             if try await biometricsUtil.canUseBiometrics() {
-                let account = userDefaults.string(forKey: "username") ?? ""
-                if let savedAuthModel = try keyChainUtil.loadObject(account: account, type: AuthModel.self) {
-                    logger.debug("--- auth model in keychain: \(String(describing: savedAuthModel))")
-                    guard let userResponse = try await userService.getUserInfo(username: account) else {
-                        throw CommError.unknown
-                    }
+                guard let userResponse = try await loginWithFaceIdUseCase.execute() else {
+                    throw CommError.unknown
+                }
+                
+                if userResponse.isSuccess, let userModel = userResponse.value {
+                    logger.debug("--- user info: \(String(describing: userModel))")
                     
-                    if userResponse.isSuccess, let userModel = userResponse.value {
-                        logger.debug("--- user info: \(String(describing: userModel))")
-                        
-                        role = userModel.role
-                        loginState = .success
-                        errMsg = nil
-                    } else if !userResponse.isSuccess, let failureReason = userResponse.failureReason {
-                        throw CommError.serverReturnedError(failureReason)
-                    } else {
-                        throw CommError.unknown
-                    }
+                    role = userModel.role
+                    loginState = .success
+                    errMsg = nil
+                } else if !userResponse.isSuccess, let failureReason = userResponse.failureReason {
+                    throw CommError.serverReturnedError(failureReason)
                 } else {
-                    throw CommError.serverReturnedError("No auth model in keychain")
+                    throw CommError.unknown
                 }
             } else {
                 loginState = .none
                 errMsg = nil
             }
         } catch {
-            handleBiometricsError(error)
+            handleError(error)
         }
     }
     
+    // Login SSO
+    func loginWithSSO(type: SSOType) async {
+        do {
+            // Call login firebase usecase
+            guard let authResponse = try await loginFirebaseUseCase.execute(type: type) else {
+                throw CommError.unknown
+            }
+            
+            if authResponse.isSuccess, let authModel = authResponse.value {
+                role = authModel.userRole
+                loginState = .success
+                errMsg = nil
+            } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error)
+        }
+    }
+}
+
+// MARK: - Validator and error handler
+extension AuthViewModel {
     private func validateInput() throws {
         // Validate username cannot be empty
         guard !username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
@@ -190,29 +200,17 @@ final class AuthViewModel: AuthViewModelProtocol {
         }
     }
     
-    private func handleLoginError(_ error: Error) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.loginState = .failure
-            self.role = nil
-        }
+    private func handleError(_ error: Error) {
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.loginState = .failure
+        self.role = nil
+        //        }
         
         switch error {
         case let loginError as LoginError:
             errMsg = loginError.errorDescription
-        case let commError as CommError:
-            errMsg = commError.errorDescription
-        default:
-            errMsg = error.localizedDescription
-        }
-    }
-    
-    private func handleBiometricsError(_ error: Error) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.loginState = .failure
-            self.role = nil
-        }
-        
-        switch error {
+        case let authError as MTAuthError:
+            errMsg = authError.localizedDescription
         case BiometryError.notEnroll:
             showEnrolAlert = true
         case BiometryError.notAvailable:
@@ -222,7 +220,7 @@ final class AuthViewModel: AuthViewModelProtocol {
         case let commError as CommError:
             errMsg = commError.errorDescription
         default:
-            errMsg = error.localizedDescription
+            errMsg = "\(error)" //error.localizedDescription
         }
     }
 }

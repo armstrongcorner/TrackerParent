@@ -2,7 +2,7 @@
 //  AuthModel.swift
 //  TrackerParent
 //
-//  Created by Armstrong Liu on 15/03/2025.
+//  Created by Armstrong Liu on 21/03/2026.
 //
 
 import Foundation

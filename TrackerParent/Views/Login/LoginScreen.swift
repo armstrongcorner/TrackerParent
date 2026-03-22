@@ -15,7 +15,8 @@ struct LoginScreen: View {
     @State private var authViewModel: AuthViewModelProtocol
     
     init(authViewModel: AuthViewModelProtocol = AuthViewModel()) {
-        self.authViewModel = authViewModel
+//        self.authViewModel = authViewModel
+        _authViewModel = State(wrappedValue: authViewModel)
     }
     
     var body: some View {

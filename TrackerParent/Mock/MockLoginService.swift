@@ -43,4 +43,19 @@ actor MockLoginService: LoginServiceProtocol {
             throw CommError.unknown
         }
     }
+    
+    func loginWithFirebase(idToken: String) async throws -> AuthResponse? {
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let authResponse = authResponse, !shouldReturnError {
+            return authResponse
+        } else if let loginError = loginError {
+            throw loginError
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
+    }
 }
