@@ -155,5 +155,5 @@ extension LoginScreen {
     RouterView { _ in
         LoginScreen()
     }
-        .environment(ToastViewObserver())
+    .environment(ToastViewObserver())
 }
