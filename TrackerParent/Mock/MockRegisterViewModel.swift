@@ -20,10 +20,20 @@ final class MockRegisterViewModel: RegisterViewModelProtocol {
     var resendCountDown = 0
     private var countDownTimer: Timer?
     
-    var shouldReturnUserUnavailable: Bool = false
-    var shouldReturnVerificationCodeNotMatch: Bool = false
-    var shouldReturnError: Bool = false
+    var shouldReturnUserUnavailable: Bool
+    var shouldReturnVerificationCodeNotMatch: Bool
+    var shouldReturnError: Bool
     
+    init(
+        shouldReturnUserUnavailable: Bool = false,
+        shouldReturnVerificationCodeNotMatch: Bool = false,
+        shouldReturnError: Bool = false
+    ) {
+        self.shouldReturnUserUnavailable = shouldReturnUserUnavailable
+        self.shouldReturnVerificationCodeNotMatch = shouldReturnVerificationCodeNotMatch
+        self.shouldReturnError = shouldReturnError
+    }
+
     func startCountDown() {
         countDownTimer?.invalidate()
         countDownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in

@@ -14,9 +14,19 @@ final class MockTrackViewModel: TrackViewModelProtocol {
     var fetchDataState: FetchDataState = .idle
     var errMsg: String? = nil
     
-    var shouldKeepLoading = false
-    var shouldReturnError = false
-    var shouldReturnEmptyData = false
+    var shouldKeepLoading: Bool
+    var shouldReturnError: Bool
+    var shouldReturnEmptyData: Bool
+    
+    init(
+        shouldKeepLoading: Bool = false,
+        shouldReturnError: Bool = false,
+        shouldReturnEmptyData: Bool = false
+    ) {
+        self.shouldKeepLoading = shouldKeepLoading
+        self.shouldReturnError = shouldReturnError
+        self.shouldReturnEmptyData = shouldReturnEmptyData
+    }
 
     func fetchTrack(username: String?, fromDate: Date, toDate: Date) async {
         // Mock loading

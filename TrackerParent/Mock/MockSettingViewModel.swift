@@ -19,16 +19,18 @@ final class MockSettingViewModel: SettingViewModelProtocol {
     var errMsg: String? = nil
     var refreshData: Bool = true
     
-    var shouldKeepLoading = false
-    var shouldReturnError = false
-    var shouldReturnEmptyData = false
+    var shouldKeepLoading: Bool
+    var shouldReturnError: Bool
+    var shouldReturnEmptyData: Bool
     
-    convenience init(
+    init(
         shouldKeepLoading: Bool = false,
         shouldReturnError: Bool = false,
         shouldReturnEmptyData: Bool = false
     ) {
-        self.init()
+        self.shouldKeepLoading = shouldKeepLoading
+        self.shouldReturnError = shouldReturnError
+        self.shouldReturnEmptyData = shouldReturnEmptyData
     }
 
     func fetchSettingList() async {
