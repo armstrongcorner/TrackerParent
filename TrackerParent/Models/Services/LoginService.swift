@@ -11,15 +11,17 @@ import MTNetworkManager
 struct EmailLoginRequestBody: Codable {
     let username: String
     let password: String
+    let deviceId: String
 }
 
 struct FirebaseLoginRequestBody: Codable {
     let firebaseIdToken: String
+    let deviceId: String
 }
 
 protocol LoginServiceProtocol: Sendable {
-    func login(username: String, password: String) async throws -> AuthResponse?
-    func loginWithFirebase(idToken: String) async throws -> AuthResponse?
+    func login(username: String, password: String, deviceId: String?) async throws -> AuthResponse?
+    func loginWithFirebase(idToken: String, deviceId: String?) async throws -> AuthResponse?
 }
 
 actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
@@ -29,8 +31,8 @@ actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
         self.apiClient = apiClient
     }
     
-    func login(username: String, password: String) async throws -> AuthResponse? {
-        let requestBody = EmailLoginRequestBody(username: username, password: password)
+    func login(username: String, password: String, deviceId: String?) async throws -> AuthResponse? {
+        let requestBody = EmailLoginRequestBody(username: username, password: password, deviceId: deviceId ?? "")
         
         let response = try await apiClient.post(
             urlString: Endpoint.login.urlString,
@@ -41,8 +43,8 @@ actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
         return response
     }
     
-    func loginWithFirebase(idToken: String) async throws -> AuthResponse? {
-        let requestBody = FirebaseLoginRequestBody(firebaseIdToken: idToken)
+    func loginWithFirebase(idToken: String, deviceId: String?) async throws -> AuthResponse? {
+        let requestBody = FirebaseLoginRequestBody(firebaseIdToken: idToken, deviceId: deviceId ?? "")
         
         let response = try await apiClient.post(
             urlString: Endpoint.firebaseLogin.urlString,

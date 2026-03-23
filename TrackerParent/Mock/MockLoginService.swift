@@ -29,7 +29,7 @@ actor MockLoginService: LoginServiceProtocol {
         self.commError = commError
     }
     
-    func login(username: String, password: String) async throws -> AuthResponse? {
+    func login(username: String, password: String, deviceId: String?) async throws -> AuthResponse? {
         // Mock access network time
         try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
         
@@ -44,7 +44,7 @@ actor MockLoginService: LoginServiceProtocol {
         }
     }
     
-    func loginWithFirebase(idToken: String) async throws -> AuthResponse? {
+    func loginWithFirebase(idToken: String, deviceId: String?) async throws -> AuthResponse? {
         // Mock access network time
         try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
         

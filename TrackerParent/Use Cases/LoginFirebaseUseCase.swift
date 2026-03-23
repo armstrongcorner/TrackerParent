@@ -47,7 +47,10 @@ final class LoginFirebaseUseCase: LoginFirebaseUseCaseProtocol {
         }
         
         let idToken = try await MTAuthHelper.shared.getIdToken(from: authDataResult.user)
-        if let authResponse = try await loginService.loginWithFirebase(idToken: idToken) {
+        if let authResponse = try await loginService.loginWithFirebase(
+            idToken: idToken,
+            deviceId: StringUtil.shared.getDeviceId()
+        ) {
             if authResponse.isSuccess, let authModel = authResponse.value {
                 logger.debug("--- auth model: \(String(describing: authModel))")
                 

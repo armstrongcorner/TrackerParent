@@ -34,7 +34,11 @@ final class LoginUseCase: LoginUseCaseProtocol {
     }
     
     func execute(username: String, password: String) async throws -> AuthResponse? {
-        if let authResponse = try await loginService.login(username: username, password: password) {
+        if let authResponse = try await loginService.login(
+            username: username,
+            password: password,
+            deviceId: StringUtil.shared.getDeviceId()
+        ) {
             if authResponse.isSuccess, let authModel = authResponse.value {
                 logger.debug("--- auth model: \(String(describing: authModel))")
                 
