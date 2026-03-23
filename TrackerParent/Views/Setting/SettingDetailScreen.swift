@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftfulRouting
 
 struct SettingDetailScreen: View {
-    @Environment(\.router) var router
+    @Environment(\.router) private var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var settingViewModel: SettingViewModelProtocol
@@ -160,7 +160,7 @@ struct SettingDetailScreen: View {
                 toastViewObserver.showToast(message: "Update successfully") {
                     Task {
                         await MainActor.run {
-                            router.dismissScreen()
+                            router.dismissEnvironment()
                         }
                     }
                 }
@@ -176,7 +176,7 @@ struct SettingDetailScreen: View {
                 toastViewObserver.showToast(message: "Add successfully") {
                     Task {
                         await MainActor.run {
-                            router.dismissScreen()
+                            router.dismissEnvironment()
                         }
                     }
                 }
@@ -191,52 +191,38 @@ struct SettingDetailScreen: View {
     }
 }
 
+// MARK: - Previews
 #Preview("update setting") {
     let mockSettingViewModel = MockSettingViewModel()
-    mockSettingViewModel.shouldKeepLoading = false
-    mockSettingViewModel.shouldReturnError = false
     mockSettingViewModel.currentSetting = mockSetting1
-    
-    let mockUserViewModel = MockUserViewModel()
     
     return RouterView { _ in
         SettingDetailScreen(
             settingViewModel: mockSettingViewModel,
-            userViewModel: mockUserViewModel
+            userViewModel: MockUserViewModel()
         )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("update setting failure") {
-    let mockSettingViewModel = MockSettingViewModel()
-    mockSettingViewModel.shouldKeepLoading = false
-    mockSettingViewModel.shouldReturnError = true
+    let mockSettingViewModel = MockSettingViewModel(shouldReturnError: true)
     mockSettingViewModel.currentSetting = mockSetting1
-    
-    let mockUserViewModel = MockUserViewModel()
     
     return RouterView { _ in
         SettingDetailScreen(
             settingViewModel: mockSettingViewModel,
-            userViewModel: mockUserViewModel
+            userViewModel: MockUserViewModel()
         )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("create setting") {
-    let mockSettingViewModel = MockSettingViewModel()
-    mockSettingViewModel.shouldKeepLoading = false
-    mockSettingViewModel.shouldReturnError = false
-    mockSettingViewModel.currentSetting = nil
-    
-    let mockUserViewModel = MockUserViewModel()
-    
-    return RouterView { _ in
+    RouterView { _ in
         SettingDetailScreen(
-            settingViewModel: mockSettingViewModel,
-            userViewModel: mockUserViewModel,
+            settingViewModel: MockSettingViewModel(),
+            userViewModel: MockUserViewModel(),
             isNewSetting: true
         )
     }
@@ -244,17 +230,10 @@ struct SettingDetailScreen: View {
 }
 
 #Preview("create setting failure") {
-    let mockSettingViewModel = MockSettingViewModel()
-    mockSettingViewModel.shouldKeepLoading = false
-    mockSettingViewModel.shouldReturnError = true
-    mockSettingViewModel.currentSetting = nil
-    
-    let mockUserViewModel = MockUserViewModel()
-    
-    return RouterView { _ in
+    RouterView { _ in
         SettingDetailScreen(
-            settingViewModel: mockSettingViewModel,
-            userViewModel: mockUserViewModel,
+            settingViewModel: MockSettingViewModel(shouldReturnError: true),
+            userViewModel: MockUserViewModel(),
             isNewSetting: true
         )
     }

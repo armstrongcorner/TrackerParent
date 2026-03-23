@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftfulRouting
 
 struct RegisterVerificationScreen: View {
-    @Environment(\.router) var router
+    @Environment(\.router) private var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var registerViewModel: RegisterViewModelProtocol
@@ -127,53 +127,48 @@ struct RegisterVerificationScreen: View {
     }
 }
 
+// MARK: - Previews
 #Preview("user unavailable") {
-    let mockRegisterViewModel = MockRegisterViewModel()
-    mockRegisterViewModel.shouldReturnUserUnavailable = true
-    
-    return RouterView { _ in
-        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
+    RouterView { _ in
+        RegisterVerificationScreen(
+            registerViewModel: MockRegisterViewModel(shouldReturnUserUnavailable: true)
+        )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("send code failed") {
-    let mockRegisterViewModel = MockRegisterViewModel()
-    mockRegisterViewModel.shouldReturnUserUnavailable = false
-    mockRegisterViewModel.shouldReturnError = true
-    
-    return RouterView { _ in
-        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
+    RouterView { _ in
+        RegisterVerificationScreen(
+            registerViewModel: MockRegisterViewModel(shouldReturnError: true)
+        )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("code not match") {
-    let mockRegisterViewModel = MockRegisterViewModel()
-    mockRegisterViewModel.shouldReturnVerificationCodeNotMatch = true
-    
-    return RouterView { _ in
-        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
+    RouterView { _ in
+        RegisterVerificationScreen(
+            registerViewModel: MockRegisterViewModel(shouldReturnVerificationCodeNotMatch: true)
+        )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("verifying failed") {
-    let mockRegisterViewModel = MockRegisterViewModel()
-    mockRegisterViewModel.shouldReturnVerificationCodeNotMatch = false
-    mockRegisterViewModel.shouldReturnError = true
-    
-    return RouterView { _ in
-        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
+    RouterView { _ in
+        RegisterVerificationScreen(
+            registerViewModel: MockRegisterViewModel(shouldReturnError: true)
+        )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("verifying success") {
-    let mockRegisterViewModel = MockRegisterViewModel()
-    
-    return RouterView { _ in
-        RegisterVerificationScreen(registerViewModel: mockRegisterViewModel)
+    RouterView { _ in
+        RegisterVerificationScreen(
+            registerViewModel: MockRegisterViewModel()
+        )
     }
     .environment(ToastViewObserver())
 }

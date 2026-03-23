@@ -152,6 +152,7 @@ struct SettingListScreen: View {
     }
 }
 
+// MARK: - Previews
 #Preview("setting list") {
     RouterView { _ in
         SettingListScreen(

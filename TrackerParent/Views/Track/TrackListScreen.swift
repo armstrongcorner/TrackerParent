@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftfulRouting
 
 struct TrackListScreen: View {
-    @Environment(\.router) var router
+    @Environment(\.router) private var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
@@ -126,7 +126,6 @@ struct TrackListScreen: View {
             
             Button("OK", role: .destructive) {
                 userViewModel.logout()
-                
                 router.dismissPushStack()
             }
         } message: {
@@ -167,7 +166,6 @@ struct TrackListScreen: View {
                 toastViewObserver.showLoading()
             case .done:
                 toastViewObserver.dismissLoading()
-
                 router.dismissPushStack()
             case .error:
                 if let errMsg = userViewModel.errMsg {
@@ -180,15 +178,11 @@ struct TrackListScreen: View {
     }
 }
 
+// MARK: - Previews
 #Preview("empty data") {
-    let mockTrackViewModel = MockTrackViewModel()
-    mockTrackViewModel.shouldKeepLoading = false
-    mockTrackViewModel.shouldReturnError = false
-    mockTrackViewModel.shouldReturnEmptyData = true
-    
-    return RouterView { _ in
+    RouterView { _ in
         TrackListScreen(
-            trackViewModel: mockTrackViewModel,
+            trackViewModel: MockTrackViewModel(shouldReturnEmptyData: true),
             userViewModel: MockUserViewModel()
         )
     }
@@ -196,29 +190,20 @@ struct TrackListScreen: View {
 }
 
 #Preview("without username") {
-    let mockTrackViewModel = MockTrackViewModel()
-    mockTrackViewModel.shouldKeepLoading = false
-    mockTrackViewModel.shouldReturnError = false
-    
-    let mockUserViewModel = MockUserViewModel()
-    
-    return RouterView { _ in
+    RouterView { _ in
         TrackListScreen(
-            trackViewModel: mockTrackViewModel,
-            userViewModel: mockUserViewModel
+            trackViewModel: MockTrackViewModel(),
+            userViewModel: MockUserViewModel()
         )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("with username") {
-    let mockTrackViewModel = MockTrackViewModel()
-    mockTrackViewModel.shouldKeepLoading = false
-    mockTrackViewModel.shouldReturnError = false
-    
-    return RouterView { _ in
+    RouterView { _ in
         TrackListScreen(
-            trackViewModel: mockTrackViewModel,
+            trackViewModel: MockTrackViewModel(),
+            userViewModel: MockUserViewModel(),
             username: "testUsername"
         )
     }
@@ -226,57 +211,39 @@ struct TrackListScreen: View {
 }
 
 #Preview("delete user") {
-    let mockTrackViewModel = MockTrackViewModel()
-    mockTrackViewModel.shouldKeepLoading = false
-    mockTrackViewModel.shouldReturnError = false
-    
-    let mockUserViewModel = MockUserViewModel()
-    mockUserViewModel.shouldReturnError = false
-    
-    return RouterView { _ in
+    RouterView { _ in
         TrackListScreen(
-            trackViewModel: mockTrackViewModel,
-            userViewModel: mockUserViewModel
+            trackViewModel: MockTrackViewModel(),
+            userViewModel: MockUserViewModel()
         )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("delete user error") {
-    let mockTrackViewModel = MockTrackViewModel()
-    mockTrackViewModel.shouldKeepLoading = false
-    mockTrackViewModel.shouldReturnError = false
-    
-    let mockUserViewModel = MockUserViewModel()
-    mockUserViewModel.shouldReturnError = true
-    
-    return RouterView { _ in
+    RouterView { _ in
         TrackListScreen(
-            trackViewModel: mockTrackViewModel,
-            userViewModel: mockUserViewModel
+            trackViewModel: MockTrackViewModel(),
+            userViewModel: MockUserViewModel(shouldReturnError: true)
         )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("loading error") {
-    let mockTrackViewModel = MockTrackViewModel()
-    mockTrackViewModel.shouldKeepLoading = false
-    mockTrackViewModel.shouldReturnError = true
-    
-    return RouterView { _ in
-        TrackListScreen(trackViewModel: mockTrackViewModel)
+    RouterView { _ in
+        TrackListScreen(
+            trackViewModel: MockTrackViewModel(shouldReturnError: true)
+        )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("loading") {
-    let mockTrackViewModel = MockTrackViewModel()
-    mockTrackViewModel.shouldKeepLoading = true
-    mockTrackViewModel.shouldReturnError = false
-    
-    return RouterView { _ in
-        TrackListScreen(trackViewModel: mockTrackViewModel)
+    RouterView { _ in
+        TrackListScreen(
+            trackViewModel: MockTrackViewModel(shouldKeepLoading: true)
+        )
     }
     .environment(ToastViewObserver())
 }

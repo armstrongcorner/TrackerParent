@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftfulRouting
 
 struct UserListScreen: View {
-    @Environment(\.router) var router
+    @Environment(\.router) private var router
     @State private var userViewModel: UserViewModelProtocol
     @State private var showConfirmLogout: Bool = false
     
@@ -26,7 +26,7 @@ struct UserListScreen: View {
                         ForEach(userViewModel.users, id: \.self) { user in
                             Button {
                                 router.showScreen(.push) { _ in
-                                    TrackListScreen(username: user.userName)
+                                    TrackListScreen(username: user.username)
                                 }
                             } label: {
                                 UserListItem(user: user)
@@ -107,43 +107,35 @@ struct UserListScreen: View {
     }
 }
 
+// MARK: - Previews
 #Preview("2 users") {
-    let mockUserViewModel = MockUserViewModel()
-    mockUserViewModel.shouldKeepLoading = false
-    mockUserViewModel.shouldReturnError = false
-    
-    return RouterView { _ in
-        UserListScreen(userViewModel: mockUserViewModel)
+    RouterView { _ in
+        UserListScreen(
+            userViewModel: MockUserViewModel()
+        )
     }
 }
 
 #Preview("empty data") {
-    let mockUserViewModel = MockUserViewModel()
-    mockUserViewModel.shouldKeepLoading = false
-    mockUserViewModel.shouldReturnError = false
-    mockUserViewModel.shouldReturnEmptyData = true
-    
-    return RouterView { _ in
-        UserListScreen(userViewModel: mockUserViewModel)
+    RouterView { _ in
+        UserListScreen(
+            userViewModel: MockUserViewModel(shouldReturnEmptyData: true)
+        )
     }
 }
 
 #Preview("error") {
-    let mockUserViewModel = MockUserViewModel()
-    mockUserViewModel.shouldKeepLoading = false
-    mockUserViewModel.shouldReturnError = true
-    
-    return RouterView { _ in
-        UserListScreen(userViewModel: mockUserViewModel)
+    RouterView { _ in
+        UserListScreen(
+            userViewModel: MockUserViewModel(shouldReturnError: true)
+        )
     }
 }
 
 #Preview("loading") {
-    let mockUserViewModel = MockUserViewModel()
-    mockUserViewModel.shouldKeepLoading = true
-    mockUserViewModel.shouldReturnError = false
-    
-    return RouterView { _ in
-        UserListScreen(userViewModel: mockUserViewModel)
+    RouterView { _ in
+        UserListScreen(
+            userViewModel: MockUserViewModel(shouldKeepLoading: true)
+        )
     }
 }

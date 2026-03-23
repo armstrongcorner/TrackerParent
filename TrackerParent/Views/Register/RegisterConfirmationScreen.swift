@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftfulRouting
 
 struct RegisterConfirmationScreen: View {
-    @Environment(\.router) var router
+    @Environment(\.router) private var router
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var registerViewModel: RegisterViewModelProtocol
@@ -88,21 +88,19 @@ struct RegisterConfirmationScreen: View {
     }
 }
 
+// MARK: - Previews
 #Preview("completion failed") {
-    let mockRegisterViewModel = MockRegisterViewModel()
-    mockRegisterViewModel.shouldReturnError = true
-    
-    return RouterView { _ in
-        RegisterConfirmationScreen(registerViewModel: mockRegisterViewModel)
+    RouterView { _ in
+        RegisterConfirmationScreen(
+            registerViewModel: MockRegisterViewModel(shouldReturnError: true)
+        )
     }
     .environment(ToastViewObserver())
 }
 
 #Preview("completion success") {
-    let mockRegisterViewModel = MockRegisterViewModel()
-    
-    return RouterView { _ in
-        RegisterConfirmationScreen(registerViewModel: mockRegisterViewModel)
+    RouterView { _ in
+        RegisterConfirmationScreen(registerViewModel: MockRegisterViewModel())
     }
     .environment(ToastViewObserver())
 }
