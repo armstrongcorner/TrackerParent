@@ -10,6 +10,7 @@ import SwiftfulRouting
 
 struct TrackListScreen: View {
     @Environment(\.router) private var router
+    @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) var toastViewObserver
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
@@ -42,9 +43,7 @@ struct TrackListScreen: View {
                     List {
                         ForEach(trackViewModel.tracks, id: \.self) { track in
                             Button {
-                                router.showScreen(.push) { _ in
-                                    TrackDetailScreen(track: track)
-                                }
+                                appCoordinator.track.show(.trackDetail(track: track), on: router)
                             } label: {
                                 TrackListItem(track: track)
                             }
@@ -92,9 +91,7 @@ struct TrackListScreen: View {
                 Menu {
                     // Track setting
                     Button {
-                        router.showScreen(.push) { _ in
-                            SettingListScreen()
-                        }
+                        appCoordinator.setting.show(.settingList, on: router)
                     } label: {
                         Text("Track setting")
                     }
@@ -126,7 +123,7 @@ struct TrackListScreen: View {
             
             Button("OK", role: .destructive) {
                 userViewModel.logout()
-                router.dismissPushStack()
+                appCoordinator.track.dismissPushStack(on: router)
             }
         } message: {
             Text("Logout current user: \(userViewModel.getCurrentUsername())?")
@@ -166,7 +163,7 @@ struct TrackListScreen: View {
                 toastViewObserver.showLoading()
             case .done:
                 toastViewObserver.dismissLoading()
-                router.dismissPushStack()
+                appCoordinator.track.dismissPushStack(on: router)
             case .error:
                 if let errMsg = userViewModel.errMsg {
                     toastViewObserver.showToast(message: errMsg)

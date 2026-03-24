@@ -10,6 +10,7 @@ import SwiftfulRouting
 
 struct UserListScreen: View {
     @Environment(\.router) private var router
+    @Environment(\.appCoordinator) private var appCoordinator
     @State private var userViewModel: UserViewModelProtocol
     @State private var showConfirmLogout: Bool = false
     
@@ -25,9 +26,7 @@ struct UserListScreen: View {
                     List {
                         ForEach(userViewModel.users, id: \.self) { user in
                             Button {
-                                router.showScreen(.push) { _ in
-                                    TrackListScreen(username: user.username)
-                                }
+                                appCoordinator.track.show(.trackList(username: user.username), on: router)
                             } label: {
                                 UserListItem(user: user)
                             }
@@ -66,9 +65,7 @@ struct UserListScreen: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button {
-                        router.showScreen(.push) { _ in
-                            SettingListScreen()
-                        }
+                        appCoordinator.setting.show(.settingList, on: router)
                     } label: {
                         Text("Track setting")
                     }
@@ -89,8 +86,7 @@ struct UserListScreen: View {
             
             Button("OK", role: .destructive) {
                 userViewModel.logout()
-                
-                router.dismissScreen()
+                appCoordinator.track.dismissScreen(on: router)
             }
         } message: {
             Text("Logout current user: \(userViewModel.getCurrentUsername())?")

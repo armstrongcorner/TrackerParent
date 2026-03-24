@@ -11,6 +11,7 @@ import SwiftfulRouting
 
 struct LoginScreen: View {
     @Environment(\.router) private var router
+    @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) private var toastViewObserver
     @State private var vm: AuthViewModel
     
@@ -45,9 +46,7 @@ struct LoginScreen: View {
                 toastViewObserver.showLoading()
             case .success:
                 toastViewObserver.dismissLoading()
-                router.showScreen(.push) { _ in
-                    loginSuccessSection
-                }
+                appCoordinator.auth.show(.postLogin(role: vm.role ?? .user), on: router)
             case .failure:
                 toastViewObserver.dismissLoading()
                 if let errMsg = vm.errMsg {
@@ -117,9 +116,7 @@ extension LoginScreen {
     // MARK: Email sign in button
     private var emailSignInBtn: some View {
         Button {
-            router.showScreen(.push) { _ in
-                RegisterVerificationScreen()
-            }
+            appCoordinator.auth.show(.registerVerification, on: router)
         } label: {
             HStack {
                 Image(systemName: "lock.fill")
@@ -134,19 +131,6 @@ extension LoginScreen {
             
         }
         .withPressableButtonStyle()
-    }
-}
-
-extension LoginScreen {
-    @ViewBuilder
-    private var loginSuccessSection: some View {
-        if vm.role == "Administrator" {
-            UserListScreen()
-        } else if vm.role == "User" {
-            TrackListScreen()
-        } else {
-            EmptyView()
-        }
     }
 }
 

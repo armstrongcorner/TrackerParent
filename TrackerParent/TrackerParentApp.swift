@@ -23,12 +23,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct TrackerParentApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    private let appCoordinator = AppCoordinator()
     
     var body: some Scene {
         WindowGroup {
             RouterView { _ in
-                LoginScreen()
+                appCoordinator.rootView()
             }
+            .environment(\.appCoordinator, appCoordinator)
             .environment(ToastViewObserver())
         }
     }

@@ -62,7 +62,7 @@ final class AuthViewModel {
     var password: String = ""
     private(set) var loginState: CommReqState = .none
     private(set) var errMsg: String?
-    private(set) var role: String?
+    private(set) var role: AccountRole?
     
     var showSettingsAlert: Bool = false
     var showEnrolAlert: Bool = false
@@ -112,7 +112,7 @@ final class AuthViewModel {
             }
             
             if authResponse.isSuccess, let authModel = authResponse.value {
-                role = authModel.user?.role ?? "User"
+                role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
                 loginState = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
@@ -138,7 +138,7 @@ final class AuthViewModel {
                 if userResponse.isSuccess, let userModel = userResponse.value {
                     logger.debug("--- user info: \(String(describing: userModel))")
                     
-                    role = userModel.role
+                    role = AccountRole(rawValue: userModel.role ?? AccountRole.user.rawValue)
                     loginState = .success
                     errMsg = nil
                 } else if !userResponse.isSuccess, let failureReason = userResponse.failureReason {
@@ -164,7 +164,7 @@ final class AuthViewModel {
             }
             
             if authResponse.isSuccess, let authModel = authResponse.value {
-                role = authModel.user?.role ?? "User"
+                role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
                 loginState = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {

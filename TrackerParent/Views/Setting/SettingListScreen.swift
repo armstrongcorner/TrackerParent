@@ -10,6 +10,7 @@ import SwiftfulRouting
 
 struct SettingListScreen: View {
     @Environment(\.router) private var router
+    @Environment(\.appCoordinator) private var appCoordinator
     
     @Environment(ToastViewObserver.self) var toastViewObserver
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -31,15 +32,12 @@ struct SettingListScreen: View {
                         ForEach(settingViewModel.settingList ?? [], id: \.self) { setting in
                             SettingListItem(setting: setting)
                                 .onTapGesture {
-                                    let config = ResizableSheetConfig(
-                                        detents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)],
-                                        selection: nil,
-                                        dragIndicator: .visible
+                                    settingViewModel.currentSetting = setting
+                                    appCoordinator.setting.show(
+                                        .settingDetail(settingViewModel: settingViewModel, isNewSetting: false),
+                                        on: router,
+                                        horizontalSizeClass: horizontalSizeClass
                                     )
-                                    router.showScreen(.sheetConfig(config: config)) { _ in
-                                        settingViewModel.currentSetting = setting
-                                        return SettingDetailScreen(settingViewModel: settingViewModel)
-                                    }
                                 }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     Button(role: .destructive) {
@@ -59,15 +57,12 @@ struct SettingListScreen: View {
                         .padding(.bottom, 20)
                     
                     Button {
-                        let config = ResizableSheetConfig(
-                            detents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)],
-                            selection: nil,
-                            dragIndicator: .visible
+                        settingViewModel.currentSetting = nil
+                        appCoordinator.setting.show(
+                            .settingDetail(settingViewModel: settingViewModel, isNewSetting: true),
+                            on: router,
+                            horizontalSizeClass: horizontalSizeClass
                         )
-                        router.showScreen(.sheetConfig(config: config)) { _ in
-                            settingViewModel.currentSetting = nil
-                            return SettingDetailScreen(settingViewModel: settingViewModel, isNewSetting: true)
-                        }
                     } label: {
                         Text("Add New Setting")
                             .font(.headline)
@@ -101,14 +96,11 @@ struct SettingListScreen: View {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     settingViewModel.currentSetting = nil
-                    let config = ResizableSheetConfig(
-                        detents: [.fraction(horizontalSizeClass == .compact ? 0.5 : 0.7)],
-                        selection: nil,
-                        dragIndicator: .visible
+                    appCoordinator.setting.show(
+                        .settingDetail(settingViewModel: settingViewModel, isNewSetting: true),
+                        on: router,
+                        horizontalSizeClass: horizontalSizeClass
                     )
-                    router.showScreen(.sheetConfig(config: config)) { _ in
-                        SettingDetailScreen(settingViewModel: settingViewModel, isNewSetting: true)
-                    }
                 } label: {
                     Image(systemName: "plus.circle")
                         .resizable()

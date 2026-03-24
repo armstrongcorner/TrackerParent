@@ -11,6 +11,7 @@ import SwiftfulRouting
 
 struct TrackDetailScreen: View {
     @Environment(\.router) private var router
+    @Environment(\.appCoordinator) private var appCoordinator
     
     let track: [LocationModel]
     
@@ -174,7 +175,7 @@ struct TrackDetailScreen: View {
                 
                 // Back button
                 Button {
-                    router.dismissScreen()
+                    appCoordinator.track.dismissScreen(on: router)
                 } label: {
                     Image(systemName: "arrowshape.turn.up.backward.circle")
                         .resizable()

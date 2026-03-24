@@ -8,6 +8,11 @@
 import Foundation
 import OSLog
 
+enum AccountRole: String {
+    case admin = "Admin"
+    case user = "User"
+}
+
 @MainActor
 protocol UserViewModelProtocol {
     var users: [UserModel] { get }

@@ -10,6 +10,7 @@ import SwiftfulRouting
 
 struct SettingDetailScreen: View {
     @Environment(\.router) private var router
+    @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var settingViewModel: SettingViewModelProtocol
@@ -160,7 +161,7 @@ struct SettingDetailScreen: View {
                 toastViewObserver.showToast(message: "Update successfully") {
                     Task {
                         await MainActor.run {
-                            router.dismissEnvironment()
+                            appCoordinator.setting.dismissEnvironment(on: router)
                         }
                     }
                 }
@@ -176,7 +177,7 @@ struct SettingDetailScreen: View {
                 toastViewObserver.showToast(message: "Add successfully") {
                     Task {
                         await MainActor.run {
-                            router.dismissEnvironment()
+                            appCoordinator.setting.dismissEnvironment(on: router)
                         }
                     }
                 }

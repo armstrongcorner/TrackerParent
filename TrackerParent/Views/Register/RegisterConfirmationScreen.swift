@@ -10,6 +10,7 @@ import SwiftfulRouting
 
 struct RegisterConfirmationScreen: View {
     @Environment(\.router) private var router
+    @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) var toastViewObserver
     
     @State private var registerViewModel: RegisterViewModelProtocol
@@ -70,10 +71,7 @@ struct RegisterConfirmationScreen: View {
                 toastViewObserver.showLoading()
             case .success:
                 toastViewObserver.dismissLoading()
-                
-                router.showScreen(.push) { _ in
-                    TrackListScreen()
-                }
+                appCoordinator.track.show(.trackList(username: nil), on: router)
             case .failure:
                 if let errMsg = registerViewModel.errMsg {
                     toastViewObserver.showToast(message: errMsg)
