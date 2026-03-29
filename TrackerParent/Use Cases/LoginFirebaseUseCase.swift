@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OSLog
 import MTAuthHelper
 import FirebaseAuth
 
@@ -15,21 +14,19 @@ protocol LoginFirebaseUseCaseProtocol {
     func execute(type: SSOType) async throws -> AuthResponse?
 }
 
-final class LoginFirebaseUseCase: LoginFirebaseUseCaseProtocol {
+final class LoginFirebaseUseCase: LoginFirebaseUseCaseProtocol, Loggable {
     private let loginService: LoginServiceProtocol
     private let keyChainUtil: KeyChainUtilProtocol
-
-    private let logger: Logger
+    private let userDefaults: UserDefaults
 
     init(
         loginService: LoginServiceProtocol = LoginService(),
-        keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared
+        keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
+        userDefaults: UserDefaults = .standard
     ) {
         self.loginService = loginService
         self.keyChainUtil = keyChainUtil
-        
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
-        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
+        self.userDefaults = userDefaults
     }
     
     func execute(type: SSOType) async throws -> AuthResponse? {
@@ -51,12 +48,11 @@ final class LoginFirebaseUseCase: LoginFirebaseUseCaseProtocol {
             idToken: idToken,
             deviceId: StringUtil.shared.getDeviceId()
         ) {
-            if authResponse.isSuccess, let authModel = authResponse.value {
+            if authResponse.isSuccess, let authModel = authResponse.value, let email = authModel.user?.email {
                 logger.debug("--- auth model: \(String(describing: authModel))")
                 
                 // Save the username to UserDefault
-//                userDefaults.set(username, forKey: "username")
-                let email = ""
+                userDefaults.set(email, forKey: "username")
                 
                 // Save the auth model to Keychain
                 try keyChainUtil.saveObject(account: email, object: authModel)

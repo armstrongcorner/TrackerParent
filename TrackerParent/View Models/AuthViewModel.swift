@@ -6,15 +6,7 @@
 //
 
 import Foundation
-import OSLog
 import MTAuthHelper
-
-enum CommReqState: Equatable {
-    case none
-    case loading
-    case success
-    case failure
-}
 
 enum SSOType: Equatable {
     case apple
@@ -56,8 +48,22 @@ enum CommError: Error {
 }
 
 @MainActor
+protocol AuthViewModelProtocol {
+    var username: String { get set }
+    var password: String { get set }
+    var loginState: CommReqState { get }
+    var errMsg: String? { get }
+    var role: AccountRole? { get }
+    var showSettingsAlert: Bool { get set }
+    var showEnrolAlert: Bool { get set }
+    
+    func login() async
+    func loginWithFaceId() async
+    func loginWithSSO(type: SSOType) async
+}
+
 @Observable
-final class AuthViewModel {
+final class AuthViewModel: AuthViewModelProtocol, Loggable {
     var username: String = ""
     var password: String = ""
     private(set) var loginState: CommReqState = .none
@@ -76,9 +82,6 @@ final class AuthViewModel {
     @ObservationIgnored
     private let biometricsUtil: BiometricsUtilProtocol
     
-    @ObservationIgnored
-    private let logger: Logger
-    
     init(
         loginUseCase: LoginUseCaseProtocol = LoginUseCase(),
         loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol = LoginWithFaceIdUseCase(),
@@ -92,9 +95,6 @@ final class AuthViewModel {
         self.biometricsUtil = biometricsUtil
         
         self.username = userDefaults.string(forKey: "username") ?? ""
-        
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
-        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
     // Email login
@@ -212,7 +212,7 @@ extension AuthViewModel {
         case let commError as CommError:
             errMsg = commError.errorDescription
         default:
-            errMsg = "\(error)" //error.localizedDescription
+            errMsg = error.localizedDescription
         }
     }
 }

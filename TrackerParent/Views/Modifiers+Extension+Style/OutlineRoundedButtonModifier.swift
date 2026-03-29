@@ -10,31 +10,22 @@ import SwiftUI
 
 struct OutlineRoundedButtonModifier: ViewModifier {
     let buttonHeight: CGFloat
-    let buttonColor: Color
+    let buttonBackground: AnyShapeStyle
     let buttonTextColor: Color
-    let outlineColor: Color
+    let outlineStyle: AnyShapeStyle
     let outlineWidth: CGFloat
     let cornerRadius: CGFloat
-    
+
     func body(content: Content) -> some View {
         content
-//            .foregroundStyle(Color.primaryText)
-//            .frame(maxWidth: .infinity)
-//            .frame(height: 50)
-//            .background(Color.secondaryBackground)
-//            .clipShape(RoundedRectangle(cornerRadius: 25))
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 25)
-//                    .stroke(Color.outline, lineWidth: 0.5)
-//            )
             .foregroundStyle(buttonTextColor)
             .frame(maxWidth: .infinity)
             .frame(height: buttonHeight)
-            .background(buttonColor)
+            .background(buttonBackground)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             .overlay(
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(outlineColor, lineWidth: outlineWidth)
+                    .stroke(outlineStyle, lineWidth: outlineWidth)
             )
     }
 }
@@ -42,18 +33,19 @@ struct OutlineRoundedButtonModifier: ViewModifier {
 extension View {
     func outlineRoundedButtonStyle(
         buttonHeight: CGFloat = 50,
-        buttonColor: Color = Color.secondaryBackground,
+        buttonBackground: AnyShapeStyle = AnyShapeStyle(Color.secondaryBackground),
         buttonTextColor: Color = Color.primaryText,
-        outlineColor: Color = Color.outline,
+        outlineStyle: AnyShapeStyle = AnyShapeStyle(Color.outline),
         outlineWidth: CGFloat = 0.5,
         cornerRadius: CGFloat? = nil
     ) -> some View {
         modifier(OutlineRoundedButtonModifier(
             buttonHeight: buttonHeight,
-            buttonColor: buttonColor,
+            buttonBackground: buttonBackground,
             buttonTextColor: buttonTextColor,
-            outlineColor: outlineColor,
+            outlineStyle: outlineStyle,
             outlineWidth: outlineWidth,
-            cornerRadius: cornerRadius ?? buttonHeight / 2))
+            cornerRadius: cornerRadius ?? buttonHeight / 2
+        ))
     }
 }

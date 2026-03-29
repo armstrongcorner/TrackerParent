@@ -8,6 +8,10 @@
 import Foundation
 
 actor MockUserService: UserServiceProtocol {
+    var invitationListResponse: InvitationListResponse?
+    var invitationResponse: InvitationResponse?
+    var watchRelationshipListResponse: WatchRelationshipListResponse?
+    
     var userResponse: UserResponse?
     var userListResponse: UserListResponse?
     var userExistResponse: UserExistResponse?
@@ -15,6 +19,18 @@ actor MockUserService: UserServiceProtocol {
     var shouldReturnError: Bool = false
     var commError: CommError?
     
+    func setInvitationListResponse(_ invitationListResponse: InvitationListResponse?) {
+        self.invitationListResponse = invitationListResponse
+    }
+    
+    func setInvitationResponse(_ invitationResponse: InvitationResponse?) {
+        self.invitationResponse = invitationResponse
+    }
+    
+    func setWatchRelationshipListResponse(_ watchRelationshipListResponse: WatchRelationshipListResponse?) {
+        self.watchRelationshipListResponse = watchRelationshipListResponse
+    }
+
     func setUserResponse(_ userResponse: UserResponse?) {
         self.userResponse = userResponse
     }
@@ -37,6 +53,46 @@ actor MockUserService: UserServiceProtocol {
     
     func setCommError(_ commError: CommError?) {
         self.commError = commError
+    }
+    
+    // MARK: - mocked functions
+    func getAllInvitations() async throws -> InvitationListResponse? {
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let invitationListResponse, !shouldReturnError {
+            return invitationListResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
+    }
+    
+    func getWatchRelationships() async throws -> WatchRelationshipListResponse? {
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let watchRelationshipListResponse, !shouldReturnError {
+            return watchRelationshipListResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
+    }
+    
+    func sendInvitation(email: String, message: String) async throws -> InvitationResponse? {
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let invitationResponse, !shouldReturnError {
+            return invitationResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
     }
     
     func getUserInfo(username: String) async throws -> UserResponse? {

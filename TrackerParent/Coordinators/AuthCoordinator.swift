@@ -30,7 +30,7 @@ struct AuthCoordinator: RouteAction {
             case .admin:
                 UserListScreen()
             case .user:
-                TrackListScreen()
+                WatchListScreen()
             }
         }
     }

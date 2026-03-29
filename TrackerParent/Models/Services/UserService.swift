@@ -8,6 +8,11 @@
 import Foundation
 import MTNetworkManager
 
+struct SendInvitationBody: Codable {
+    let inviteeEmail: String
+    let message: String
+}
+
 struct SendVerificationEmailBody: Codable {
     let username: String
     let role: String
@@ -35,6 +40,10 @@ struct UpdateUserInfoBody: Codable {
 }
 
 protocol UserServiceProtocol: Sendable {
+    func getAllInvitations() async throws -> InvitationListResponse?
+    func getWatchRelationships() async throws -> WatchRelationshipListResponse?
+    func sendInvitation(email: String, message: String) async throws -> InvitationResponse?
+    
     func getUserInfo(username: String) async throws -> UserResponse?
     func getUserList() async throws -> UserListResponse?
 //    func updateUserInfo(newUserModel: UserModel) async throws -> UserResponse?
@@ -45,12 +54,54 @@ protocol UserServiceProtocol: Sendable {
 }
 
 actor UserService: UserServiceProtocol, BaseServiceProtocol {
+    
     private let apiClient: MTApiClientProtocol
     
     init(apiClient: MTApiClientProtocol = MTApiClient()) {
         self.apiClient = apiClient
     }
 
+    func getAllInvitations() async throws -> InvitationListResponse? {
+        let defaultHeaders = try getDefaultHeaders()
+        
+        let response = try await apiClient.get(
+            urlString: Endpoint.allInvitations.urlString,
+            headers: defaultHeaders,
+            responseType: InvitationListResponse.self
+        )
+        
+        return response
+    }
+    
+    func getWatchRelationships() async throws -> WatchRelationshipListResponse? {
+        let defaultHeaders = try getDefaultHeaders()
+        
+        let response = try await apiClient.get(
+            urlString: Endpoint.allInvitations.urlString,
+            headers: defaultHeaders,
+            responseType: WatchRelationshipListResponse.self
+        )
+        
+        return response
+    }
+    
+    func sendInvitation(email: String, message: String) async throws -> InvitationResponse? {
+        let defaultHeaders = try getDefaultHeaders()
+        let requestBody = SendInvitationBody(
+            inviteeEmail: email,
+            message: message
+        )
+        
+        let response = try await apiClient.post(
+            urlString: Endpoint.sendInvitation.urlString,
+            headers: defaultHeaders,
+            body: requestBody,
+            responseType: InvitationResponse.self
+        )
+        
+        return response
+    }
+    
     func getUserInfo(username: String) async throws -> UserResponse? {
         let defaultHeaders = try getDefaultHeaders()
         

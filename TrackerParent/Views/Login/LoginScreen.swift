@@ -13,9 +13,10 @@ struct LoginScreen: View {
     @Environment(\.router) private var router
     @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) private var toastViewObserver
-    @State private var vm: AuthViewModel
     
-    init(vm: AuthViewModel = AuthViewModel()) {
+    @State private var vm: AuthViewModelProtocol
+    
+    init(vm: AuthViewModelProtocol = AuthViewModel()) {
         _vm = State(wrappedValue: vm)
     }
     

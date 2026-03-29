@@ -6,19 +6,16 @@
 //
 
 import Foundation
-import OSLog
 
 @MainActor
 protocol LoginUseCaseProtocol {
     func execute(username: String, password: String) async throws -> AuthResponse?
 }
 
-final class LoginUseCase: LoginUseCaseProtocol {
+final class LoginUseCase: LoginUseCaseProtocol, Loggable {
     private let loginService: LoginServiceProtocol
     private let keyChainUtil: KeyChainUtilProtocol
     private let userDefaults: UserDefaults
-    
-    private let logger: Logger
     
     init(
         loginService: LoginServiceProtocol = LoginService(),
@@ -28,9 +25,6 @@ final class LoginUseCase: LoginUseCaseProtocol {
         self.loginService = loginService
         self.keyChainUtil = keyChainUtil
         self.userDefaults = userDefaults
-        
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
-        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
     func execute(username: String, password: String) async throws -> AuthResponse? {

@@ -16,6 +16,9 @@ enum Endpoint {
 
     case firebaseLogin
     case login
+    case allInvitations
+    case sendInvitation
+    case watchRelationships
     case userInfo(String)
     case updateUser
     case allUsers
@@ -36,6 +39,12 @@ enum Endpoint {
             return "\(Endpoint.devURL)/auth/firebase-login"
         case .login:
             return "\(Endpoint.userURL)/identity/token"
+        case .allInvitations:
+            return "\(Endpoint.devURL)/watch-invitations"
+        case .sendInvitation:
+            return "\(Endpoint.devURL)/watch-invitations/sent"
+        case .watchRelationships:
+            return "\(Endpoint.devURL)/watch-relationships"
         case .userInfo(let username):
             return "\(Endpoint.userURL)/identity/user?username=\(username)"
         case .updateUser:

@@ -49,6 +49,7 @@ extension RouteAction {
 @MainActor
 struct AppCoordinator {
     let auth = AuthCoordinator()
+    let user = UserCoordinator()
     let track = TrackCoordinator()
     let setting = SettingCoordinator()
     

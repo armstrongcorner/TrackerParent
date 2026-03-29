@@ -7,13 +7,6 @@
 
 import Foundation
 
-//struct AuthModel: Codable {
-//    let token: String
-//    let userRole: String
-//    let validInMins: Int
-//    let validUntilUTC: String
-//}
-
 struct AuthModel: Codable {
     let accessToken: String?
     let accessTokenExpiresAt: String?

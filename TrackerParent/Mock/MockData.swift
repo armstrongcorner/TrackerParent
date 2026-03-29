@@ -68,6 +68,129 @@ let mockUserExistResponseWithFailureReason = UserExistResponse(value: nil, failu
 let mockUserListResponse = UserListResponse(value: [mockUser1, mockUser2], failureReason: nil, isSuccess: true)
 let mockUserListResponseWithFailureReason = UserListResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 
+let mockInvitation1 = InvitationModel(
+    id: 101,
+    ownerUserId: mockUser2.id,
+    inviteeEmail: mockUser1.email,
+    inviteeUserId: mockUser1.id,
+    status: "Pending",
+    message: "Please accept tracking access for family safety.",
+    expiresAt: "2026-04-01T09:00:00.0000000Z",
+    acceptedAt: nil,
+    declinedAt: nil,
+    revokedAt: nil,
+    createdAt: "2026-03-26T09:00:00.0000000Z",
+    updatedAt: "2026-03-26T09:00:00.0000000Z",
+    ownerUser: mockUser2,
+    inviteeUser: mockUser1
+)
+
+let mockInvitation2 = InvitationModel(
+    id: 102,
+    ownerUserId: mockUser2.id,
+    inviteeEmail: mockUser3.email,
+    inviteeUserId: mockUser3.id,
+    status: "Accepted",
+    message: "Accepted invitation for daily watch access.",
+    expiresAt: "2026-04-05T18:30:00.0000000Z",
+    acceptedAt: "2026-03-27T10:15:00.0000000Z",
+    declinedAt: nil,
+    revokedAt: nil,
+    createdAt: "2026-03-25T18:30:00.0000000Z",
+    updatedAt: "2026-03-27T10:15:00.0000000Z",
+    ownerUser: mockUser2,
+    inviteeUser: mockUser3
+)
+
+let mockInvitation3 = InvitationModel(
+    id: 103,
+    ownerUserId: mockUser1.id,
+    inviteeEmail: "pending_parent@example.com",
+    inviteeUserId: nil,
+    status: "Sent",
+    message: "Invitation sent and waiting for account registration.",
+    expiresAt: "2026-04-10T12:00:00.0000000Z",
+    acceptedAt: nil,
+    declinedAt: nil,
+    revokedAt: nil,
+    createdAt: "2026-03-28T12:00:00.0000000Z",
+    updatedAt: "2026-03-28T12:00:00.0000000Z",
+    ownerUser: mockUser1,
+    inviteeUser: nil
+)
+
+let mockInvitationList: [InvitationModel] = [
+    mockInvitation1,
+    mockInvitation2,
+    mockInvitation3
+]
+
+let mockInvitationListResponse = InvitationListResponse(value: mockInvitationList, failureReason: nil, isSuccess: true)
+let mockInvitationListResponseWithFailureReason = InvitationListResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+
+let mockWatchRelationship1 = WatchRelationshipModel(
+    id: 201,
+    ownerUserId: mockUser2.id,
+    watchedUserId: mockUser1.id,
+    invitationId: mockInvitation1.id,
+    status: "Active",
+    activatedAt: "2026-03-27T08:00:00.0000000Z",
+    revokedAt: nil,
+    createdAt: "2026-03-27T08:00:00.0000000Z",
+    updatedAt: "2026-03-27T08:00:00.0000000Z",
+    watchedUser: mockUser1
+)
+
+let mockWatchRelationship2 = WatchRelationshipModel(
+    id: 202,
+    ownerUserId: mockUser2.id,
+    watchedUserId: mockUser3.id,
+    invitationId: mockInvitation2.id,
+    status: "Paused",
+    activatedAt: "2026-03-28T07:45:00.0000000Z",
+    revokedAt: nil,
+    createdAt: "2026-03-28T07:45:00.0000000Z",
+    updatedAt: "2026-03-29T20:10:00.0000000Z",
+    watchedUser: mockUser3
+)
+
+let mockWatchRelationship3 = WatchRelationshipModel(
+    id: 203,
+    ownerUserId: mockUser1.id,
+    watchedUserId: 4,
+    invitationId: nil,
+    status: "Pending",
+    activatedAt: nil,
+    revokedAt: nil,
+    createdAt: "2026-03-29T14:20:00.0000000Z",
+    updatedAt: "2026-03-29T14:20:00.0000000Z",
+    watchedUser: UserModel(
+        id: 4,
+        username: "test_username4",
+        password: nil,
+        displayName: "Test User 4",
+        email: "test_username4@example.com",
+        emailVerified: true,
+        disabled: false,
+        photoUrl: "photo_url_4",
+        firebaseUid: "firebase_uid_4",
+        createdAt: "2026-03-20T11:00:00.0000000Z",
+        updatedAt: "2026-03-29T14:20:00.0000000Z",
+        lastLoginAt: "2026-03-29T08:10:00.0000000Z",
+        signInProvider: "password",
+        role: "User"
+    )
+)
+
+let mockWatchRelationshipList: [WatchRelationshipModel] = [
+    mockWatchRelationship1,
+    mockWatchRelationship2,
+    mockWatchRelationship3
+]
+
+let mockWatchRelationshipListResponse = WatchRelationshipListResponse(value: mockWatchRelationshipList, failureReason: nil, isSuccess: true)
+let mockWatchRelationshipListResponseWithFailureReason = WatchRelationshipListResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+
 let mockAuth1 = AuthModel(
     accessToken: "123456",
     accessTokenExpiresAt: "2025-03-26T01:29:38.946042Z",

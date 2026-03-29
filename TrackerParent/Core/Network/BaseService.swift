@@ -16,15 +16,18 @@ extension BaseServiceProtocol {
         var headers: [String: String] = [:]
         
         // Put keychain cached token to header
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
         var theAccount: String?
         if account == nil {
             theAccount = UserDefaults.standard.string(forKey: "username") ?? ""
         } else {
             theAccount = account
         }
-        if let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: theAccount ?? "", type: AuthModel.self),
-           let accessToken = savedAuthModel.accessToken {
+        
+        if let bundleId = Bundle.main.bundleIdentifier,
+           let theAccount,
+           let savedAuthModel = try KeyChainUtil.shared.loadObject(service: bundleId, account: theAccount, type: AuthModel.self),
+           let accessToken = savedAuthModel.accessToken
+        {
             headers["Authorization"] = "Bearer \(accessToken)"
         }
         

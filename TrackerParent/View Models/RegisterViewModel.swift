@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OSLog
 
 enum RegisterError: Error {
     case emptyEmail
@@ -57,7 +56,7 @@ protocol RegisterViewModelProtocol {
 
 @MainActor
 @Observable
-final class RegisterViewModel: RegisterViewModelProtocol {
+final class RegisterViewModel: RegisterViewModelProtocol, Loggable {
     var email: String = ""
     var verificationCode: String = ""
     var password: String = ""
@@ -78,9 +77,6 @@ final class RegisterViewModel: RegisterViewModelProtocol {
     private let keyChainUtil: KeyChainUtilProtocol
     @ObservationIgnored
     private let userDefaults: UserDefaults
-    @ObservationIgnored
-    private let logger: Logger
-    
     init(
         userService: UserServiceProtocol = UserService(),
         loginService: LoginServiceProtocol = LoginService(),
@@ -95,9 +91,6 @@ final class RegisterViewModel: RegisterViewModelProtocol {
         self.userDefaults = userDefaults
         self.registerState = registerState
         self.errMsg = errMsg
-        
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
-        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
     func requestVerificationCode() async {

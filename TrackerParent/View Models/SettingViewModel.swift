@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OSLog
 
 enum SettingType {
     case fetch
@@ -34,7 +33,7 @@ protocol SettingViewModelProtocol: Sendable {
 
 @MainActor
 @Observable
-final class SettingViewModel: SettingViewModelProtocol {
+final class SettingViewModel: SettingViewModelProtocol, Loggable {
     var settingList: [SettingModel]?
     var currentSetting: SettingModel?
     var fetchDataState: FetchDataState
@@ -46,9 +45,6 @@ final class SettingViewModel: SettingViewModelProtocol {
 
     @ObservationIgnored
     private let settingService: SettingServiceProtocol
-    
-    @ObservationIgnored
-    private let logger: Logger
     
     init(
         settingService: SettingServiceProtocol = SettingService(),
@@ -66,9 +62,6 @@ final class SettingViewModel: SettingViewModelProtocol {
         self.deleteDataState = deleteDataState
         self.errMsg = errMsg
         self.refreshData = refreshData
-        
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
-        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
 
     func fetchSettingList() async {

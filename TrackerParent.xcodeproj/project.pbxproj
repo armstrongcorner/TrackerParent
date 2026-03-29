@@ -88,6 +88,16 @@
 		AEE7EB8F2F72992D00694ACB /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB8E2F72992D00694ACB /* AuthCoordinator.swift */; };
 		AEE7EB912F7299C400694ACB /* TrackCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB902F7299C400694ACB /* TrackCoordinator.swift */; };
 		AEE7EB932F7299F400694ACB /* SettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB922F7299F400694ACB /* SettingCoordinator.swift */; };
+		AEE7EB962F73DEE800694ACB /* WatchListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB952F73DEE800694ACB /* WatchListScreen.swift */; };
+		AEE7EB982F73F00200694ACB /* InvitationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB972F73F00200694ACB /* InvitationModel.swift */; };
+		AEE7EB9A2F74DEDF00694ACB /* WatchRelationshipModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB992F74DEDF00694ACB /* WatchRelationshipModel.swift */; };
+		AEE7EBA02F74F5F700694ACB /* BaseLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB9F2F74F5F700694ACB /* BaseLogger.swift */; };
+		AEE7EBA82F76733500694ACB /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EBA72F76733500694ACB /* UserCoordinator.swift */; };
+		AEE7EBAA2F76794200694ACB /* SendInvitationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EBA92F76794200694ACB /* SendInvitationScreen.swift */; };
+		AEE7EBB02F78BBAB00694ACB /* WatchInvitationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EBAF2F78BBAB00694ACB /* WatchInvitationViewModel.swift */; };
+		AEE7EBB22F78C2C600694ACB /* MockWatchInvitationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EBB12F78C2C600694ACB /* MockWatchInvitationViewModel.swift */; };
+		AEE7EBB42F78CB8700694ACB /* RequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EBB32F78CB8700694ACB /* RequestStatus.swift */; };
+		AEE7EBB62F793B4900694ACB /* InvitationItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EBB52F793B4900694ACB /* InvitationItemView.swift */; };
 		B10000012F90000100000001 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000012F90000100000002 /* AppCoordinator.swift */; };
 /* End PBXBuildFile section */
 
@@ -191,6 +201,16 @@
 		AEE7EB8E2F72992D00694ACB /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		AEE7EB902F7299C400694ACB /* TrackCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCoordinator.swift; sourceTree = "<group>"; };
 		AEE7EB922F7299F400694ACB /* SettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCoordinator.swift; sourceTree = "<group>"; };
+		AEE7EB952F73DEE800694ACB /* WatchListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListScreen.swift; sourceTree = "<group>"; };
+		AEE7EB972F73F00200694ACB /* InvitationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationModel.swift; sourceTree = "<group>"; };
+		AEE7EB992F74DEDF00694ACB /* WatchRelationshipModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRelationshipModel.swift; sourceTree = "<group>"; };
+		AEE7EB9F2F74F5F700694ACB /* BaseLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLogger.swift; sourceTree = "<group>"; };
+		AEE7EBA72F76733500694ACB /* UserCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
+		AEE7EBA92F76794200694ACB /* SendInvitationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendInvitationScreen.swift; sourceTree = "<group>"; };
+		AEE7EBAF2F78BBAB00694ACB /* WatchInvitationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchInvitationViewModel.swift; sourceTree = "<group>"; };
+		AEE7EBB12F78C2C600694ACB /* MockWatchInvitationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWatchInvitationViewModel.swift; sourceTree = "<group>"; };
+		AEE7EBB32F78CB8700694ACB /* RequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestStatus.swift; sourceTree = "<group>"; };
+		AEE7EBB52F793B4900694ACB /* InvitationItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationItemView.swift; sourceTree = "<group>"; };
 		B10000012F90000100000002 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -313,6 +333,7 @@
 			children = (
 				224A3E3B2D8289B700815897 /* AuthViewModel.swift */,
 				22F160D42DA5CFDD00C4528E /* RegisterViewModel.swift */,
+				AEE7EBAF2F78BBAB00694ACB /* WatchInvitationViewModel.swift */,
 				223499192DA10ED500E810FF /* UserViewModel.swift */,
 				AEE6B4EB2D8A6AAE0094EB82 /* TrackViewModel.swift */,
 				AEE6B5052D8EA98C0094EB82 /* SettingViewModel.swift */,
@@ -341,6 +362,7 @@
 				AEE6B4FC2D8E66560094EB82 /* MockTrackViewModel.swift */,
 				AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */,
 				2234991B2DA1247900E810FF /* MockUserViewModel.swift */,
+				AEE7EBB12F78C2C600694ACB /* MockWatchInvitationViewModel.swift */,
 				22F160D62DA642DF00C4528E /* MockRegisterViewModel.swift */,
 				223499212DA2733200E810FF /* MockLAContext.swift */,
 				223499272DA3E44800E810FF /* MockBiometricsUtil.swift */,
@@ -387,6 +409,7 @@
 				2266D15B2D86C3A1004D9644 /* Modifiers+Extension+Style */,
 				AEE6B4F32D8BFD5D0094EB82 /* Login */,
 				225F20A12DA52B9A00998670 /* Register */,
+				AEE7EB942F73DE1D00694ACB /* Users */,
 				AEE6B4F42D8BFD800094EB82 /* Track */,
 				AEE6B5022D8EA8ED0094EB82 /* Setting */,
 			);
@@ -398,6 +421,8 @@
 			children = (
 				22FBA7BF2D856A88002C10B1 /* Services */,
 				22FBA7B92D856990002C10B1 /* AuthModel.swift */,
+				AEE7EB972F73F00200694ACB /* InvitationModel.swift */,
+				AEE7EB992F74DEDF00694ACB /* WatchRelationshipModel.swift */,
 				AEE6B4D12D8958660094EB82 /* UserModel.swift */,
 				AEE6B4EF2D8A6E510094EB82 /* LocationModel.swift */,
 				AEE6B5072D8EAAA50094EB82 /* SettingModel.swift */,
@@ -410,6 +435,8 @@
 			children = (
 				2266D1562D86BCFB004D9644 /* Utils */,
 				22FBA7C12D856B5B002C10B1 /* Network */,
+				AEE7EB9F2F74F5F700694ACB /* BaseLogger.swift */,
+				AEE7EBB32F78CB8700694ACB /* RequestStatus.swift */,
 				22F160DA2DA7B7E400C4528E /* Constant.swift */,
 			);
 			path = Core;
@@ -498,10 +525,29 @@
 			children = (
 				B10000012F90000100000002 /* AppCoordinator.swift */,
 				AEE7EB8E2F72992D00694ACB /* AuthCoordinator.swift */,
+				AEE7EBA72F76733500694ACB /* UserCoordinator.swift */,
 				AEE7EB902F7299C400694ACB /* TrackCoordinator.swift */,
 				AEE7EB922F7299F400694ACB /* SettingCoordinator.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		AEE7EB942F73DE1D00694ACB /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				AEE7EBB72F793D9400694ACB /* Subviews */,
+				AEE7EB952F73DEE800694ACB /* WatchListScreen.swift */,
+				AEE7EBA92F76794200694ACB /* SendInvitationScreen.swift */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		AEE7EBB72F793D9400694ACB /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				AEE7EBB52F793B4900694ACB /* InvitationItemView.swift */,
+			);
+			path = Subviews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -656,12 +702,14 @@
 				AEE6B4EC2D8A6AAE0094EB82 /* TrackViewModel.swift in Sources */,
 				2266D1392D862EDC004D9644 /* MockLoginService.swift in Sources */,
 				22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */,
+				AEE7EB9A2F74DEDF00694ACB /* WatchRelationshipModel.swift in Sources */,
 				B10000012F90000100000001 /* AppCoordinator.swift in Sources */,
 				AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */,
 				22F160D92DA666D900C4528E /* StringUtil.swift in Sources */,
 				AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */,
 				22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */,
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
+				AEE7EBAA2F76794200694ACB /* SendInvitationScreen.swift in Sources */,
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
 				2234991C2DA1247900E810FF /* MockUserViewModel.swift in Sources */,
 				AE8DBDDF2F5D1A45007B7502 /* PressableButtonStyle.swift in Sources */,
@@ -669,10 +717,12 @@
 				2266D1552D8688BB004D9644 /* Endpoint.swift in Sources */,
 				AEE6B4F72D8BFDD50094EB82 /* TrackListItem.swift in Sources */,
 				225F20A32DA52BCD00998670 /* RegisterVerificationScreen.swift in Sources */,
+				AEE7EBB22F78C2C600694ACB /* MockWatchInvitationViewModel.swift in Sources */,
 				AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */,
 				AEE6B4F92D8C090B0094EB82 /* TrackDetailScreen.swift in Sources */,
 				AE8DBDDD2F5C37F8007B7502 /* Color.swift in Sources */,
 				22F160D52DA5CFDE00C4528E /* RegisterViewModel.swift in Sources */,
+				AEE7EBA82F76733500694ACB /* UserCoordinator.swift in Sources */,
 				AEE6B4F22D8AC9500094EB82 /* DateUtil.swift in Sources */,
 				22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */,
 				AE178B342F6E705100418452 /* LoginFirebaseUseCase.swift in Sources */,
@@ -692,14 +742,19 @@
 				AEE7EB932F7299F400694ACB /* SettingCoordinator.swift in Sources */,
 				AEE6B4F02D8A6E510094EB82 /* LocationModel.swift in Sources */,
 				223499132DA0CC9100E810FF /* UserListScreen.swift in Sources */,
+				AEE7EB982F73F00200694ACB /* InvitationModel.swift in Sources */,
 				2234991A2DA10ED500E810FF /* UserViewModel.swift in Sources */,
 				AE178B302F6E2AB400418452 /* LoginUseCase.swift in Sources */,
 				AEE7EB912F7299C400694ACB /* TrackCoordinator.swift in Sources */,
+				AEE7EBB62F793B4900694ACB /* InvitationItemView.swift in Sources */,
 				22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */,
+				AEE7EBA02F74F5F700694ACB /* BaseLogger.swift in Sources */,
 				AEE7EB8F2F72992D00694ACB /* AuthCoordinator.swift in Sources */,
 				22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */,
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
+				AEE7EBB02F78BBAB00694ACB /* WatchInvitationViewModel.swift in Sources */,
 				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
+				AEE7EB962F73DEE800694ACB /* WatchListScreen.swift in Sources */,
 				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
 				22863C012DB06A200076194A /* MockSettingService.swift in Sources */,
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,
@@ -708,6 +763,7 @@
 				223499222DA2733200E810FF /* MockLAContext.swift in Sources */,
 				224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */,
 				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
+				AEE7EBB42F78CB8700694ACB /* RequestStatus.swift in Sources */,
 				223499182DA10E8800E810FF /* UserListItem.swift in Sources */,
 				AE8DBDE12F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift in Sources */,
 				225F20A52DA52BE800998670 /* RegisterConfirmationScreen.swift in Sources */,

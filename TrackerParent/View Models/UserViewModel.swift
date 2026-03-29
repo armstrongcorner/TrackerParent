@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OSLog
 
 enum AccountRole: String {
     case admin = "Admin"
@@ -25,9 +24,8 @@ protocol UserViewModelProtocol {
     func logout()
 }
 
-@MainActor
 @Observable
-final class UserViewModel: UserViewModelProtocol {
+final class UserViewModel: UserViewModelProtocol, Loggable {
     var users: [UserModel] = []
     var fetchDataState: FetchDataState
     var errMsg: String?
@@ -39,9 +37,6 @@ final class UserViewModel: UserViewModelProtocol {
     @ObservationIgnored
     private let userDefaults: UserDefaults
 
-    @ObservationIgnored
-    private let logger: Logger
-    
     init(
         userService: UserServiceProtocol = UserService(),
         keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
@@ -54,9 +49,6 @@ final class UserViewModel: UserViewModelProtocol {
         self.userDefaults = userDefaults
         self.fetchDataState = fetchDataState
         self.errMsg = errMsg
-        
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
-        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
     func fetchUsers() async {
@@ -150,9 +142,8 @@ final class UserViewModel: UserViewModelProtocol {
     
     private func handleError(_ error: Error) {
         logger.log("Error fetching data: \(error.localizedDescription)")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.fetchDataState = .error
-        }
+        
+        self.fetchDataState = .error
         
         switch error {
         case let commError as CommError:

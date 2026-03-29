@@ -18,6 +18,15 @@ struct StringUtil {
         return email.range(of: emailRegex, options: .regularExpression, range: nil, locale: nil) != nil
     }
     
+    func initials(from email: String) -> String {
+        let localPart = email.split(separator: "@").first.map(String.init) ?? email
+
+        return localPart
+            .split(whereSeparator: { $0 == "." || $0 == "_" || $0 == "-" })
+            .compactMap { $0.first.map { String($0).uppercased() } }
+            .joined()
+    }
+    
     @MainActor
     func getDeviceId() -> String? {
         return UIDevice.current.identifierForVendor?.uuidString

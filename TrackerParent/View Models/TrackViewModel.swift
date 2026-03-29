@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import OSLog
 
 enum FetchDataState: Equatable {
     case done
@@ -26,7 +25,7 @@ protocol TrackViewModelProtocol: Sendable {
 
 @MainActor
 @Observable
-final class TrackViewModel: TrackViewModelProtocol {
+final class TrackViewModel: TrackViewModelProtocol, Loggable {
     var tracks: [[LocationModel]] = []
     var fetchDataState: FetchDataState
     var errMsg: String?
@@ -38,9 +37,6 @@ final class TrackViewModel: TrackViewModelProtocol {
     @ObservationIgnored
     private let userDefaults: UserDefaults
 
-    @ObservationIgnored
-    private let logger: Logger
-    
     init(
         trackService: TrackServiceProtocol = TrackService(),
         keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
@@ -53,9 +49,6 @@ final class TrackViewModel: TrackViewModelProtocol {
         self.userDefaults = userDefaults
         self.fetchDataState = fetchDataState
         self.errMsg = errMsg
-        
-        let bundleId = Bundle.main.bundleIdentifier ?? ""
-        self.logger = Logger(subsystem: bundleId, category: String(describing: type(of: self)))
     }
     
     func fetchTrack(username: String?, fromDate: Date, toDate: Date) async {
