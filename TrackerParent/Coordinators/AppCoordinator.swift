@@ -26,8 +26,10 @@ extension RouteAction {
         }
     }
 
-    func show(_ route: Route, on router: AnyRouter, sheetConfig: ResizableSheetConfig) {
-        router.showScreen(.sheetConfig(config: sheetConfig)) { _ in
+    func show(_ route: Route, on router: AnyRouter, sheetConfig: ResizableSheetConfig, onDismiss: @escaping () -> Void = {}) {
+        router.showScreen(.sheetConfig(config: sheetConfig), onDismiss: {
+            onDismiss()
+        }) { _ in
             destination(for: route)
         }
     }

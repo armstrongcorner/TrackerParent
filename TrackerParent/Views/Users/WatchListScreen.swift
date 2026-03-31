@@ -23,7 +23,7 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
         ZStack {
             Color.theme.background.ignoresSafeArea()
             
-            VStack {
+            VStack(spacing: 0) {
                 Text("Active Monitors")
                     .font(.largeTitle)
                     .bold()
@@ -39,105 +39,11 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
                 }
                 
                 if vm.watchList.isEmpty {
-                    VStack {
-                        Image(systemName: "eye.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(.mainTheme)
-                            .frame(width: 50, height: 50)
-                            .padding(30)
-                            .background(
-                                Circle()
-                                    .fill(.reversePrimaryText)
-                            )
-                            .overlay {
-                                Circle()
-                                    .stroke(
-                                        .primaryText.opacity(0.1),
-                                        lineWidth: 0.5
-                                    )
-                            }
-                            .padding(.bottom, 30)
-                        
-                        Text("No active monitors yet")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.primaryText)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.bottom, 20)
-                        
-                        Text("Add a user to start tracking their location and activity status in real-time across you dashboard.")
-                            .font(.title3)
-                            .fontWeight(.regular)
-                            .foregroundStyle(.secondaryText)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.bottom, 30)
-                        
-                        // Invite user button
-                        Button {
-                            
-                        } label: {
-                            HStack {
-                                Image(systemName: "person.fill.badge.plus")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.reversePrimaryText)
-                                    .frame(width: 25, height: 25)
-                                
-                                Text("Invite User")
-                                    .font(.headline)
-                            }
-                            .outlineRoundedButtonStyle(
-                                buttonBackground: AnyShapeStyle(
-                                    LinearGradient(
-                                        colors: [.mainTheme, .mainTheme.opacity(0.7)],
-                                        startPoint: .leading,
-                                        endPoint: .trailing)
-                                ),
-                                buttonTextColor: .white,
-                                outlineWidth: 0
-                            )
-                            .shadow(color: .mainTheme, radius: 3, x: 0, y: 3)
-                        }
-                        .withPressableButtonStyle()
-                        
-                        // View invitation history button
-                        Button {
-                            
-                        } label: {
-                            Text("View Invitation History  >")
-                                .font(.title3)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.mainTheme)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding()
-                        }
-                        .withPressableButtonStyle()
-                    }
-                    .padding(35)
-                    .background(
-                        RoundedRectangle(cornerRadius: 30)
-                            .fill(.outline.opacity(0.2))
-                    )
-                    .padding()
+                    emptyWatchListView
                 } else {
                     // Watch list view
-                    List {
-                        ForEach(vm.watchList, id: \.self) { watchRelationship in
-                            WatchedUserView(watchRelationship)
-                        }
-                    }
-                    .listStyle(.plain)
-                    .padding(.vertical, 15)
-                }
-                
-                Spacer()
-                
-                Button {
-                    vm.showAddWatchSheet = true
-                } label: {
-                    Text("Hello, World!")
+                    watchListContentView
+                        .padding(.vertical, 15)
                 }
             }
             .padding(.horizontal)
@@ -148,27 +54,153 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
             let _ = print(vm.watchList.count)
         }
         .onChange(of: vm.showAddWatchSheet) { _, newValue in
-//            if newValue {
-//                let config = ResizableSheetConfig(
-//                    detents: [.fraction(0.8), .large],
-//                    dragIndicator: .automatic,
-//                    backgroundInteraction: .disabled
-//                )
-//                appCoordinator.user.show(
-//                    .sendInvitation(AnyView(SendInvitationScreen(vm: vm))),
-//                    on: router,
-//                    sheetConfig: config
-//                )
-//            }
+            if newValue {
+                navigateToSendInvitation()
+            }
         }
     }
 }
 
 // MARK: - View sections
 extension WatchListScreen {
-//    private watchListContentView: some View {
-//        
-//    }
+    // Watch list empty content view
+    private var emptyWatchListView: some View {
+        Group {
+            Spacer()
+            
+            VStack {
+                Image(systemName: "eye.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.mainTheme)
+                    .frame(width: 50, height: 50)
+                    .padding(30)
+                    .background(
+                        Circle()
+                            .fill(.reversePrimaryText)
+                    )
+                    .overlay {
+                        Circle()
+                            .stroke(
+                                .primaryText.opacity(0.1),
+                                lineWidth: 0.5
+                            )
+                    }
+                    .padding(.bottom, 30)
+                
+                Text("No active monitors yet")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.primaryText)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, 20)
+                
+                Text("Add a user to start tracking their location and activity status in real-time across you dashboard.")
+                    .font(.title3)
+                    .fontWeight(.regular)
+                    .foregroundStyle(.secondaryText)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, 30)
+                
+                invitateUserButton
+                
+                invitationHistoryButton
+                    .padding(.top, 20)
+            }
+            .padding(35)
+            .background(
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(.outline.opacity(0.2))
+            )
+            .padding()
+            
+            Spacer()
+            
+            Spacer()
+        }
+    }
+    
+    // Watch list content view
+    private var watchListContentView: some View {
+        Group {
+            List {
+                ForEach(vm.watchList, id: \.self) { watchRelationship in
+                    WatchedUserView(watchRelationship)
+                }
+            }
+            .listStyle(.plain)
+            
+            invitateUserButton
+            
+            invitationHistoryButton
+        }
+    }
+    
+    // Invite user button
+    private var invitateUserButton: some View {
+        Button {
+            vm.showAddWatchSheet = true
+        } label: {
+            HStack {
+                Image(systemName: "person.fill.badge.plus")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.reversePrimaryText)
+                    .frame(width: 25, height: 25)
+                
+                Text("Invite User")
+                    .font(.headline)
+            }
+            .outlineRoundedButtonStyle(
+                buttonBackground: AnyShapeStyle(
+                    LinearGradient(
+                        colors: [.mainTheme, .mainTheme.opacity(0.7)],
+                        startPoint: .leading,
+                        endPoint: .trailing)
+                ),
+                buttonTextColor: .white,
+                outlineWidth: 0
+            )
+            .shadow(color: .mainTheme, radius: 3, x: 0, y: 3)
+        }
+        .withPressableButtonStyle()
+    }
+    
+    // View invitation history button
+    private var invitationHistoryButton: some View {
+        Button {
+            navigateToInvitationHistory()
+        } label: {
+            Text("View Invitation History  >")
+                .font(.title3)
+                .fontWeight(.medium)
+                .foregroundStyle(.mainTheme)
+                .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .withPressableButtonStyle()
+    }
+}
+
+// MARK: - Navigations
+extension WatchListScreen {
+    private func navigateToSendInvitation() {
+        let config = ResizableSheetConfig(
+            detents: [.fraction(0.8), .large],
+            dragIndicator: .automatic,
+            backgroundInteraction: .disabled
+        )
+        appCoordinator.user.show(
+            .sendInvitation(AnyView(SendInvitationScreen(vm: vm))),
+            on: router,
+            sheetConfig: config) { [weak vm] in
+                vm?.showAddWatchSheet = false
+            }
+    }
+    
+    private func navigateToInvitationHistory() {
+        
+    }
 }
 
 // MARK: - Previews
