@@ -221,7 +221,7 @@ extension SendInvitationScreen {
                 .fill(.textFieldBg)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 30)
+            RoundedRectangle(cornerRadius: 30.0)
                 .stroke(
                     .outline,
                     style: vm.pendingInvitationList.count > 0 ? StrokeStyle(lineWidth: 2) : StrokeStyle(lineWidth: 2, dash: [10, 5])

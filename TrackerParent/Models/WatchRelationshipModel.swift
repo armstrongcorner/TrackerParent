@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WatchRelationshipModel: Codable {
+struct WatchRelationshipModel: Hashable, Codable {
     let id: Int?
     let ownerUserId: Int?
     let watchedUserId: Int?

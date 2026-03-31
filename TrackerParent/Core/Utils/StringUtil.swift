@@ -27,6 +27,14 @@ struct StringUtil {
             .joined()
     }
     
+    func name(from email: String) -> String {
+        let localPart = email.split(separator: "@").first.map(String.init) ?? email
+        
+        return localPart
+            .split(whereSeparator: { $0 == "." || $0 == "_" || $0 == "-" })
+            .joined(separator: " ")
+    }
+    
     @MainActor
     func getDeviceId() -> String? {
         return UIDevice.current.identifierForVendor?.uuidString

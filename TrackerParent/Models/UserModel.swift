@@ -57,6 +57,7 @@ struct UserModel: Codable, Hashable {
     var updatedAt: String?
     var lastLoginAt: String?
     var signInProvider: String?
+    var currentWatchRelationshipId: Int?
     var role: String?
     
     func toDictionary() -> [String: Any?] {

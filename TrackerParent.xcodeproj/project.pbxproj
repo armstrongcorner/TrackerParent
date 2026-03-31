@@ -66,6 +66,7 @@
 		AE96925D2F6AACB300526A75 /* MTAuthHelper in Frameworks */ = {isa = PBXBuildFile; productRef = AE96925C2F6AACB300526A75 /* MTAuthHelper */; };
 		AE9994782EF78F1A00B7C404 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = AE9994772EF78F1A00B7C404 /* SwiftfulRouting */; };
 		AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */; };
+		AEAF8C262F7A87E000CAE70B /* WatchedUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAF8C252F7A87E000CAE70B /* WatchedUserView.swift */; };
 		AEBE9E9D2F71E8DA00B051B9 /* LoginScreen.bak in Resources */ = {isa = PBXBuildFile; fileRef = AEBE9E9C2F71E8DA00B051B9 /* LoginScreen.bak */; };
 		AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */; };
 		AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CF2D8957C90094EB82 /* UserService.swift */; };
@@ -179,6 +180,7 @@
 		AE8DBDDE2F5D1A45007B7502 /* PressableButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableButtonStyle.swift; sourceTree = "<group>"; };
 		AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineRoundedButtonModifier.swift; sourceTree = "<group>"; };
 		AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModifier.swift; sourceTree = "<group>"; };
+		AEAF8C252F7A87E000CAE70B /* WatchedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedUserView.swift; sourceTree = "<group>"; };
 		AEBE9E9C2F71E8DA00B051B9 /* LoginScreen.bak */ = {isa = PBXFileReference; lastKnownFileType = text; path = LoginScreen.bak; sourceTree = "<group>"; };
 		AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListScreen.swift; sourceTree = "<group>"; };
 		AEE6B4CF2D8957C90094EB82 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -546,6 +548,7 @@
 			isa = PBXGroup;
 			children = (
 				AEE7EBB52F793B4900694ACB /* InvitationItemView.swift */,
+				AEAF8C252F7A87E000CAE70B /* WatchedUserView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -749,6 +752,7 @@
 				AEE7EBB62F793B4900694ACB /* InvitationItemView.swift in Sources */,
 				22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */,
 				AEE7EBA02F74F5F700694ACB /* BaseLogger.swift in Sources */,
+				AEAF8C262F7A87E000CAE70B /* WatchedUserView.swift in Sources */,
 				AEE7EB8F2F72992D00694ACB /* AuthCoordinator.swift in Sources */,
 				22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */,
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,
