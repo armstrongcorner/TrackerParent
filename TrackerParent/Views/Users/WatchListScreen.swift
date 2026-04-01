@@ -112,6 +112,30 @@ extension WatchListScreen {
             .background(
                 RoundedRectangle(cornerRadius: 30)
                     .fill(.outline.opacity(0.2))
+                    .overlay {
+                        Circle()
+                            .stroke(
+                                .mainTheme.opacity(0.3),
+                                style: StrokeStyle(lineWidth: 1.0, dash: [12, 10])
+                            )
+                            .padding(30)
+                    }
+                    .overlay {
+                        Circle()
+                            .stroke(
+                                .mainTheme.opacity(0.3),
+                                style: StrokeStyle(lineWidth: 1.0, dash: [12, 10])
+                            )
+                            .padding(70)
+                    }
+                    .overlay {
+                        Circle()
+                            .stroke(
+                                .mainTheme.opacity(0.3),
+                                lineWidth: 1.0
+                            )
+                            .padding(110)
+                    }
             )
             .padding()
             
@@ -198,6 +222,7 @@ extension WatchListScreen {
             }
     }
     
+    // TODO:
     private func navigateToInvitationHistory() {
         
     }
