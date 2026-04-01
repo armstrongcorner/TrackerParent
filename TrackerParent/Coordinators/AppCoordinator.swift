@@ -34,6 +34,19 @@ extension RouteAction {
         }
     }
 
+    func show<Content: View>(
+        on router: AnyRouter,
+        sheetConfig: ResizableSheetConfig,
+        onDismiss: @escaping () -> Void = {},
+        @ViewBuilder destination: @escaping () -> Content
+    ) {
+        router.showScreen(.sheetConfig(config: sheetConfig), onDismiss: {
+            onDismiss()
+        }) { _ in
+            destination()
+        }
+    }
+
     func dismissScreen(on router: AnyRouter) {
         router.dismissScreen()
     }

@@ -24,6 +24,7 @@ struct ColorTheme {
     let secondaryBackground = Color("SecondaryBackgroundColor")
     let reverseBackground = Color("ReverseBackgroundColor")
     let primaryText = Color("PrimaryTextColor")
+    let reversePrimaryText = Color("ReversePrimaryTextColor")
     let outline = Color("OutlineColor")
     let mainTheme = Color("MainThemeColor")
     let secondaryText = Color("SecondaryTextColor")

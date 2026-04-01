@@ -11,13 +11,16 @@ import SwiftUI
 struct UserCoordinator: RouteAction {
     enum Route {
         case sendInvitation(AnyView)
+        case invitationHistory(AnyView)
     }
 
     @ViewBuilder
     func destination(for route: Route) -> some View {
         switch route {
-        case .sendInvitation(let view):
-            view
+        case .sendInvitation(let sendInvitationScreen):
+            sendInvitationScreen
+        case .invitationHistory(let invitationHistoryScreen):
+            invitationHistoryScreen
         }
     }
 }

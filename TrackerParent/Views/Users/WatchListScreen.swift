@@ -21,7 +21,7 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
 
     var body: some View {
         ZStack {
-            Color.theme.background.ignoresSafeArea()
+            Color.background.ignoresSafeArea()
             
             VStack(spacing: 0) {
                 Text("Active Monitors")
@@ -222,9 +222,8 @@ extension WatchListScreen {
             }
     }
     
-    // TODO:
     private func navigateToInvitationHistory() {
-        
+        appCoordinator.user.show(.invitationHistory(AnyView(InvitationHistoryScreen(vm: vm))), on: router)
     }
 }
 

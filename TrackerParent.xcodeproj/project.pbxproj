@@ -53,6 +53,7 @@
 		22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7B92D856990002C10B1 /* AuthModel.swift */; };
 		22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7BD2D856A79002C10B1 /* LoginService.swift */; };
 		22FBA7C32D856B67002C10B1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FBA7C22D856B67002C10B1 /* BaseResponse.swift */; };
+		AE153BC32F7D1BE1002CE618 /* InvitationHistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE153BC22F7D1BE1002CE618 /* InvitationHistoryScreen.swift */; };
 		AE178B2B2F6E231F00418452 /* MTAuthHelper in Frameworks */ = {isa = PBXBuildFile; productRef = AE178B2A2F6E231F00418452 /* MTAuthHelper */; };
 		AE178B302F6E2AB400418452 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B2F2F6E2AB400418452 /* LoginUseCase.swift */; };
 		AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */; };
@@ -169,6 +170,7 @@
 		22FBA7B92D856990002C10B1 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		22FBA7BD2D856A79002C10B1 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		22FBA7C22D856B67002C10B1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		AE153BC22F7D1BE1002CE618 /* InvitationHistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationHistoryScreen.swift; sourceTree = "<group>"; };
 		AE178B282F6B80C700418452 /* TrackerParent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrackerParent.entitlements; sourceTree = "<group>"; };
 		AE178B2F2F6E2AB400418452 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithFaceIdUseCase.swift; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 				AEE7EBB72F793D9400694ACB /* Subviews */,
 				AEE7EB952F73DEE800694ACB /* WatchListScreen.swift */,
 				AEE7EBA92F76794200694ACB /* SendInvitationScreen.swift */,
+				AE153BC22F7D1BE1002CE618 /* InvitationHistoryScreen.swift */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,
 				223499262DA3CF4C00E810FF /* MockUserService.swift in Sources */,
 				224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */,
+				AE153BC32F7D1BE1002CE618 /* InvitationHistoryScreen.swift in Sources */,
 				223499222DA2733200E810FF /* MockLAContext.swift in Sources */,
 				224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */,
 				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
