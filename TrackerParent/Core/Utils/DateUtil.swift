@@ -12,13 +12,16 @@ struct DateUtil {
     
     private init() {}
     
-    func convertStandardDateTimeStr(iso8601String: String) -> String? {
+    func convertStandardDateTimeStr(
+        iso8601String: String,
+        targetDataFormatStr: String = "yyyy-MM-dd HH:mm"
+    ) -> String? {
         guard let date = dateForISO8601Str(iso8601String) else {
             return nil
         }
         
         let targetFormatter = DateFormatter()
-        targetFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        targetFormatter.dateFormat = targetDataFormatStr
         
         return targetFormatter.string(from: date)
     }

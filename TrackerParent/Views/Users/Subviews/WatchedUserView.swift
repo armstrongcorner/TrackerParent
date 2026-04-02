@@ -19,7 +19,7 @@ struct WatchedUserView: View {
     var body: some View {
         let avatarColor = Color.color(for: watchRelationship.id == nil ? UUID().uuidString : String(watchRelationship.id ?? 0))
         
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 // Avatar
                 Text(StringUtil.shared.initials(from: (watchRelationship.watchedUser?.email ?? "")).uppercased())
@@ -63,8 +63,8 @@ struct WatchedUserView: View {
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundStyle(isSelected ? .mainTheme : .primaryText.opacity(0.6))
-                    .padding(.horizontal, 15)
-                    .padding(.vertical, 5)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
                     .background(isSelected ? .mainTheme.opacity(0.1) : .outline.opacity(0.5))
                     .clipShape(
                         Capsule()
@@ -119,6 +119,7 @@ struct WatchedUserView: View {
 #Preview {
     Group {
         WatchedUserView(mockWatchRelationship1)
+        
         WatchedUserView(mockWatchRelationship2, isSelected: true)
     }
 }

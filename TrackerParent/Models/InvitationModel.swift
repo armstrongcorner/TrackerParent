@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InvitationModel: Codable {
+struct InvitationModel: Hashable, Codable {
     let id: Int?
     let ownerUserId: Int?
     let inviteeEmail: String?
