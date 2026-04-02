@@ -133,9 +133,6 @@ extension InvitationHistoryScreen {
     // Invitation list content view
     private var invitationListContentView: some View {
         List {
-//            ForEach(vm.watchList, id: \.self) { watchRelationship in
-//                WatchedUserView(watchRelationship)
-//            }
             ForEach(vm.invitations, id: \.self) { invitation in
                 InvitationHistoryItemView(invitation)
             }
