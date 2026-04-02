@@ -19,7 +19,6 @@ struct OutlineRoundedButtonModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundStyle(buttonTextColor)
-            .frame(maxWidth: .infinity)
             .frame(height: buttonHeight)
             .background(buttonBackground)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))

@@ -72,7 +72,7 @@ extension LoginScreen {
         .padding(.horizontal)
     }
 
-    // MARK: Apple sign in button
+    // Apple sign in button
     private var appleSignInBtn: some View {
         Button {
             Task {
@@ -88,12 +88,13 @@ extension LoginScreen {
                 Text("Continue with Apple")
                     .font(.headline)
             }
+            .frame(maxWidth: .infinity)
             .outlineRoundedButtonStyle()
         }
         .withPressableButtonStyle()
     }
     
-    // MARK: Google sign in button
+    // Google sign in button
     private var googleSignInBtn: some View {
         Button {
             Task {
@@ -109,12 +110,13 @@ extension LoginScreen {
                 Text("Continue with Google")
                     .font(.headline)
             }
+            .frame(maxWidth: .infinity)
             .outlineRoundedButtonStyle()
         }
         .withPressableButtonStyle()
     }
     
-    // MARK: Email sign in button
+    // Email sign in button
     private var emailSignInBtn: some View {
         Button {
             appCoordinator.auth.show(.registerVerification, on: router)
@@ -128,6 +130,7 @@ extension LoginScreen {
                 Text("Login or Sign Up")
                     .font(.headline)
             }
+            .frame(maxWidth: .infinity)
             .outlineRoundedButtonStyle()
             
         }

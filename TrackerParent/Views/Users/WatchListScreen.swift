@@ -176,6 +176,7 @@ extension WatchListScreen {
                 Text("Invite User")
                     .font(.headline)
             }
+            .frame(maxWidth: .infinity)
             .outlineRoundedButtonStyle(
                 buttonBackground: AnyShapeStyle(
                     LinearGradient(

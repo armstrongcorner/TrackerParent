@@ -117,6 +117,7 @@ extension SendInvitationScreen {
                     Text("Send Invitation")
                         .font(.headline)
                 }
+                .frame(maxWidth: .infinity)
                 .outlineRoundedButtonStyle(
                     buttonBackground: AnyShapeStyle(
                         LinearGradient(
