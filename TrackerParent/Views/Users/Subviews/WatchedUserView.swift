@@ -60,14 +60,9 @@ struct WatchedUserView: View {
             HStack {
                 // Selection indicator text
                 Text(isSelected ? "PRIMARY TRACK" : "STANDBY")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(isSelected ? .mainTheme : .primaryText.opacity(0.6))
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    .background(isSelected ? .mainTheme.opacity(0.1) : .outline.opacity(0.5))
-                    .clipShape(
-                        Capsule()
+                    .statusLabelStyle(
+                        themeColor: isSelected ? .mainTheme : .primaryText.opacity(0.6),
+                        bgColor: isSelected ? nil : .outline.opacity(0.5),
                     )
                 
                 Spacer()

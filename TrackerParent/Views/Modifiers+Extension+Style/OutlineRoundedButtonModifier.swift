@@ -48,3 +48,33 @@ extension View {
         ))
     }
 }
+
+#Preview("Default") {
+    Button {
+        
+    } label: {
+        Text("Text button")
+            .padding()
+            .outlineRoundedButtonStyle()
+    }
+}
+
+#Preview("Custom") {
+    Button {
+        
+    } label: {
+        Text("Text button")
+            .frame(maxWidth: .infinity)
+            .padding()
+            .outlineRoundedButtonStyle(
+                buttonBackground: AnyShapeStyle(
+                    .blue.opacity(0.3)
+                ),
+                buttonTextColor: .mainTheme,
+                outlineStyle: AnyShapeStyle(
+                    .mainTheme
+                ),
+                outlineWidth: 2.0
+            )
+    }
+}

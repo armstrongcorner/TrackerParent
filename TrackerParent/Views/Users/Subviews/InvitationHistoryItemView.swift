@@ -67,15 +67,7 @@ struct InvitationHistoryItemView: View {
             // Status & actions
             HStack {
                 Text("PENDING")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.importantTip)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    .background(.importantTip.opacity(0.1))
-                    .clipShape(
-                        Capsule()
-                    )
+                    .statusLabelStyle(themeColor: .importantTip)
                 
                 Spacer()
                 

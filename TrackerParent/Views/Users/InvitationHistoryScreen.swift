@@ -138,6 +138,7 @@ extension InvitationHistoryScreen {
             }
         }
         .listStyle(.plain)
+        .scrollIndicators(.hidden)
     }
     
     // Invite user button

@@ -154,6 +154,7 @@ extension WatchListScreen {
                 }
             }
             .listStyle(.plain)
+            .scrollIndicators(.hidden)
             
             invitateUserButton
             
