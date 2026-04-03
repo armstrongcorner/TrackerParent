@@ -48,10 +48,13 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
             }
             .padding(.horizontal)
         }
+        .navigationBarBackButtonHidden()
         .task {
-            await vm.fetchInvitationsAndWatchedUserList()
-            let _ = print(vm.invitations.count)
-            let _ = print(vm.watchList.count)
+            if vm.initialRefresh {
+                await vm.fetchInvitationsAndWatchedUserList()
+                let _ = print(vm.invitations.count)
+                let _ = print(vm.watchList.count)
+            }
         }
         .onChange(of: vm.showAddWatchSheet) { _, newValue in
             if newValue {
@@ -220,7 +223,8 @@ extension WatchListScreen {
             .sendInvitation(AnyView(SendInvitationScreen(vm: vm))),
             on: router,
             sheetConfig: config) { [weak vm] in
-                vm?.showAddWatchSheet = false
+                guard let vm else { return }
+                vm.showAddWatchSheet = false
             }
     }
     

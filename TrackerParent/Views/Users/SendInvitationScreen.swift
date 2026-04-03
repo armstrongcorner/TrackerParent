@@ -93,6 +93,7 @@ extension SendInvitationScreen {
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondaryText)
+                .clearButton($vm.email)
             }
             .padding()
             .background(

@@ -77,7 +77,7 @@ actor UserService: UserServiceProtocol, BaseServiceProtocol {
         let defaultHeaders = try getDefaultHeaders()
         
         let response = try await apiClient.get(
-            urlString: Endpoint.allInvitations.urlString,
+            urlString: Endpoint.watchRelationships.urlString,
             headers: defaultHeaders,
             responseType: WatchRelationshipListResponse.self
         )

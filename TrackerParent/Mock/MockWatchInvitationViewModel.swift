@@ -15,7 +15,7 @@ final class MockWatchInvitationViewModel: WatchInvitationViewModelProtocol {
     var watchList: [WatchRelationshipModel] = []
     var pendingInvitationList: [PendingInvitationEntity] = []
     var showAddWatchSheet: Bool = false
-    var requestRefresh: Bool = false
+    var initialRefresh: Bool = true
     
     var fetchDataStatus: RequestStatus = RequestStatus()
     var sendInvitationStatus: RequestStatus = RequestStatus()

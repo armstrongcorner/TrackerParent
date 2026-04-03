@@ -186,7 +186,8 @@ extension InvitationHistoryScreen {
             .sendInvitation(AnyView(SendInvitationScreen(vm: vm))),
             on: router,
             sheetConfig: config) { [weak vm] in
-                vm?.showAddWatchSheet = false
+                guard let vm else { return }
+                vm.showAddWatchSheet = false
             }
     }
     

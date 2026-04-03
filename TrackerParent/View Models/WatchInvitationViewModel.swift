@@ -43,7 +43,7 @@ protocol WatchInvitationViewModelProtocol: Observable, AnyObject {
     var watchList: [WatchRelationshipModel] { get }
     var pendingInvitationList: [PendingInvitationEntity] { get }
     var showAddWatchSheet: Bool { get set }
-    var requestRefresh: Bool { get }
+    var initialRefresh: Bool { get }
     
     func fetchInvitationsAndWatchedUserList() async
     func sendInvitation() async
@@ -59,7 +59,7 @@ final class WatchInvitationViewModel: WatchInvitationViewModelProtocol, Loggable
     private(set) var watchList: [WatchRelationshipModel] = []
     private(set) var pendingInvitationList: [PendingInvitationEntity] = []
     var showAddWatchSheet: Bool = false
-    private(set) var requestRefresh: Bool = false
+    private(set) var initialRefresh: Bool = true
     
     @ObservationIgnored
     private let userService: UserServiceProtocol
@@ -71,10 +71,9 @@ final class WatchInvitationViewModel: WatchInvitationViewModelProtocol, Loggable
     func fetchInvitationsAndWatchedUserList() async {
         do {
             // Initialize the states
-            invitations = []
-            watchList = []
             fetchDataStatus.state = .loading
             fetchDataStatus.errMsg = nil
+            initialRefresh = false
             
             // Call get invitations and get watch relationships
             async let invitationsTask = userService.getAllInvitations()
@@ -141,6 +140,12 @@ final class WatchInvitationViewModel: WatchInvitationViewModelProtocol, Loggable
                 pendingInvitationList.append(PendingInvitationEntity(from: invitation))
                 sendInvitationStatus.state = .success
                 sendInvitationStatus.errMsg = nil
+                
+                email = ""
+                message = ""
+                
+                // Call refresh list after send invitation
+                await fetchInvitationsAndWatchedUserList()
             } else if !invitationResponse.isSuccess, let failureReason = invitationResponse.failureReason {
                 throw CommError.serverReturnedError(failureReason)
             } else {
