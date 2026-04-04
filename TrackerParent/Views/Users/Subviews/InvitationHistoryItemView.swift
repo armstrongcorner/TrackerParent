@@ -106,10 +106,10 @@ struct InvitationHistoryItemView: View {
     ZStack {
         Color.background.ignoresSafeArea()
         
-        Group {
+        VStack {
             InvitationHistoryItemView(mockInvitation1)
             
-            //        InvitationHistoryItemView(mockInvitation2)
+            InvitationHistoryItemView(mockInvitation2)
         }
     }
 }

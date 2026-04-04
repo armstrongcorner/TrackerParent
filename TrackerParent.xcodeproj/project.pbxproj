@@ -56,6 +56,7 @@
 		AE153BC32F7D1BE1002CE618 /* InvitationHistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE153BC22F7D1BE1002CE618 /* InvitationHistoryScreen.swift */; };
 		AE153BC52F7E6AF3002CE618 /* InvitationHistoryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE153BC42F7E6AF3002CE618 /* InvitationHistoryItemView.swift */; };
 		AE153BC72F7F07B1002CE618 /* StatusLabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE153BC62F7F07B1002CE618 /* StatusLabelModifier.swift */; };
+		AE153BC92F8059E5002CE618 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE153BC82F8059E5002CE618 /* SessionManager.swift */; };
 		AE178B2B2F6E231F00418452 /* MTAuthHelper in Frameworks */ = {isa = PBXBuildFile; productRef = AE178B2A2F6E231F00418452 /* MTAuthHelper */; };
 		AE178B302F6E2AB400418452 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B2F2F6E2AB400418452 /* LoginUseCase.swift */; };
 		AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */; };
@@ -175,6 +176,7 @@
 		AE153BC22F7D1BE1002CE618 /* InvitationHistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationHistoryScreen.swift; sourceTree = "<group>"; };
 		AE153BC42F7E6AF3002CE618 /* InvitationHistoryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationHistoryItemView.swift; sourceTree = "<group>"; };
 		AE153BC62F7F07B1002CE618 /* StatusLabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusLabelModifier.swift; sourceTree = "<group>"; };
+		AE153BC82F8059E5002CE618 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		AE178B282F6B80C700418452 /* TrackerParent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrackerParent.entitlements; sourceTree = "<group>"; };
 		AE178B2F2F6E2AB400418452 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithFaceIdUseCase.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 		224A3E3A2D82899200815897 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				AE153BC82F8059E5002CE618 /* SessionManager.swift */,
 				224A3E3B2D8289B700815897 /* AuthViewModel.swift */,
 				22F160D42DA5CFDD00C4528E /* RegisterViewModel.swift */,
 				AEE7EBAF2F78BBAB00694ACB /* WatchInvitationViewModel.swift */,
@@ -763,6 +766,7 @@
 				AEE7EBB62F793B4900694ACB /* InvitationItemView.swift in Sources */,
 				22863BFD2DAF5A910076194A /* MockTrackService.swift in Sources */,
 				AEE7EBA02F74F5F700694ACB /* BaseLogger.swift in Sources */,
+				AE153BC92F8059E5002CE618 /* SessionManager.swift in Sources */,
 				AEAF8C262F7A87E000CAE70B /* WatchedUserView.swift in Sources */,
 				AEE7EB8F2F72992D00694ACB /* AuthCoordinator.swift in Sources */,
 				22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */,

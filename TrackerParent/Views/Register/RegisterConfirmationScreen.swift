@@ -12,6 +12,7 @@ struct RegisterConfirmationScreen: View {
     @Environment(\.router) private var router
     @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) var toastViewObserver
+    @Environment(SessionManager.self) private var sessionManager
     
     @State private var registerViewModel: RegisterViewModelProtocol
     
@@ -71,6 +72,7 @@ struct RegisterConfirmationScreen: View {
                 toastViewObserver.showLoading()
             case .success:
                 toastViewObserver.dismissLoading()
+                sessionManager.reloadFromStorage()
                 appCoordinator.track.show(.trackList(username: nil), on: router)
             case .failure:
                 if let errMsg = registerViewModel.errMsg {
@@ -93,6 +95,7 @@ struct RegisterConfirmationScreen: View {
             registerViewModel: MockRegisterViewModel(shouldReturnError: true)
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }
 
@@ -100,5 +103,6 @@ struct RegisterConfirmationScreen: View {
     RouterView { _ in
         RegisterConfirmationScreen(registerViewModel: MockRegisterViewModel())
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }

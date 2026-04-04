@@ -13,6 +13,7 @@ struct LoginScreen: View {
     @Environment(\.router) private var router
     @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) private var toastViewObserver
+    @Environment(SessionManager.self) private var sessionManager
     
     @State private var vm: AuthViewModelProtocol
     
@@ -47,6 +48,7 @@ struct LoginScreen: View {
                 toastViewObserver.showLoading()
             case .success:
                 toastViewObserver.dismissLoading()
+                sessionManager.reloadFromStorage()
                 appCoordinator.auth.show(.postLogin(role: vm.role ?? .user), on: router)
             case .failure:
                 toastViewObserver.dismissLoading()
@@ -143,5 +145,6 @@ extension LoginScreen {
     RouterView { _ in
         LoginScreen()
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }

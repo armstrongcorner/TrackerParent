@@ -12,6 +12,7 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
     @Environment(\.router) private var router
     @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) private var toastViewObserver
+    @Environment(SessionManager.self) private var sessionManager
     
     @State private var vm: VM
     
@@ -153,7 +154,10 @@ extension WatchListScreen {
         Group {
             List {
                 ForEach(vm.watchList, id: \.self) { watchRelationship in
-                    WatchedUserView(watchRelationship)
+                    WatchedUserView(
+                        watchRelationship,
+                        isSelected: watchRelationship.id == sessionManager.currentWatchRelationshipId
+                    )
                 }
             }
             .listStyle(.plain)
@@ -236,18 +240,21 @@ extension WatchListScreen {
 // MARK: - Previews
 #Preview("Normal") {
     let mockVM = MockWatchInvitationViewModel()
+    mockSessionManager.updateAuthModel(mockAuth2, for: "test_username2@example.com")
     
     return RouterView { _ in
         WatchListScreen(vm: mockVM)
     }
+    .environment(mockSessionManager)
     .environment(ToastViewObserver())
 }
 
 #Preview("Empty invitations & watch list") {
     let mockVM = MockWatchInvitationViewModel(shouldReturnEmptyData: true)
 
-    return RouterView { _ in
+    RouterView { _ in
         WatchListScreen(vm: mockVM)
     }
+    .environment(mockSessionManager)
     .environment(ToastViewObserver())
 }

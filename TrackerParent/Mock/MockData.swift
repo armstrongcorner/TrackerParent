@@ -21,6 +21,7 @@ let mockUser1 = UserModel(
     updatedAt: "2024-03-05T12:06:20.1476085Z",
     lastLoginAt: "2024-03-06T08:30:00.0000000Z",
     signInProvider: "password",
+    currentWatchRelationshipId: nil,
     role: "User",
 )
 
@@ -38,6 +39,7 @@ let mockUser2 = UserModel(
     updatedAt: "2024-03-05T12:06:20.1476085Z",
     lastLoginAt: "2024-03-07T10:45:00.0000000Z",
     signInProvider: "google.com",
+    currentWatchRelationshipId: 202,
     role: "Administrator",
 )
 
@@ -55,6 +57,7 @@ let mockUser3 = UserModel(
     updatedAt: "2024-03-05T12:06:20.1476085Z",
     lastLoginAt: "2024-03-08T09:15:00.0000000Z",
     signInProvider: "apple.com",
+    currentWatchRelationshipId: nil,
     role: "User",
 )
 
@@ -208,6 +211,12 @@ let mockAuth2 = AuthModel(
 let mockAuthResponse1 = AuthResponse(value: mockAuth1, failureReason: nil, isSuccess: true)
 let mockAuthResponse2 = AuthResponse(value: mockAuth2, failureReason: nil, isSuccess: true)
 let mockAuthResponseWithFailureReason = AuthResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
+
+@MainActor
+let mockSessionManager = SessionManager(
+    keyChainUtil: KeyChainUtil(bundleId: "com.example.TrackerParent"),
+    userDefaults: UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
+)
 
 let mockSetting1 = SettingModel(
     id: 1,

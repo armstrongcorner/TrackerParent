@@ -13,6 +13,7 @@ struct TrackListScreen: View {
     @Environment(\.appCoordinator) private var appCoordinator
     @Environment(ToastViewObserver.self) var toastViewObserver
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(SessionManager.self) private var sessionManager
     
     @State private var trackViewModel: TrackViewModelProtocol
     @State private var userViewModel: UserViewModelProtocol
@@ -123,6 +124,7 @@ struct TrackListScreen: View {
             
             Button("OK", role: .destructive) {
                 userViewModel.logout()
+                sessionManager.clearSession()
                 appCoordinator.track.dismissPushStack(on: router)
             }
         } message: {
@@ -183,6 +185,7 @@ struct TrackListScreen: View {
             userViewModel: MockUserViewModel()
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }
 
@@ -193,6 +196,7 @@ struct TrackListScreen: View {
             userViewModel: MockUserViewModel()
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }
 
@@ -204,6 +208,7 @@ struct TrackListScreen: View {
             username: "testUsername"
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }
 
@@ -214,6 +219,7 @@ struct TrackListScreen: View {
             userViewModel: MockUserViewModel()
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }
 
@@ -224,6 +230,7 @@ struct TrackListScreen: View {
             userViewModel: MockUserViewModel(shouldReturnError: true)
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }
 
@@ -233,6 +240,7 @@ struct TrackListScreen: View {
             trackViewModel: MockTrackViewModel(shouldReturnError: true)
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }
 
@@ -242,5 +250,6 @@ struct TrackListScreen: View {
             trackViewModel: MockTrackViewModel(shouldKeepLoading: true)
         )
     }
+    .environment(SessionManager())
     .environment(ToastViewObserver())
 }

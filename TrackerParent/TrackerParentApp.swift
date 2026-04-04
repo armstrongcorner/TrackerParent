@@ -24,6 +24,7 @@ struct TrackerParentApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     private let appCoordinator = AppCoordinator()
+    @State private var sessionManager = SessionManager()
     
     var body: some Scene {
         WindowGroup {
@@ -31,6 +32,7 @@ struct TrackerParentApp: App {
                 appCoordinator.rootView()
             }
             .environment(\.appCoordinator, appCoordinator)
+            .environment(sessionManager)
             .environment(ToastViewObserver())
         }
     }

@@ -11,6 +11,7 @@ import SwiftfulRouting
 struct UserListScreen: View {
     @Environment(\.router) private var router
     @Environment(\.appCoordinator) private var appCoordinator
+    @Environment(SessionManager.self) private var sessionManager
     @State private var userViewModel: UserViewModelProtocol
     @State private var showConfirmLogout: Bool = false
     
@@ -86,6 +87,7 @@ struct UserListScreen: View {
             
             Button("OK", role: .destructive) {
                 userViewModel.logout()
+                sessionManager.clearSession()
                 appCoordinator.track.dismissScreen(on: router)
             }
         } message: {
@@ -110,6 +112,7 @@ struct UserListScreen: View {
             userViewModel: MockUserViewModel()
         )
     }
+    .environment(SessionManager())
 }
 
 #Preview("empty data") {
@@ -118,6 +121,7 @@ struct UserListScreen: View {
             userViewModel: MockUserViewModel(shouldReturnEmptyData: true)
         )
     }
+    .environment(SessionManager())
 }
 
 #Preview("error") {
@@ -126,6 +130,7 @@ struct UserListScreen: View {
             userViewModel: MockUserViewModel(shouldReturnError: true)
         )
     }
+    .environment(SessionManager())
 }
 
 #Preview("loading") {
@@ -134,4 +139,5 @@ struct UserListScreen: View {
             userViewModel: MockUserViewModel(shouldKeepLoading: true)
         )
     }
+    .environment(SessionManager())
 }
