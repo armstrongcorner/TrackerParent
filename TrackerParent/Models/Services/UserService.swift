@@ -8,11 +8,6 @@
 import Foundation
 import MTNetworkManager
 
-struct SendInvitationBody: Codable {
-    let inviteeEmail: String
-    let message: String
-}
-
 struct SendVerificationEmailBody: Codable {
     let username: String
     let role: String
@@ -43,6 +38,7 @@ protocol UserServiceProtocol: Sendable {
     func getAllInvitations() async throws -> InvitationListResponse?
     func getWatchRelationships() async throws -> WatchRelationshipListResponse?
     func sendInvitation(email: String, message: String) async throws -> InvitationResponse?
+    func setCurrentWatch(relationshipId: Int) async throws -> EmptyPayloadResponse?
     
     func getUserInfo(username: String) async throws -> UserResponse?
     func getUserList() async throws -> UserListResponse?
@@ -54,7 +50,6 @@ protocol UserServiceProtocol: Sendable {
 }
 
 actor UserService: UserServiceProtocol, BaseServiceProtocol {
-    
     private let apiClient: MTApiClientProtocol
     
     init(apiClient: MTApiClientProtocol = MTApiClient()) {
@@ -86,6 +81,11 @@ actor UserService: UserServiceProtocol, BaseServiceProtocol {
     }
     
     func sendInvitation(email: String, message: String) async throws -> InvitationResponse? {
+        struct SendInvitationBody: Codable {
+            let inviteeEmail: String
+            let message: String
+        }
+
         let defaultHeaders = try getDefaultHeaders()
         let requestBody = SendInvitationBody(
             inviteeEmail: email,
@@ -97,6 +97,26 @@ actor UserService: UserServiceProtocol, BaseServiceProtocol {
             headers: defaultHeaders,
             body: requestBody,
             responseType: InvitationResponse.self
+        )
+        
+        return response
+    }
+    
+    func setCurrentWatch(relationshipId: Int) async throws -> EmptyPayloadResponse?{
+        struct SetCurrentWatchBody: Codable {
+            let relationshipId: Int
+        }
+        
+        let defaultHeaders = try getDefaultHeaders()
+        let requestBody = SetCurrentWatchBody(
+            relationshipId: relationshipId
+        )
+        
+        let response = try await apiClient.post(
+            urlString: Endpoint.setCurrentWatch.urlString,
+            headers: defaultHeaders,
+            body: requestBody,
+            responseType: EmptyPayloadResponse.self
         )
         
         return response

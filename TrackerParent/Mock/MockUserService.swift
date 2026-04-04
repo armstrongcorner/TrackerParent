@@ -11,6 +11,7 @@ actor MockUserService: UserServiceProtocol {
     var invitationListResponse: InvitationListResponse?
     var invitationResponse: InvitationResponse?
     var watchRelationshipListResponse: WatchRelationshipListResponse?
+    var setCurrentWatchResponse: EmptyPayloadResponse?
     
     var userResponse: UserResponse?
     var userListResponse: UserListResponse?
@@ -29,6 +30,10 @@ actor MockUserService: UserServiceProtocol {
     
     func setWatchRelationshipListResponse(_ watchRelationshipListResponse: WatchRelationshipListResponse?) {
         self.watchRelationshipListResponse = watchRelationshipListResponse
+    }
+    
+    func setSetCurrentWatchResponse(_ setCurrentWatchResponse: EmptyPayloadResponse?) {
+        self.setCurrentWatchResponse = setCurrentWatchResponse
     }
 
     func setUserResponse(_ userResponse: UserResponse?) {
@@ -88,6 +93,19 @@ actor MockUserService: UserServiceProtocol {
         
         if let invitationResponse, !shouldReturnError {
             return invitationResponse
+        } else if let commError = commError {
+            throw commError
+        } else {
+            throw CommError.unknown
+        }
+    }
+    
+    func setCurrentWatch(relationshipId: Int) async throws -> EmptyPayloadResponse? {
+        // Mock access network time
+        try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if let setCurrentWatchResponse, !shouldReturnError {
+            return setCurrentWatchResponse
         } else if let commError = commError {
             throw commError
         } else {

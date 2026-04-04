@@ -12,3 +12,7 @@ struct BaseResponse<T: Codable & Sendable>: Codable & Sendable {
     let failureReason: String?
     let isSuccess: Bool
 }
+
+struct EmptyPayload: Codable {}
+
+typealias EmptyPayloadResponse = BaseResponse<EmptyPayload>

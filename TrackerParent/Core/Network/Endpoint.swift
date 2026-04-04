@@ -19,6 +19,8 @@ enum Endpoint {
     case allInvitations
     case sendInvitation
     case watchRelationships
+    case setCurrentWatch
+    
     case userInfo(String)
     case updateUser
     case allUsers
@@ -45,6 +47,9 @@ enum Endpoint {
             return "\(Endpoint.devURL)/watch-invitations/sent"
         case .watchRelationships:
             return "\(Endpoint.devURL)/watch-relationships"
+        case .setCurrentWatch:
+            return "\(Endpoint.devURL)/watch-relationships/select"
+            
         case .userInfo(let username):
             return "\(Endpoint.userURL)/identity/user?username=\(username)"
         case .updateUser:
