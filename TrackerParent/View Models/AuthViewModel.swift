@@ -56,10 +56,15 @@ protocol AuthViewModelProtocol {
     var role: AccountRole? { get }
     var showSettingsAlert: Bool { get set }
     var showEnrolAlert: Bool { get set }
+    var faceIdEnabled: Bool { get set }
+    var showFaceIdAlert: Bool { get set }
+    var hasPromptedEnableFaceId: Bool { get set }
     
     func login() async
     func loginWithFaceId() async
     func loginWithSSO(type: SSOType) async
+    
+    func updateFaceIdStatus(faceIdEnabled: Bool, hasPrompted: Bool)
 }
 
 @Observable
@@ -69,6 +74,9 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     private(set) var loginState: CommReqState = .none
     private(set) var errMsg: String?
     private(set) var role: AccountRole?
+    var faceIdEnabled: Bool
+    var hasPromptedEnableFaceId: Bool
+    var showFaceIdAlert: Bool = false
     
     var showSettingsAlert: Bool = false
     var showEnrolAlert: Bool = false
@@ -81,6 +89,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     private let loginFirebaseUseCase: LoginFirebaseUseCaseProtocol
     @ObservationIgnored
     private let biometricsUtil: BiometricsUtilProtocol
+    @ObservationIgnored
+    private let userDefaults: UserDefaults
     
     init(
         loginUseCase: LoginUseCaseProtocol = LoginUseCase(),
@@ -93,8 +103,17 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
         self.loginWithFaceIdUseCase = loginWithFaceIdUseCase
         self.loginFirebaseUseCase = loginFirebaseUseCase
         self.biometricsUtil = biometricsUtil
+        self.userDefaults = userDefaults
         
-        self.username = userDefaults.string(forKey: "username") ?? ""
+        if let username = userDefaults.string(forKey: "username"), !username.isEmpty {
+            self.username = username
+            self.faceIdEnabled = userDefaults.bool(forKey: "\(username)_faceIdEnabled")
+            self.hasPromptedEnableFaceId = userDefaults.bool(forKey: "\(username)_hasPromptedEnableFaceId")
+        } else {
+            self.username = ""
+            self.faceIdEnabled = false
+            self.hasPromptedEnableFaceId = false
+        }
     }
     
     // Email login
@@ -129,27 +148,20 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     func loginWithFaceId() async {
         do {
             loginState = .loading
+            errMsg = nil
+            role = nil
             
-            if try await biometricsUtil.canUseBiometrics() {
-                guard let userResponse = try await loginWithFaceIdUseCase.execute() else {
-                    throw CommError.unknown
-                }
-                
-                if userResponse.isSuccess, let userModel = userResponse.value {
-                    logger.debug("--- user info: \(String(describing: userModel))")
-                    
-                    role = AccountRole(rawValue: userModel.role ?? AccountRole.user.rawValue)
-                    loginState = .success
-                    errMsg = nil
-                } else if !userResponse.isSuccess, let failureReason = userResponse.failureReason {
-                    throw CommError.serverReturnedError(failureReason)
-                } else {
-                    throw CommError.unknown
-                }
-            } else {
+            guard try await biometricsUtil.canUseBiometrics() else {
                 loginState = .none
-                errMsg = nil
+                return
             }
+            
+            guard let authModel = try await loginWithFaceIdUseCase.execute() else {
+                throw CommError.unknown
+            }
+
+            role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
+            loginState = .success
         } catch {
             handleError(error)
         }
@@ -175,6 +187,15 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
         } catch {
             handleError(error)
         }
+    }
+}
+
+extension AuthViewModel {
+    func updateFaceIdStatus(faceIdEnabled: Bool, hasPrompted: Bool) {
+        userDefaults.set(faceIdEnabled, forKey: "\(username)_faceIdEnabled")
+        userDefaults.set(hasPrompted, forKey: "\(username)_hasPromptedEnableFaceId")
+        self.faceIdEnabled = faceIdEnabled
+        self.hasPromptedEnableFaceId = hasPrompted
     }
 }
 

@@ -182,7 +182,7 @@ extension InvitationHistoryScreen {
             dragIndicator: .automatic,
             backgroundInteraction: .disabled
         )
-        appCoordinator.user.show(
+        appCoordinator?.user.show(
             .sendInvitation(AnyView(SendInvitationScreen(vm: vm))),
             on: router,
             sheetConfig: config) { [weak vm] in

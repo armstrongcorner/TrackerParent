@@ -36,186 +36,187 @@ struct TrackDetailScreen: View {
     }
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Map(position: $position) {
-                ForEach(0..<track.count, id: \.self) { i in
-                    let locationModel = track[i]
-                    let coordinate = CLLocationCoordinate2D(
-                        latitude: Double(locationModel.latitude) ?? 0,
-                        longitude: Double(locationModel.longitude) ?? 0
-                    )
-                    
-                    Annotation("\(locationModel.id)", coordinate: coordinate) {
-                        let displayAnnotation = displayedLocations.contains { $0.id == locationModel.id }
-                        if displayAnnotation {
-                            Button {
-                                print("coordinate: \(coordinate)")
-                            } label: {
-                                /// Direction
-                                /// 0 - North;
-                                /// -1 - No direction captured
-                                /// x - Angle degree by clockwise from North
-                                let directionValue = Double(locationModel.direction ?? "0") ?? 0
-                                var imageName = "location.north.fill"
-                                if i == 0 {
-                                    // Start of the track
-                                    imageName = "figure.walk.motion"
-                                } else if i == track.count - 1 {
-                                    // End of the track
-                                    imageName = "flag.pattern.checkered"
-                                } else if directionValue > 0 {
-                                    // Middle point of the track
-                                    imageName = "location.north.fill"
-                                } else {
-                                    // No heading captured
-                                    imageName = "smallcircle.filled.circle.fill"
-                                }
-                                
-                                return Image(systemName: imageName)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: i == 0 || i == track.count - 1 ? 30 : 15)
-                                    .rotationEffect(Angle(degrees: i == 0 || i == track.count - 1 ? 0 : directionValue - mapUserRotationAngle))
-                                    .foregroundStyle(mapAnnotationColor)
-                            }
-                            .buttonStyle(.plain)
-                        } else {
-                            EmptyView()
-                        }
-                    }
-//                    .annotationTitles(.hidden)
-                }
-                
-                let theRoute: [CLLocationCoordinate2D] = track.map { locationModel in
-                    CLLocationCoordinate2D(
-                        latitude: Double(locationModel.latitude) ?? 0,
-                        longitude: Double(locationModel.longitude) ?? 0
-                    )
-                }
-                MapPolyline(coordinates: theRoute)
-                    .stroke(mapLineColor, lineWidth: 5)
-//                    .stroke(mapLineColor, style: .init(lineWidth: 3, dash: [5]))
-            }
-            .mapStyle(mapStyle)
-            .onMapCameraChange({ context in
-                let longDelta = context.region.span.longitudeDelta
-                    let latDelta = context.region.span.latitudeDelta
-                    let effectiveZoom = sqrt(longDelta * latDelta)
-                    
-                // Display different amount of annotation based on the 'effectiveZoom' level
-                // Always keep start / end point
-                if effectiveZoom > 0.07 {
-                    displayedLocations = sampleTrack(from: track, interval: track.count)
-                } else if effectiveZoom > 0.05 {
-                    displayedLocations = sampleTrack(from: track, interval: 15)
-                    print("Using interval: 15")
-                } else if effectiveZoom > 0.02 {
-                    displayedLocations = sampleTrack(from: track, interval: 10)
-                    print("Using interval: 10")
-                } else if effectiveZoom > 0.01 {
-                    displayedLocations = sampleTrack(from: track, interval: 5)
-                    print("Using interval: 5")
-                } else if effectiveZoom > 0.005 {
-                    displayedLocations = sampleTrack(from: track, interval: 3)
-                    print("Using interval: 3")
-                } else {
-                    displayedLocations = track
-                    print("Showing all points")
-                }
-                
-                print("Camera heading: \(context.camera.heading)")
-                mapUserRotationAngle = context.camera.heading
-            })
-            
-            // Top layer
-            ZStack(alignment: .leading) {
-                // Map style selection
-                HStack {
-                    Spacer()
-                    
-                    Menu {
-                        Button("Standard") {
-                            mapStyle = .standard(elevation: .realistic)
-                            mapStyleLabel = "Standard"
-                            mapThemeColor = .gray
-                            mapAnnotationColor = .black
-                            mapTextColor = .white
-                            mapLineColor = .gray
-                        }
-                        
-                        Button("Hybrid") {
-                            mapStyle = .hybrid
-                            mapStyleLabel = "Hybrid"
-                            mapThemeColor = .white
-                            mapAnnotationColor = .white
-                            mapTextColor = .black
-                            mapLineColor = .blue
-                        }
-                        
-                        Button("Hybrid(3D)") {
-                            mapStyle = .imagery(elevation: .realistic)
-                            mapStyleLabel = "Hybrid(3D)"
-                            mapThemeColor = .white
-                            mapAnnotationColor = .white
-                            mapTextColor = .black
-                            mapLineColor = .blue
-                        }
-                    } label: {
-                        Text(mapStyleLabel)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule().fill(mapThemeColor)
-                            )
-                            .foregroundStyle(mapTextColor)
-                    }
-                    
-                    Spacer()
-                }
-                
-                // Back button
-                Button {
-                    appCoordinator.track.dismissScreen(on: router)
-                } label: {
-                    Image(systemName: "arrowshape.turn.up.backward.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
-                        .foregroundStyle(mapThemeColor)
-                }
-                .buttonStyle(.plain)
-                .padding(.leading, 20)
-            }
-            
-            // Bottom layer
-            VStack {
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    
-                    // Return to original track
-                    Button {
-                        mapUserRotationAngle = 0
-                        withAnimation {
-//                            position = .region(MapUtil.shared.regionForCoordinates(from: track))
-                            position = .automatic
-                        }
-                    } label: {
-                        Image(systemName: "location.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40)
-                            .foregroundStyle(mapThemeColor)
-                    }
-                    .buttonStyle(.plain)
-                    .padding()
-
-                }
-            }
-            
-        }
-        .toolbar(.hidden)
+//        ZStack(alignment: .topLeading) {
+//            Map(position: $position) {
+//                ForEach(0..<track.count, id: \.self) { i in
+//                    let locationModel = track[i]
+//                    let coordinate = CLLocationCoordinate2D(
+//                        latitude: Double(locationModel.latitude) ?? 0,
+//                        longitude: Double(locationModel.longitude) ?? 0
+//                    )
+//                    
+//                    Annotation("\(locationModel.id)", coordinate: coordinate) {
+//                        let displayAnnotation = displayedLocations.contains { $0.id == locationModel.id }
+//                        if displayAnnotation {
+//                            Button {
+//                                print("coordinate: \(coordinate)")
+//                            } label: {
+//                                /// Direction
+//                                /// 0 - North;
+//                                /// -1 - No direction captured
+//                                /// x - Angle degree by clockwise from North
+//                                let directionValue = Double(locationModel.direction ?? "0") ?? 0
+//                                var imageName = "location.north.fill"
+//                                if i == 0 {
+//                                    // Start of the track
+//                                    imageName = "figure.walk.motion"
+//                                } else if i == track.count - 1 {
+//                                    // End of the track
+//                                    imageName = "flag.pattern.checkered"
+//                                } else if directionValue > 0 {
+//                                    // Middle point of the track
+//                                    imageName = "location.north.fill"
+//                                } else {
+//                                    // No heading captured
+//                                    imageName = "smallcircle.filled.circle.fill"
+//                                }
+//                                
+//                                Image(systemName: imageName)
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: i == 0 || i == track.count - 1 ? 30 : 15)
+//                                    .rotationEffect(Angle(degrees: i == 0 || i == track.count - 1 ? 0 : directionValue - mapUserRotationAngle))
+//                                    .foregroundStyle(mapAnnotationColor)
+//                            }
+//                            .buttonStyle(.plain)
+//                        } else {
+//                            EmptyView()
+//                        }
+//                    }
+////                    .annotationTitles(.hidden)
+//                }
+//                
+//                let theRoute: [CLLocationCoordinate2D] = track.map { locationModel in
+//                    CLLocationCoordinate2D(
+//                        latitude: Double(locationModel.latitude) ?? 0,
+//                        longitude: Double(locationModel.longitude) ?? 0
+//                    )
+//                }
+//                MapPolyline(coordinates: theRoute)
+//                    .stroke(mapLineColor, lineWidth: 5)
+////                    .stroke(mapLineColor, style: .init(lineWidth: 3, dash: [5]))
+//            }
+//            .mapStyle(mapStyle)
+//            .onMapCameraChange({ context in
+//                let longDelta = context.region.span.longitudeDelta
+//                    let latDelta = context.region.span.latitudeDelta
+//                    let effectiveZoom = sqrt(longDelta * latDelta)
+//                    
+//                // Display different amount of annotation based on the 'effectiveZoom' level
+//                // Always keep start / end point
+//                if effectiveZoom > 0.07 {
+//                    displayedLocations = sampleTrack(from: track, interval: track.count)
+//                } else if effectiveZoom > 0.05 {
+//                    displayedLocations = sampleTrack(from: track, interval: 15)
+//                    print("Using interval: 15")
+//                } else if effectiveZoom > 0.02 {
+//                    displayedLocations = sampleTrack(from: track, interval: 10)
+//                    print("Using interval: 10")
+//                } else if effectiveZoom > 0.01 {
+//                    displayedLocations = sampleTrack(from: track, interval: 5)
+//                    print("Using interval: 5")
+//                } else if effectiveZoom > 0.005 {
+//                    displayedLocations = sampleTrack(from: track, interval: 3)
+//                    print("Using interval: 3")
+//                } else {
+//                    displayedLocations = track
+//                    print("Showing all points")
+//                }
+//                
+//                print("Camera heading: \(context.camera.heading)")
+//                mapUserRotationAngle = context.camera.heading
+//            })
+//            
+//            // Top layer
+//            ZStack(alignment: .leading) {
+//                // Map style selection
+//                HStack {
+//                    Spacer()
+//                    
+//                    Menu {
+//                        Button("Standard") {
+//                            mapStyle = .standard(elevation: .realistic)
+//                            mapStyleLabel = "Standard"
+//                            mapThemeColor = .gray
+//                            mapAnnotationColor = .black
+//                            mapTextColor = .white
+//                            mapLineColor = .gray
+//                        }
+//                        
+//                        Button("Hybrid") {
+//                            mapStyle = .hybrid
+//                            mapStyleLabel = "Hybrid"
+//                            mapThemeColor = .white
+//                            mapAnnotationColor = .white
+//                            mapTextColor = .black
+//                            mapLineColor = .blue
+//                        }
+//                        
+//                        Button("Hybrid(3D)") {
+//                            mapStyle = .imagery(elevation: .realistic)
+//                            mapStyleLabel = "Hybrid(3D)"
+//                            mapThemeColor = .white
+//                            mapAnnotationColor = .white
+//                            mapTextColor = .black
+//                            mapLineColor = .blue
+//                        }
+//                    } label: {
+//                        Text(mapStyleLabel)
+//                            .padding(.horizontal, 16)
+//                            .padding(.vertical, 8)
+//                            .background(
+//                                Capsule().fill(mapThemeColor)
+//                            )
+//                            .foregroundStyle(mapTextColor)
+//                    }
+//                    
+//                    Spacer()
+//                }
+//                
+//                // Back button
+//                Button {
+//                    appCoordinator.track.dismissScreen(on: router)
+//                } label: {
+//                    Image(systemName: "arrowshape.turn.up.backward.circle")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: 30)
+//                        .foregroundStyle(mapThemeColor)
+//                }
+//                .buttonStyle(.plain)
+//                .padding(.leading, 20)
+//            }
+//            
+//            // Bottom layer
+//            VStack {
+//                Spacer()
+//                
+//                HStack {
+//                    Spacer()
+//                    
+//                    // Return to original track
+//                    Button {
+//                        mapUserRotationAngle = 0
+//                        withAnimation {
+////                            position = .region(MapUtil.shared.regionForCoordinates(from: track))
+//                            position = .automatic
+//                        }
+//                    } label: {
+//                        Image(systemName: "location.circle.fill")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 40)
+//                            .foregroundStyle(mapThemeColor)
+//                    }
+//                    .buttonStyle(.plain)
+//                    .padding()
+//
+//                }
+//            }
+//            
+//        }
+//        .toolbar(.hidden)
+        EmptyView()
     }
     
     // Extract points based on the sampling interval (include the first and last location)

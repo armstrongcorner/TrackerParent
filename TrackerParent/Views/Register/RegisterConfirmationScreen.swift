@@ -73,7 +73,7 @@ struct RegisterConfirmationScreen: View {
             case .success:
                 toastViewObserver.dismissLoading()
                 sessionManager.reloadFromStorage()
-                appCoordinator.track.show(.trackList(username: nil), on: router)
+                appCoordinator?.track.show(.trackList(username: nil), on: router)
             case .failure:
                 if let errMsg = registerViewModel.errMsg {
                     toastViewObserver.showToast(message: errMsg)

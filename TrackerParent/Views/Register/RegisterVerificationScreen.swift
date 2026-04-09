@@ -102,7 +102,7 @@ struct RegisterVerificationScreen: View {
                 toastViewObserver.dismissLoading()
                 
                 registerViewModel.verificationCode = ""
-                appCoordinator.auth.show(.registerConfirmation(registerViewModel: registerViewModel), on: router)
+                appCoordinator?.auth.show(.registerConfirmation(registerViewModel: registerViewModel), on: router)
             case .failure:
                 if let errMsg = registerViewModel.errMsg {
                     toastViewObserver.showToast(message: errMsg)

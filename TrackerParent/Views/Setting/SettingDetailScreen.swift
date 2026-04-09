@@ -161,7 +161,7 @@ struct SettingDetailScreen: View {
                 toastViewObserver.showToast(message: "Update successfully") {
                     Task {
                         await MainActor.run {
-                            appCoordinator.setting.dismissEnvironment(on: router)
+                            appCoordinator?.setting.dismissEnvironment(on: router)
                         }
                     }
                 }
@@ -177,7 +177,7 @@ struct SettingDetailScreen: View {
                 toastViewObserver.showToast(message: "Add successfully") {
                     Task {
                         await MainActor.run {
-                            appCoordinator.setting.dismissEnvironment(on: router)
+                            appCoordinator?.setting.dismissEnvironment(on: router)
                         }
                     }
                 }

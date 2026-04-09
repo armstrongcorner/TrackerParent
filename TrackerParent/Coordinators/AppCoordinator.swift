@@ -62,11 +62,23 @@ extension RouteAction {
 
 // MARK: - AppCoordinator & environment object define
 @MainActor
-struct AppCoordinator {
-    let auth = AuthCoordinator()
-    let user = UserCoordinator()
-    let track = TrackCoordinator()
-    let setting = SettingCoordinator()
+final class AppCoordinator {
+    let auth: AuthCoordinator
+    let user: UserCoordinator
+    let track: TrackCoordinator
+    let setting: SettingCoordinator
+    
+    init(
+        auth: AuthCoordinator = AuthCoordinator(authViewModel: AuthViewModel()),
+        user: UserCoordinator = UserCoordinator(),
+        track: TrackCoordinator = TrackCoordinator(),
+        setting: SettingCoordinator = SettingCoordinator()
+    ) {
+        self.auth = auth
+        self.user = user
+        self.track = track
+        self.setting = setting
+    }
     
     // Append new routing coordinator here
 
@@ -77,11 +89,11 @@ struct AppCoordinator {
 }
 
 private struct AppCoordinatorKey: EnvironmentKey {
-    static let defaultValue = AppCoordinator()
+    static let defaultValue: AppCoordinator? = nil
 }
 
 extension EnvironmentValues {
-    var appCoordinator: AppCoordinator {
+    var appCoordinator: AppCoordinator? {
         get { self[AppCoordinatorKey.self] }
         set { self[AppCoordinatorKey.self] = newValue }
     }

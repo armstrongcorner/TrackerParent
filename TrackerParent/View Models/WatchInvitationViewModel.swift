@@ -37,8 +37,11 @@ struct PendingInvitationEntity: Identifiable {
 protocol WatchInvitationViewModelProtocol: Observable, AnyObject {
     var email: String { get set }
     var message: String { get set }
+    
     var fetchDataStatus: RequestStatus { get }
     var sendInvitationStatus: RequestStatus { get }
+    var markAsCurrentWatchStatus: RequestStatus { get }
+    
     var invitations: [InvitationModel] { get }
     var watchList: [WatchRelationshipModel] { get }
     var pendingInvitationList: [PendingInvitationEntity] { get }
@@ -47,14 +50,18 @@ protocol WatchInvitationViewModelProtocol: Observable, AnyObject {
     
     func fetchInvitationsAndWatchedUserList() async
     func sendInvitation() async
+    func markAsCurrentWatch(relationshipId: Int, sessionManger: SessionManager) async
 }
 
 @Observable
 final class WatchInvitationViewModel: WatchInvitationViewModelProtocol, Loggable {
     var email: String = ""
     var message: String = ""
+    
     private(set) var fetchDataStatus: RequestStatus = RequestStatus()
     private(set) var sendInvitationStatus: RequestStatus = RequestStatus()
+    private(set) var markAsCurrentWatchStatus: RequestStatus = RequestStatus()
+    
     private(set) var invitations: [InvitationModel] = []
     private(set) var watchList: [WatchRelationshipModel] = []
     private(set) var pendingInvitationList: [PendingInvitationEntity] = []
@@ -63,9 +70,12 @@ final class WatchInvitationViewModel: WatchInvitationViewModelProtocol, Loggable
     
     @ObservationIgnored
     private let userService: UserServiceProtocol
+    @ObservationIgnored
+    private let markAsCurrentWatchUseCase: MarkAsCurrentWatchUseCaseProtocol
     
     init(userService: UserServiceProtocol = UserService()) {
         self.userService = userService
+        self.markAsCurrentWatchUseCase = MarkAsCurrentWatchUseCase(userService: userService)
     }
     
     func fetchInvitationsAndWatchedUserList() async {
@@ -153,6 +163,21 @@ final class WatchInvitationViewModel: WatchInvitationViewModelProtocol, Loggable
             }
         } catch {
             handleError(error, for: &sendInvitationStatus)
+        }
+    }
+    
+    func markAsCurrentWatch(relationshipId: Int, sessionManger: SessionManager) async {
+        do {
+            markAsCurrentWatchStatus.state = .none
+            markAsCurrentWatchStatus.errMsg = nil
+            
+            // Call mark as current usecase
+            markAsCurrentWatchStatus.state = .loading
+            
+            try await markAsCurrentWatchUseCase.execute(relationshipId: relationshipId, sessionManager: sessionManger)
+            markAsCurrentWatchStatus.state = .success
+        } catch {
+            handleError(error, for: &markAsCurrentWatchStatus)
         }
     }
 }

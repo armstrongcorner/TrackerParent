@@ -158,6 +158,11 @@ extension WatchListScreen {
                         watchRelationship,
                         isSelected: watchRelationship.id == sessionManager.currentWatchRelationshipId
                     )
+                    .onTapGesture {
+                        if watchRelationship.id != sessionManager.currentWatchRelationshipId {
+                            markAsCurrentWatchAction(relationshipId: watchRelationship.id ?? 0)
+                        }
+                    }
                 }
             }
             .listStyle(.plain)
@@ -215,7 +220,7 @@ extension WatchListScreen {
     }
 }
 
-// MARK: - Navigations
+// MARK: - Navigations & other functions
 extension WatchListScreen {
     private func navigateToSendInvitation() {
         let config = ResizableSheetConfig(
@@ -223,7 +228,7 @@ extension WatchListScreen {
             dragIndicator: .automatic,
             backgroundInteraction: .disabled
         )
-        appCoordinator.user.show(
+        appCoordinator?.user.show(
             .sendInvitation(AnyView(SendInvitationScreen(vm: vm))),
             on: router,
             sheetConfig: config) { [weak vm] in
@@ -233,7 +238,13 @@ extension WatchListScreen {
     }
     
     private func navigateToInvitationHistory() {
-        appCoordinator.user.show(.invitationHistory(AnyView(InvitationHistoryScreen(vm: vm))), on: router)
+        appCoordinator?.user.show(.invitationHistory(AnyView(InvitationHistoryScreen(vm: vm))), on: router)
+    }
+    
+    private func markAsCurrentWatchAction(relationshipId: Int) {
+        Task {
+            await vm.markAsCurrentWatch(relationshipId: relationshipId, sessionManger: sessionManager)
+        }
     }
 }
 

@@ -19,6 +19,7 @@ final class MockWatchInvitationViewModel: WatchInvitationViewModelProtocol {
     
     var fetchDataStatus: RequestStatus = RequestStatus()
     var sendInvitationStatus: RequestStatus = RequestStatus()
+    var markAsCurrentWatchStatus: RequestStatus = RequestStatus()
     
     var shouldKeepLoading: Bool
     var shouldReturnError: Bool
@@ -89,7 +90,7 @@ final class MockWatchInvitationViewModel: WatchInvitationViewModelProtocol {
             if shouldReturnError {
                 // Mock error
                 sendInvitationStatus.state = .failure
-                sendInvitationStatus.errMsg = "Mock fetching invitations and watched user list error occurred"
+                sendInvitationStatus.errMsg = "Mock sending invitation error occurred"
             } else {
                 // Mock return data
                 pendingInvitationList.append(PendingInvitationEntity(
@@ -101,6 +102,29 @@ final class MockWatchInvitationViewModel: WatchInvitationViewModelProtocol {
                 
                 sendInvitationStatus.state = .success
                 sendInvitationStatus.errMsg = nil
+            }
+        }
+    }
+    
+    func markAsCurrentWatch(relationshipId: Int, sessionManger: SessionManager) async {
+        guard watchList.contains(where: { $0.id == relationshipId }) else {
+            markAsCurrentWatchStatus.state = .failure
+            markAsCurrentWatchStatus.errMsg = "Mock relationship not found"
+            return
+        }
+        
+        // Mock loading
+        markAsCurrentWatchStatus.state = .loading
+        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        
+        if !shouldKeepLoading {
+            if shouldReturnError {
+                markAsCurrentWatchStatus.state = .failure
+                markAsCurrentWatchStatus.errMsg = "Mock mark current watched user error occurred"
+            } else {
+                sessionManger.updateCurrentWatchRelationshipId(relationshipId)
+                markAsCurrentWatchStatus.state = .success
+                markAsCurrentWatchStatus.errMsg = nil
             }
         }
     }

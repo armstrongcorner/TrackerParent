@@ -17,7 +17,7 @@ struct LoginScreen: View {
     
     @State private var vm: AuthViewModelProtocol
     
-    init(vm: AuthViewModelProtocol = AuthViewModel()) {
+    init(vm: AuthViewModelProtocol) {
         _vm = State(wrappedValue: vm)
     }
     
@@ -40,6 +40,15 @@ struct LoginScreen: View {
                     .frame(maxWidth: .infinity)
             }
         }
+        .customAlert(isPresented: $vm.showFaceIdAlert) {
+            faceIdAlertView
+                .padding()
+        }
+        .task {
+            if vm.faceIdEnabled {
+                await vm.loginWithFaceId()
+            }
+        }
         .onChange(of: vm.loginState) { _, newValue in
             switch newValue {
             case .none:
@@ -49,7 +58,11 @@ struct LoginScreen: View {
             case .success:
                 toastViewObserver.dismissLoading()
                 sessionManager.reloadFromStorage()
-                appCoordinator.auth.show(.postLogin(role: vm.role ?? .user), on: router)
+                if vm.hasPromptedEnableFaceId {
+                    appCoordinator?.auth.show(.postLogin(role: vm.role ?? .user), on: router)
+                } else {
+                    vm.showFaceIdAlert = true
+                }
             case .failure:
                 toastViewObserver.dismissLoading()
                 if let errMsg = vm.errMsg {
@@ -121,7 +134,7 @@ extension LoginScreen {
     // Email sign in button
     private var emailSignInBtn: some View {
         Button {
-            appCoordinator.auth.show(.registerVerification, on: router)
+            appCoordinator?.auth.show(.registerVerification, on: router)
         } label: {
             HStack {
                 Image(systemName: "lock.fill")
@@ -140,11 +153,109 @@ extension LoginScreen {
     }
 }
 
+// MARK: - Other views
+extension LoginScreen {
+    // FaceId alert
+    private var faceIdAlertView: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "faceid")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+                .foregroundStyle(.mainTheme)
+                .padding()
+            
+            Text("Enable FaceID")
+                .font(.title2)
+                .bold()
+                .foregroundColor(.primaryText)
+
+            Text("Use FaceID for a faster and more secure way to log in next time.")
+                .font(.title2)
+                .fontWeight(.medium)
+                .foregroundColor(.secondaryText)
+                .multilineTextAlignment(.center)
+                .padding(.bottom)
+            
+            Button {
+                vm.showFaceIdAlert = false
+                vm.updateFaceIdStatus(faceIdEnabled: true, hasPrompted: true)
+                appCoordinator?.auth.show(.postLogin(role: vm.role ?? .user), on: router)
+            } label: {
+                Text("Enable")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 30)
+                    .outlineRoundedButtonStyle(
+                        buttonBackground: AnyShapeStyle(
+                            LinearGradient(
+                                colors: [.mainTheme, .mainTheme.opacity(0.7)],
+                                startPoint: .leading,
+                                endPoint: .trailing)
+                        ),
+                        buttonTextColor: .white,
+                        outlineWidth: 0
+                    )
+                    .shadow(color: .mainTheme, radius: 1, x: 0, y: 2)
+            }
+            .withPressableButtonStyle()
+            
+            Button {
+                vm.showFaceIdAlert = false
+                vm.updateFaceIdStatus(faceIdEnabled: false, hasPrompted: true)
+                appCoordinator?.auth.show(.postLogin(role: vm.role ?? .user), on: router)
+            } label: {
+                Text("Not Now")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 30)
+                    .outlineRoundedButtonStyle()
+            }
+            .withPressableButtonStyle()
+        }
+        .padding()
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 30)
+                .fill(.secondaryBackground)
+        )
+    }
+}
+
 // MARK: - Previews
-#Preview {
-    RouterView { _ in
-        LoginScreen()
+#Preview("Normal") {
+    let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
+    
+    let mockAuthViewModel = AuthViewModel(userDefaults: mockUserDefaults)
+    
+    return RouterView { _ in
+        LoginScreen(vm: mockAuthViewModel)
     }
     .environment(SessionManager())
     .environment(ToastViewObserver())
+}
+
+#Preview("Pop FaceID alert") {
+    let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock1") ?? .standard
+    mockUserDefaults.set("a.b@test.com", forKey: "username")
+    mockUserDefaults.set(false, forKey: "a.b@test.com_hasPromptedEnableFaceId")
+    
+    let mockAuthViewModel = AuthViewModel(userDefaults: mockUserDefaults)
+    mockAuthViewModel.showFaceIdAlert = true
+    
+    return RouterView { _ in
+        LoginScreen(vm: mockAuthViewModel)
+    }
+    .environment(SessionManager())
+    .environment(ToastViewObserver())
+}
+
+#Preview("Clean up UserDefaults") {
+    Text("")
+        .onAppear {
+            let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
+            mockUserDefaults.removePersistentDomain(forName: "au.com.matrixthoughts.TrackerParent.mock")
+        }
 }

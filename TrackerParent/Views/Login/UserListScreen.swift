@@ -27,7 +27,7 @@ struct UserListScreen: View {
                     List {
                         ForEach(userViewModel.users, id: \.self) { user in
                             Button {
-                                appCoordinator.track.show(.trackList(username: user.username), on: router)
+                                appCoordinator?.track.show(.trackList(username: user.username), on: router)
                             } label: {
                                 UserListItem(user: user)
                             }
@@ -66,7 +66,7 @@ struct UserListScreen: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button {
-                        appCoordinator.setting.show(.settingList, on: router)
+                        appCoordinator?.setting.show(.settingList, on: router)
                     } label: {
                         Text("Track setting")
                     }
@@ -88,7 +88,7 @@ struct UserListScreen: View {
             Button("OK", role: .destructive) {
                 userViewModel.logout()
                 sessionManager.clearSession()
-                appCoordinator.track.dismissScreen(on: router)
+                appCoordinator?.track.dismissScreen(on: router)
             }
         } message: {
             Text("Logout current user: \(userViewModel.getCurrentUsername())?")
