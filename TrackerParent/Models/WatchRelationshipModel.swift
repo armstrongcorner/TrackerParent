@@ -7,12 +7,18 @@
 
 import Foundation
 
+enum WatchRelationshipStatus: String, Codable, Hashable {
+    case active = "active"
+    case revoked = "revoked"
+    case suspended = "suspended"
+}
+
 struct WatchRelationshipModel: Hashable, Codable {
     let id: Int?
     let ownerUserId: Int?
     let watchedUserId: Int?
     let invitationId: Int?
-    let status: String?
+    let status: WatchRelationshipStatus?
     let activatedAt: String?
     let revokedAt: String?
     let createdAt: String?

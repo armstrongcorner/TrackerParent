@@ -7,12 +7,20 @@
 
 import Foundation
 
+enum InvitationStatus: String, Codable, Hashable {
+    case accepted = "accepted"
+    case pending = "pending"
+    case declined = "declined"
+    case revoked = "revoked"
+    case expired = "expired"
+}
+
 struct InvitationModel: Hashable, Codable {
     let id: Int?
     let ownerUserId: Int?
     let inviteeEmail: String?
     let inviteeUserId: Int?
-    let status: String?
+    let status: InvitationStatus?
     let message: String?
     let expiresAt: String?
     let acceptedAt: String?

@@ -16,7 +16,7 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
     
     @State private var vm: VM
     
-    init(vm: VM = WatchInvitationViewModel()) {
+    init(vm: VM) {
         _vm = State(wrappedValue: vm)
     }
 

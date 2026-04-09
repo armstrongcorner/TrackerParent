@@ -9,12 +9,6 @@ import SwiftUI
 
 @MainActor
 final class AuthCoordinator: RouteAction {
-    let authViewModel: AuthViewModelProtocol
-    
-    init(authViewModel: AuthViewModelProtocol) {
-        self.authViewModel = authViewModel
-    }
-    
     enum Route {
         case login
         case registerVerification
@@ -26,7 +20,7 @@ final class AuthCoordinator: RouteAction {
     func destination(for route: Route) -> some View {
         switch route {
         case .login:
-            LoginScreen(vm: authViewModel)
+            LoginScreen(vm: AuthViewModel())
         case .registerVerification:
             RegisterVerificationScreen()
         case .registerConfirmation(let registerViewModel):
@@ -36,7 +30,7 @@ final class AuthCoordinator: RouteAction {
             case .admin:
                 UserListScreen()
             case .user:
-                WatchListScreen()
+                WatchListScreen(vm: WatchInvitationViewModel())
             }
         }
     }

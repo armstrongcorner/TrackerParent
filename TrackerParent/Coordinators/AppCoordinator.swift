@@ -69,7 +69,7 @@ final class AppCoordinator {
     let setting: SettingCoordinator
     
     init(
-        auth: AuthCoordinator = AuthCoordinator(authViewModel: AuthViewModel()),
+        auth: AuthCoordinator = AuthCoordinator(),
         user: UserCoordinator = UserCoordinator(),
         track: TrackCoordinator = TrackCoordinator(),
         setting: SettingCoordinator = SettingCoordinator()

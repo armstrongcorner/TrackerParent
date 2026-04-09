@@ -16,8 +16,17 @@ struct InvitationHistoryItemView: View {
     
     var body: some View {
         let avatarColor = Color.color(for: invitation.id == nil ? UUID().uuidString : String(invitation.id ?? 0))
+        var statusColor: Color = .warning
+        switch invitation.status {
+        case .pending:
+            statusColor = .importantTip
+        case .accepted:
+            statusColor = .lightLime
+        default:
+            statusColor = .warning
+        }
         
-        VStack(alignment: .leading, spacing: 30) {
+        return VStack(alignment: .leading, spacing: 30) {
             HStack {
                 // Avatar
                 Text(StringUtil.shared.initials(from: (invitation.inviteeEmail ?? "")).uppercased())
@@ -66,8 +75,8 @@ struct InvitationHistoryItemView: View {
             
             // Status & actions
             HStack {
-                Text("PENDING")
-                    .statusLabelStyle(themeColor: .importantTip)
+                Text(invitation.status?.rawValue.uppercased() ?? "")
+                    .statusLabelStyle(themeColor: statusColor)
                 
                 Spacer()
                 
