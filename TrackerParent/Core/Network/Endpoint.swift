@@ -15,7 +15,8 @@ enum Endpoint {
     static let devURL = "http://localhost:3000/api"
 
     case firebaseLogin
-    case login
+    case emailStart
+    case emailLogin
     case allInvitations
     case sendInvitation
     case watchRelationships
@@ -38,9 +39,11 @@ enum Endpoint {
     var urlString: String {
         switch self {
         case .firebaseLogin:
-            return "\(Endpoint.devURL)/auth/firebase-login"
-        case .login:
-            return "\(Endpoint.userURL)/identity/token"
+            return "\(Endpoint.devURL)/auth/sso/login"
+        case .emailStart:
+            return "\(Endpoint.devURL)/auth/email/start"
+        case .emailLogin:
+            return "\(Endpoint.devURL)/auth/email/complete"
         case .allInvitations:
             return "\(Endpoint.devURL)/watch-invitations"
         case .sendInvitation:

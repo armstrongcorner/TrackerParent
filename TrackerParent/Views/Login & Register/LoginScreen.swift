@@ -134,7 +134,7 @@ extension LoginScreen {
     // Email sign in button
     private var emailSignInBtn: some View {
         Button {
-            appCoordinator?.auth.show(.registerVerification, on: router)
+            navigateToEmailSignIn()
         } label: {
             HStack {
                 Image(systemName: "lock.fill")
@@ -221,6 +221,34 @@ extension LoginScreen {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.secondaryBackground)
         )
+    }
+}
+
+// MARK: - Navigations
+extension LoginScreen {
+    private func navigateToEmailSignIn() {
+        let config = ResizableSheetConfig(
+            detents: [.fraction(0.8), .large],
+            dragIndicator: .automatic,
+            backgroundInteraction: .disabled
+        )
+        appCoordinator?.auth.show(
+            .emailEntry(vm: vm),
+            on: router,
+            sheetConfig: config
+        ) { [weak vm] in
+            guard let vm else { return }
+
+            Task {
+                if vm.autoTriggerGoogleSignIn {
+                    vm.autoTriggerGoogleSignIn.toggle()
+                    await vm.loginWithSSO(type: .google)
+                } else if vm.autoTriggerAppleSignIn {
+                    vm.autoTriggerAppleSignIn.toggle()
+                    await vm.loginWithSSO(type: .apple)
+                }
+            }
+        }
     }
 }
 

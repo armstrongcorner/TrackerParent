@@ -7,46 +7,8 @@
 
 import Foundation
 
-//struct UserModel: Codable, Hashable {
-//    var id: Int?
-//    var userName: String?
-//    var password: String?
-//    var photo: String?
-//    var role: String?
-//    var mobile: String?
-//    var email: String?
-//    var serviceLevel: Int?
-//    var tokenDurationInMin: Int?
-//    var isActive: Bool?
-//    var createdDateTime: String?
-//    var updatedDateTime: String?
-//    var createdBy: String?
-//    var updatedBy: String?
-//    
-//    func toDictionary() -> [String: Any?] {
-//        return [
-//            "id": id,
-//            "userName": userName,
-//            "password": password,
-//            "photo": photo,
-//            "role": role,
-//            "mobile": mobile,
-//            "email": email,
-//            "serviceLevel": serviceLevel,
-//            "tokenDurationInMin": tokenDurationInMin,
-//            "isActive": isActive,
-//            "createdDateTime": createdDateTime,
-//            "updatedDateTime": updatedDateTime,
-//            "createdBy": createdBy,
-//            "updatedBy": updatedBy
-//        ]
-//    }
-//}
-
 struct UserModel: Codable, Hashable {
     var id: Int?
-    var username: String?
-    var password: String?
     var displayName: String?
     var email: String?
     var emailVerified: Bool?
@@ -63,8 +25,6 @@ struct UserModel: Codable, Hashable {
     func toDictionary() -> [String: Any?] {
         return [
             "id": id,
-            "username": username,
-            "password": password,
             "displayName": displayName,
             "email": email,
             "emailVerified": emailVerified,
@@ -75,6 +35,7 @@ struct UserModel: Codable, Hashable {
             "updatedAt": updatedAt,
             "lastLoginAt": lastLoginAt,
             "signInProvider": signInProvider,
+            "currentWatchRelationshipId": currentWatchRelationshipId,
             "role": role,
         ]
     }

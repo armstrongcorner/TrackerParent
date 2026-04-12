@@ -64,6 +64,10 @@
 		AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */; };
 		AE178B342F6E705100418452 /* LoginFirebaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */; };
 		AE178B3D2F6FB48F00418452 /* MTNetworkManager in Frameworks */ = {isa = PBXBuildFile; productRef = AE178B3C2F6FB48F00418452 /* MTNetworkManager */; };
+		AE27A6722F87BAE700B1FCDE /* EmailEntryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A6712F87BAE700B1FCDE /* EmailEntryScreen.swift */; };
+		AE27A68A2F89D47000B1FCDE /* EmailFlowStartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A6892F89D47000B1FCDE /* EmailFlowStartModel.swift */; };
+		AE27A68E2F8A660800B1FCDE /* EmailRegisterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A68D2F8A660800B1FCDE /* EmailRegisterScreen.swift */; };
+		AE27A6902F8A662700B1FCDE /* EmailLoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A68F2F8A662700B1FCDE /* EmailLoginScreen.swift */; };
 		AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDC92F5B6D97007B7502 /* MockMTApiClient.swift */; };
 		AE8DBDDA2F5C30B9007B7502 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDD92F5C30B9007B7502 /* LoginScreen.swift */; };
 		AE8DBDDD2F5C37F8007B7502 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDDC2F5C37F8007B7502 /* Color.swift */; };
@@ -185,6 +189,10 @@
 		AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithFaceIdUseCase.swift; sourceTree = "<group>"; };
 		AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFirebaseUseCase.swift; sourceTree = "<group>"; };
 		AE1E1E492F6AB5AA0098AB01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		AE27A6712F87BAE700B1FCDE /* EmailEntryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailEntryScreen.swift; sourceTree = "<group>"; };
+		AE27A6892F89D47000B1FCDE /* EmailFlowStartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFlowStartModel.swift; sourceTree = "<group>"; };
+		AE27A68D2F8A660800B1FCDE /* EmailRegisterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRegisterScreen.swift; sourceTree = "<group>"; };
+		AE27A68F2F8A662700B1FCDE /* EmailLoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginScreen.swift; sourceTree = "<group>"; };
 		AE8DBDC92F5B6D97007B7502 /* MockMTApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMTApiClient.swift; sourceTree = "<group>"; };
 		AE8DBDD92F5C30B9007B7502 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		AE8DBDDC2F5C37F8007B7502 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -422,7 +430,7 @@
 			isa = PBXGroup;
 			children = (
 				2266D15B2D86C3A1004D9644 /* Modifiers+Extension+Style */,
-				AEE6B4F32D8BFD5D0094EB82 /* Login */,
+				AEE6B4F32D8BFD5D0094EB82 /* Login & Register */,
 				225F20A12DA52B9A00998670 /* Register */,
 				AEE7EB942F73DE1D00694ACB /* Users */,
 				AEE6B4F42D8BFD800094EB82 /* Track */,
@@ -436,6 +444,7 @@
 			children = (
 				22FBA7BF2D856A88002C10B1 /* Services */,
 				22FBA7B92D856990002C10B1 /* AuthModel.swift */,
+				AE27A6892F89D47000B1FCDE /* EmailFlowStartModel.swift */,
 				AEE7EB972F73F00200694ACB /* InvitationModel.swift */,
 				AEE7EB992F74DEDF00694ACB /* WatchRelationshipModel.swift */,
 				AEE6B4D12D8958660094EB82 /* UserModel.swift */,
@@ -496,14 +505,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AEE6B4F32D8BFD5D0094EB82 /* Login */ = {
+		AEE6B4F32D8BFD5D0094EB82 /* Login & Register */ = {
 			isa = PBXGroup;
 			children = (
 				223499142DA10E4E00E810FF /* Cells */,
 				AE8DBDD92F5C30B9007B7502 /* LoginScreen.swift */,
+				AE27A6712F87BAE700B1FCDE /* EmailEntryScreen.swift */,
+				AE27A68F2F8A662700B1FCDE /* EmailLoginScreen.swift */,
+				AE27A68D2F8A660800B1FCDE /* EmailRegisterScreen.swift */,
 				223499122DA0CC9100E810FF /* UserListScreen.swift */,
 			);
-			path = Login;
+			path = "Login & Register";
 			sourceTree = "<group>";
 		};
 		AEE6B4F42D8BFD800094EB82 /* Track */ = {
@@ -718,11 +730,13 @@
 				AEE6B4FD2D8E66560094EB82 /* MockTrackViewModel.swift in Sources */,
 				AEE6B4EC2D8A6AAE0094EB82 /* TrackViewModel.swift in Sources */,
 				2266D1392D862EDC004D9644 /* MockLoginService.swift in Sources */,
+				AE27A68A2F89D47000B1FCDE /* EmailFlowStartModel.swift in Sources */,
 				22B295082D98A2E600AB6A5D /* SettingDetailScreen.swift in Sources */,
 				AEE7EB9A2F74DEDF00694ACB /* WatchRelationshipModel.swift in Sources */,
 				B10000012F90000100000001 /* AppCoordinator.swift in Sources */,
 				AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */,
 				22F160D92DA666D900C4528E /* StringUtil.swift in Sources */,
+				AE27A6722F87BAE700B1FCDE /* EmailEntryScreen.swift in Sources */,
 				AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */,
 				22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */,
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
@@ -746,6 +760,7 @@
 				AE178B342F6E705100418452 /* LoginFirebaseUseCase.swift in Sources */,
 				AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */,
 				2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */,
+				AE27A68E2F8A660800B1FCDE /* EmailRegisterScreen.swift in Sources */,
 				AE153BCD2F84E13C002CE618 /* CustomAlertModifier.swift in Sources */,
 				2266D15A2D86BD0F004D9644 /* BiometricsUtil.swift in Sources */,
 				2266D15D2D86C3F8004D9644 /* ClearButtonModifier.swift in Sources */,
@@ -789,6 +804,7 @@
 				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
 				AEE7EBB42F78CB8700694ACB /* RequestStatus.swift in Sources */,
 				223499182DA10E8800E810FF /* UserListItem.swift in Sources */,
+				AE27A6902F8A662700B1FCDE /* EmailLoginScreen.swift in Sources */,
 				AE8DBDE12F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift in Sources */,
 				225F20A52DA52BE800998670 /* RegisterConfirmationScreen.swift in Sources */,
 				2234992A2DA3E53000E810FF /* MockKeyChainUtil.swift in Sources */,

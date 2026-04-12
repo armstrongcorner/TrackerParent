@@ -116,23 +116,23 @@ final class RegisterViewModel: RegisterViewModelProtocol, Loggable {
             startCountDown()
 
             // 3) Use the super user login to get the token
-            guard let authResponse = try await loginService.login(username: "matrixthoughtsadmin", password: "Nbq4dcz123", deviceId: StringUtil.shared.getDeviceId()) else {
-                throw CommError.unknown
-            }
+//            guard let authResponse = try await loginService.login(username: "matrixthoughtsadmin", password: "Nbq4dcz123", deviceId: StringUtil.shared.getDeviceId()) else {
+//                throw CommError.unknown
+//            }
 //            guard let authResponse = try await loginService.login(username: "withouthammer", password: "withouthammer") else {
 //                throw CommError.unknown
 //            }
             
-            if authResponse.isSuccess, let authModel = authResponse.value {
-                logger.debug("--- super user auth model: \(String(describing: authModel))")
-                
-                // Save the super user auth model to Keychain for registration use
-                try keyChainUtil.saveObject(account: email, object: authModel)
-            } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
-                throw CommError.serverReturnedError(failureReason)
-            } else {
-                throw CommError.unknown
-            }
+//            if authResponse.isSuccess, let authModel = authResponse.value {
+//                logger.debug("--- super user auth model: \(String(describing: authModel))")
+//                
+//                // Save the super user auth model to Keychain for registration use
+//                try keyChainUtil.saveObject(account: email, object: authModel)
+//            } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
+//                throw CommError.serverReturnedError(failureReason)
+//            } else {
+//                throw CommError.unknown
+//            }
             
             // 4) Call send verification email service with super user's token
             guard let authResponse = try await userService.sendVerificationEmail(username: email) else {

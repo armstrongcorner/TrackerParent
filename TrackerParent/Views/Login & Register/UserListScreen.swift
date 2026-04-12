@@ -27,7 +27,7 @@ struct UserListScreen: View {
                     List {
                         ForEach(userViewModel.users, id: \.self) { user in
                             Button {
-                                appCoordinator?.track.show(.trackList(username: user.username), on: router)
+                                appCoordinator?.track.show(.trackList(username: user.email), on: router)
                             } label: {
                                 UserListItem(user: user)
                             }

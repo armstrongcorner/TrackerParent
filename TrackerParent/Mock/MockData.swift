@@ -9,8 +9,6 @@ import Foundation
 
 let mockUser1 = UserModel(
     id: 1,
-    username: "test_username1",
-    password: "abcdefg123456",
     displayName: "Test User 1",
     email: "test_username1@example.com",
     emailVerified: true,
@@ -27,8 +25,6 @@ let mockUser1 = UserModel(
 
 let mockUser2 = UserModel(
     id: 2,
-    username: "test_username2",
-    password: "abcdefg123456",
     displayName: "Test Admin 2",
     email: "test_username2@example.com",
     emailVerified: true,
@@ -45,8 +41,6 @@ let mockUser2 = UserModel(
 
 let mockUser3 = UserModel(
     id: 3,
-    username: "test_username3",
-    password: "abcdefg123456",
     displayName: "Test User 3",
     email: "test_username3@example.com",
     emailVerified: false,
@@ -169,8 +163,6 @@ let mockWatchRelationship3 = WatchRelationshipModel(
     updatedAt: "2026-03-29T14:20:00.0000000Z",
     watchedUser: UserModel(
         id: 4,
-        username: "test_username4",
-        password: nil,
         displayName: "Test User 4",
         email: "test_username4@example.com",
         emailVerified: true,

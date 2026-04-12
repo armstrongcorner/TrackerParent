@@ -7,6 +7,7 @@
 
 import Foundation
 import MTAuthHelper
+import SwiftUI
 
 enum SSOType: Equatable {
     case apple
@@ -14,18 +15,21 @@ enum SSOType: Equatable {
 }
 
 enum LoginError: Error {
-    case emptyUsername
+    case emptyEmail
     case emptyPassword
+    case invalidEmail
     case invalidCredentials
     
     var errorDescription: String? {
         switch self {
-        case .emptyUsername:
-            return "Username is required."
+        case .emptyEmail:
+            return "Email is required."
         case .emptyPassword:
             return "Password is required."
+        case .invalidEmail:
+            return "Not a valid email."
         case .invalidCredentials:
-            return "Invalid username or password."
+            return "Invalid email or password."
         }
     }
 }
@@ -47,19 +51,42 @@ enum CommError: Error {
     }
 }
 
+enum EmailFlowDestination: Equatable {
+    case none
+    case login
+    case register(flowToken: String)
+}
+
+private struct AuthViewModelKey: EnvironmentKey {
+    static let defaultValue: AuthViewModelProtocol? = nil
+}
+
+extension EnvironmentValues {
+    var authViewModel: AuthViewModelProtocol? {
+        get { self[AuthViewModelKey.self] }
+        set { self[AuthViewModelKey.self] = newValue }
+    }
+}
+
 @MainActor
-protocol AuthViewModelProtocol {
+protocol AuthViewModelProtocol: Observable, AnyObject, Sendable {
     var username: String { get set }
+    var email: String { get set }
     var password: String { get set }
     var loginState: CommReqState { get }
+    var emailFlowDestination: EmailFlowDestination { get set }
     var errMsg: String? { get }
     var role: AccountRole? { get }
-    var showSettingsAlert: Bool { get set }
-    var showEnrolAlert: Bool { get set }
     var faceIdEnabled: Bool { get set }
     var showFaceIdAlert: Bool { get set }
     var hasPromptedEnableFaceId: Bool { get set }
+    var autoTriggerGoogleSignIn: Bool { get set }
+    var autoTriggerAppleSignIn: Bool { get set }
     
+    var showSettingsAlert: Bool { get set }
+    var showEnrolAlert: Bool { get set }
+    
+    func loginWithEmailStart() async
     func login() async
     func loginWithFaceId() async
     func loginWithSSO(type: SSOType) async
@@ -70,17 +97,23 @@ protocol AuthViewModelProtocol {
 @Observable
 final class AuthViewModel: AuthViewModelProtocol, Loggable {
     var username: String = ""
+    var email: String = ""
     var password: String = ""
     private(set) var loginState: CommReqState = .none
+    var emailFlowDestination: EmailFlowDestination = .none
     private(set) var errMsg: String?
     private(set) var role: AccountRole?
     var faceIdEnabled: Bool
-    var hasPromptedEnableFaceId: Bool
     var showFaceIdAlert: Bool = false
+    var hasPromptedEnableFaceId: Bool
+    var autoTriggerGoogleSignIn: Bool = false
+    var autoTriggerAppleSignIn: Bool = false
     
     var showSettingsAlert: Bool = false
     var showEnrolAlert: Bool = false
     
+    @ObservationIgnored
+    private let loginService: LoginServiceProtocol
     @ObservationIgnored
     private let loginUseCase: LoginUseCaseProtocol
     @ObservationIgnored
@@ -93,12 +126,14 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     private let userDefaults: UserDefaults
     
     init(
+        loginService: LoginServiceProtocol = LoginService(),
         loginUseCase: LoginUseCaseProtocol = LoginUseCase(),
         loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol = LoginWithFaceIdUseCase(),
         loginFirebaseUseCase: LoginFirebaseUseCaseProtocol = LoginFirebaseUseCase(),
         biometricsUtil: BiometricsUtilProtocol = BiometricsUtil.shared,
         userDefaults: UserDefaults = .standard
     ) {
+        self.loginService = loginService
         self.loginUseCase = loginUseCase
         self.loginWithFaceIdUseCase = loginWithFaceIdUseCase
         self.loginFirebaseUseCase = loginFirebaseUseCase
@@ -116,6 +151,14 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
         }
     }
     
+    convenience init(loginService: LoginServiceProtocol = LoginService()) {
+        self.init(
+            loginService: loginService,
+            loginUseCase: LoginUseCase(loginService: loginService),
+            loginFirebaseUseCase: LoginFirebaseUseCase(loginService: loginService),
+        )
+    }
+    
     // Email login
     func login() async {
         do {
@@ -123,7 +166,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             role = nil
             
             // Validate input
-            try validateInput()
+            try validateEmail()
+            try validatePassword()
             
             // Call login usecase
             guard let authResponse = try await loginUseCase.execute(username: username, password: password) else {
@@ -167,6 +211,39 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
         }
     }
     
+    // Email login/register start
+    func loginWithEmailStart() async {
+        do {
+            // Validate email
+            try validateEmail()
+            
+            // Call login email start
+            guard let emailFlowStartResponse = try await loginService.loginWithEmailStart(
+                email: email,
+                deviceId: StringUtil.shared.getDeviceId()
+            ) else {
+                throw CommError.unknown
+            }
+            
+            if emailFlowStartResponse.isSuccess, let emailFlowStartModel = emailFlowStartResponse.value {
+                switch emailFlowStartModel.step {
+                case .login:
+                    emailFlowDestination = .login
+                case .register:
+                    emailFlowDestination = .register(flowToken: emailFlowStartModel.flowToken ?? "")
+                default:
+                    emailFlowDestination = .none
+                }
+            } else if !emailFlowStartResponse.isSuccess, let failureReason = emailFlowStartResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error)
+        }
+    }
+
     // Login SSO
     func loginWithSSO(type: SSOType) async {
         do {
@@ -201,12 +278,18 @@ extension AuthViewModel {
 
 // MARK: - Validator and error handler
 extension AuthViewModel {
-    private func validateInput() throws {
-        // Validate username cannot be empty
-        guard !username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw LoginError.emptyUsername
+    private func validateEmail() throws {
+        // Validate email cannot be empty
+        guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw LoginError.emptyEmail
         }
         
+        guard StringUtil.shared.isValidEmail(email) else {
+            throw LoginError.invalidEmail
+        }
+    }
+    
+    private func validatePassword() throws {
         // Validate password cannot be empty
         guard !password.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             throw LoginError.emptyPassword

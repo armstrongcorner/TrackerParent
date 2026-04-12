@@ -11,6 +11,10 @@ import SwiftUI
 final class AuthCoordinator: RouteAction {
     enum Route {
         case login
+        case emailEntry(vm: AuthViewModelProtocol)
+        case emailRegister(flowToken: String)
+        case emailLogin
+        
         case registerVerification
         case registerConfirmation(registerViewModel: RegisterViewModelProtocol)
         case postLogin(role: AccountRole)
@@ -21,6 +25,14 @@ final class AuthCoordinator: RouteAction {
         switch route {
         case .login:
             LoginScreen(vm: AuthViewModel())
+        case .emailEntry(let vm):
+            EmailEntryScreen()
+                .environment(\.authViewModel, vm)
+        case .emailRegister(flowToken: let flowToken):
+            EmailRegisterScreen(flowToken: flowToken)
+        case .emailLogin:
+            EmailLoginScreen()
+            
         case .registerVerification:
             RegisterVerificationScreen()
         case .registerConfirmation(let registerViewModel):

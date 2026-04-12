@@ -28,23 +28,23 @@ final class LoginUseCase: LoginUseCaseProtocol, Loggable {
     }
     
     func execute(username: String, password: String) async throws -> AuthResponse? {
-        if let authResponse = try await loginService.login(
-            username: username,
-            password: password,
-            deviceId: StringUtil.shared.getDeviceId()
-        ) {
-            if authResponse.isSuccess, let authModel = authResponse.value {
-                logger.debug("--- auth model: \(String(describing: authModel))")
-                
-                // Save the username to UserDefault
-                userDefaults.set(username, forKey: "username")
-                
-                // Save the auth model to Keychain
-                try keyChainUtil.saveObject(account: username, object: authModel)
-            }
-            
-            return authResponse
-        }
+//        if let authResponse = try await loginService.login(
+//            username: username,
+//            password: password,
+//            deviceId: StringUtil.shared.getDeviceId()
+//        ) {
+//            if authResponse.isSuccess, let authModel = authResponse.value {
+//                logger.debug("--- auth model: \(String(describing: authModel))")
+//                
+//                // Save the username to UserDefault
+//                userDefaults.set(username, forKey: "username")
+//                
+//                // Save the auth model to Keychain
+//                try keyChainUtil.saveObject(account: username, object: authModel)
+//            }
+//            
+//            return authResponse
+//        }
         
         return nil
     }

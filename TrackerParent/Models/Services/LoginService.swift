@@ -8,19 +8,9 @@
 import Foundation
 import MTNetworkManager
 
-struct EmailLoginRequestBody: Codable {
-    let username: String
-    let password: String
-    let deviceId: String
-}
-
-struct FirebaseLoginRequestBody: Codable {
-    let firebaseIdToken: String
-    let deviceId: String
-}
-
 protocol LoginServiceProtocol: Sendable {
-    func login(username: String, password: String, deviceId: String?) async throws -> AuthResponse?
+    func loginWithEmailStart(email: String,deviceId: String?) async throws -> EmailFlowStartResponse?
+    func loginWithEmailComplete(flowToken: String, idToken: String, deviceId: String?) async throws -> AuthResponse?
     func loginWithFirebase(idToken: String, deviceId: String?) async throws -> AuthResponse?
 }
 
@@ -31,11 +21,34 @@ actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
         self.apiClient = apiClient
     }
     
-    func login(username: String, password: String, deviceId: String?) async throws -> AuthResponse? {
-        let requestBody = EmailLoginRequestBody(username: username, password: password, deviceId: deviceId ?? "")
+    func loginWithEmailStart(email: String,deviceId: String?) async throws -> EmailFlowStartResponse? {
+        struct EmailStartRequestBody: Codable {
+            let email: String
+            let deviceId: String
+        }
+
+        let requestBody = EmailStartRequestBody(email: email, deviceId: deviceId ?? "")
         
         let response = try await apiClient.post(
-            urlString: Endpoint.login.urlString,
+            urlString: Endpoint.emailStart.urlString,
+            body: requestBody,
+            responseType: EmailFlowStartResponse.self
+        )
+        
+        return response
+    }
+    
+    func loginWithEmailComplete(flowToken: String, idToken: String, deviceId: String?) async throws -> AuthResponse? {
+        struct EmailCompleteRequestBody: Codable {
+            let flowToken: String
+            let firebaseIdToken: String
+            let deviceId: String
+        }
+
+        let requestBody = EmailCompleteRequestBody(flowToken: flowToken, firebaseIdToken: idToken, deviceId: deviceId ?? "")
+        
+        let response = try await apiClient.post(
+            urlString: Endpoint.emailStart.urlString,
             body: requestBody,
             responseType: AuthResponse.self
         )
@@ -44,6 +57,11 @@ actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
     }
     
     func loginWithFirebase(idToken: String, deviceId: String?) async throws -> AuthResponse? {
+        struct FirebaseLoginRequestBody: Codable {
+            let firebaseIdToken: String
+            let deviceId: String
+        }
+
         let requestBody = FirebaseLoginRequestBody(firebaseIdToken: idToken, deviceId: deviceId ?? "")
         
         let response = try await apiClient.post(
