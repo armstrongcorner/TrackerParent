@@ -16,7 +16,7 @@ enum Endpoint {
 
     case firebaseLogin
     case emailStart
-    case emailLogin
+    case emailComplete
     case allInvitations
     case sendInvitation
     case watchRelationships
@@ -42,7 +42,7 @@ enum Endpoint {
             return "\(Endpoint.devURL)/auth/sso/login"
         case .emailStart:
             return "\(Endpoint.devURL)/auth/email/start"
-        case .emailLogin:
+        case .emailComplete:
             return "\(Endpoint.devURL)/auth/email/complete"
         case .allInvitations:
             return "\(Endpoint.devURL)/watch-invitations"

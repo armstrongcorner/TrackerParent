@@ -16,27 +16,12 @@ struct EmailEntryScreen: View {
 
     var body: some View {
         ZStack {
-            Color.theme.background.ignoresSafeArea()
+            Color.background.ignoresSafeArea()
             
             ScrollView {
                 VStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(.outline)
-                            .frame(width: 20, height: 20)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    
-                    Image("logo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 60, height: 60)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .padding(.bottom, 5)
+                    navBtnSection
+                        .padding(.bottom, 10)
                     
                     titleSection
                         .padding(.bottom, 30)
@@ -69,15 +54,17 @@ struct EmailEntryScreen: View {
             }
         }
         .onChange(of: vm?.emailFlowDestination) { _, newValue in
+            guard let vm else { return }
+            
             switch newValue {
-            case .login:
-                appCoordinator?.auth.show(.emailLogin, on: router)
-                vm?.emailFlowDestination = .none
+            case .login(let flowToken):
+                appCoordinator?.auth.show(.emailLogin(vm: vm, flowToken: flowToken), on: router)
+                vm.emailFlowDestination = .none
             case .register(let flowToken):
-                appCoordinator?.auth.show(.emailRegister(flowToken: flowToken), on: router)
-                vm?.emailFlowDestination = .none
+                appCoordinator?.auth.show(.emailRegister(vm: vm, flowToken: flowToken), on: router)
+                vm.emailFlowDestination = .none
             default:
-                vm?.emailFlowDestination = .none
+                vm.emailFlowDestination = .none
             }
         }
     }
@@ -85,9 +72,33 @@ struct EmailEntryScreen: View {
 
 // MARK: - View sections
 extension EmailEntryScreen {
+    // Nav button section
+    private var navBtnSection: some View {
+        HStack {
+            Spacer()
+            
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.outline)
+                    .frame(width: 20, height: 20)
+            }
+        }
+    }
+    
     // Title section
     private var titleSection: some View {
         VStack {
+            Image("logo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 60, height: 60)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .padding(.bottom, 5)
+                        
             Text("Log in or sign up")
                 .font(.title)
                 .fontWeight(.bold)
@@ -126,7 +137,7 @@ extension EmailEntryScreen {
             .font(.subheadline)
             .fontWeight(.semibold)
             .foregroundStyle(.secondaryText)
-            .clearButton(.constant(""))
+//            .clearButton(.constant(""))
             .padding()
             .background(
                 Capsule()
@@ -211,13 +222,16 @@ extension EmailEntryScreen {
 }
 
 // MARK: - Previews
-#Preview("Normal") {
+#Preview("Go register") {
     let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
     
     let mockAuthViewModel = AuthViewModel(userDefaults: mockUserDefaults)
+    mockAuthViewModel.email = "test@test.com"
+    mockAuthViewModel.emailFlowDestination = .register(flowToken: "")
     
     return RouterView { _ in
         EmailEntryScreen()
-            .environment(mockAuthViewModel)
+            .environment(\.authViewModel, mockAuthViewModel)
+            .environment(\.appCoordinator, AppCoordinator())
     }
 }

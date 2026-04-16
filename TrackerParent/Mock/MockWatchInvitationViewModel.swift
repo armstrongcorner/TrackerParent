@@ -69,7 +69,7 @@ final class MockWatchInvitationViewModel: WatchInvitationViewModelProtocol {
         // Validate email cannot be empty
         guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             sendInvitationStatus.state = .failure
-            sendInvitationStatus.errMsg = RegisterError.emptyEmail.errorDescription
+            sendInvitationStatus.errMsg = LoginError.emptyEmail.errorDescription
             
             return
         }
@@ -77,7 +77,7 @@ final class MockWatchInvitationViewModel: WatchInvitationViewModelProtocol {
         // Validate email format
         guard StringUtil.shared.isValidEmail(email) else {
             sendInvitationStatus.state = .failure
-            sendInvitationStatus.errMsg = RegisterError.invalidEmail.errorDescription
+            sendInvitationStatus.errMsg = LoginError.invalidEmail.errorDescription
             
             return
         }

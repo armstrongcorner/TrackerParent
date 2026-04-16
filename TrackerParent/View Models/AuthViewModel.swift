@@ -17,6 +17,7 @@ enum SSOType: Equatable {
 enum LoginError: Error {
     case emptyEmail
     case emptyPassword
+    case passwordNotMatch
     case invalidEmail
     case invalidCredentials
     
@@ -26,6 +27,8 @@ enum LoginError: Error {
             return "Email is required."
         case .emptyPassword:
             return "Password is required."
+        case .passwordNotMatch:
+            return "Password is not match."
         case .invalidEmail:
             return "Not a valid email."
         case .invalidCredentials:
@@ -53,7 +56,7 @@ enum CommError: Error {
 
 enum EmailFlowDestination: Equatable {
     case none
-    case login
+    case login(flowToken: String)
     case register(flowToken: String)
 }
 
@@ -73,6 +76,7 @@ protocol AuthViewModelProtocol: Observable, AnyObject, Sendable {
     var username: String { get set }
     var email: String { get set }
     var password: String { get set }
+    var confirmPassword: String { get set }
     var loginState: CommReqState { get }
     var emailFlowDestination: EmailFlowDestination { get set }
     var errMsg: String? { get }
@@ -87,9 +91,10 @@ protocol AuthViewModelProtocol: Observable, AnyObject, Sendable {
     var showEnrolAlert: Bool { get set }
     
     func loginWithEmailStart() async
-    func login() async
-    func loginWithFaceId() async
+    func loginWithEmailComplete(flowToken: String) async
+    func registerWithEmailComplete(flowToken: String) async
     func loginWithSSO(type: SSOType) async
+    func loginWithFaceId() async
     
     func updateFaceIdStatus(faceIdEnabled: Bool, hasPrompted: Bool)
 }
@@ -99,6 +104,7 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     var username: String = ""
     var email: String = ""
     var password: String = ""
+    var confirmPassword: String = ""
     private(set) var loginState: CommReqState = .none
     var emailFlowDestination: EmailFlowDestination = .none
     private(set) var errMsg: String?
@@ -115,7 +121,9 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     @ObservationIgnored
     private let loginService: LoginServiceProtocol
     @ObservationIgnored
-    private let loginUseCase: LoginUseCaseProtocol
+    private let loginWithEmailUseCase: LoginWithEmailUseCaseProtocol
+    @ObservationIgnored
+    private let registerWithEmailUseCase: RegisterWithEmailUseCaseProtocol
     @ObservationIgnored
     private let loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol
     @ObservationIgnored
@@ -127,14 +135,16 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     
     init(
         loginService: LoginServiceProtocol = LoginService(),
-        loginUseCase: LoginUseCaseProtocol = LoginUseCase(),
+        registerWithEmailUseCase: RegisterWithEmailUseCaseProtocol = RegisterWithEmailUseCase(),
+        loginWithEmailUseCase: LoginWithEmailUseCaseProtocol = LoginWithEmailUseCase(),
         loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol = LoginWithFaceIdUseCase(),
         loginFirebaseUseCase: LoginFirebaseUseCaseProtocol = LoginFirebaseUseCase(),
         biometricsUtil: BiometricsUtilProtocol = BiometricsUtil.shared,
         userDefaults: UserDefaults = .standard
     ) {
         self.loginService = loginService
-        self.loginUseCase = loginUseCase
+        self.registerWithEmailUseCase = registerWithEmailUseCase
+        self.loginWithEmailUseCase = loginWithEmailUseCase
         self.loginWithFaceIdUseCase = loginWithFaceIdUseCase
         self.loginFirebaseUseCase = loginFirebaseUseCase
         self.biometricsUtil = biometricsUtil
@@ -154,23 +164,97 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     convenience init(loginService: LoginServiceProtocol = LoginService()) {
         self.init(
             loginService: loginService,
-            loginUseCase: LoginUseCase(loginService: loginService),
+            registerWithEmailUseCase: RegisterWithEmailUseCase(loginService: loginService),
+            loginWithEmailUseCase: LoginWithEmailUseCase(loginService: loginService),
             loginFirebaseUseCase: LoginFirebaseUseCase(loginService: loginService),
         )
     }
     
-    // Email login
-    func login() async {
+    // Email login/register start
+    func loginWithEmailStart() async {
         do {
-            loginState = .loading
-            role = nil
-            
-            // Validate input
+            // Validate email
             try validateEmail()
+            
+            // Call login email start
+            guard let emailFlowStartResponse = try await loginService.loginWithEmailStart(
+                email: email,
+                deviceId: StringUtil.shared.getDeviceId()
+            ) else {
+                throw CommError.unknown
+            }
+            
+            if emailFlowStartResponse.isSuccess, let emailFlowStartModel = emailFlowStartResponse.value {
+                switch emailFlowStartModel.step {
+                case .login:
+                    emailFlowDestination = .login(flowToken: emailFlowStartModel.flowToken ?? "")
+                case .register:
+                    emailFlowDestination = .register(flowToken: emailFlowStartModel.flowToken ?? "")
+                default:
+                    emailFlowDestination = .none
+                }
+            } else if !emailFlowStartResponse.isSuccess, let failureReason = emailFlowStartResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error)
+        }
+    }
+    
+    // Email login complete
+    func loginWithEmailComplete(flowToken: String) async {
+        do {
+            // Call login email complete usecase
+            guard let authResponse = try await loginWithEmailUseCase.execute(email: email, password: password, flowToken: flowToken) else {
+                throw CommError.unknown
+            }
+            
+            if authResponse.isSuccess, let authModel = authResponse.value {
+                role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
+                loginState = .success
+                errMsg = nil
+            } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error)
+        }
+    }
+    
+    // Email register complete
+    func registerWithEmailComplete(flowToken: String) async {
+        do {
+            // Validate password
             try validatePassword()
             
-            // Call login usecase
-            guard let authResponse = try await loginUseCase.execute(username: username, password: password) else {
+            // Call register with email use case
+            guard let authResponse = try await registerWithEmailUseCase.execute(email: email, password: password, flowToken: flowToken) else {
+                throw CommError.unknown
+            }
+            
+            if authResponse.isSuccess, let authModel = authResponse.value {
+                role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
+                loginState = .success
+                errMsg = nil
+            } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
+                throw CommError.serverReturnedError(failureReason)
+            } else {
+                throw CommError.unknown
+            }
+        } catch {
+            handleError(error)
+        }
+    }
+
+    // Login SSO
+    func loginWithSSO(type: SSOType) async {
+        do {
+            // Call login firebase usecase
+            guard let authResponse = try await loginFirebaseUseCase.execute(type: type) else {
                 throw CommError.unknown
             }
             
@@ -210,61 +294,6 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             handleError(error)
         }
     }
-    
-    // Email login/register start
-    func loginWithEmailStart() async {
-        do {
-            // Validate email
-            try validateEmail()
-            
-            // Call login email start
-            guard let emailFlowStartResponse = try await loginService.loginWithEmailStart(
-                email: email,
-                deviceId: StringUtil.shared.getDeviceId()
-            ) else {
-                throw CommError.unknown
-            }
-            
-            if emailFlowStartResponse.isSuccess, let emailFlowStartModel = emailFlowStartResponse.value {
-                switch emailFlowStartModel.step {
-                case .login:
-                    emailFlowDestination = .login
-                case .register:
-                    emailFlowDestination = .register(flowToken: emailFlowStartModel.flowToken ?? "")
-                default:
-                    emailFlowDestination = .none
-                }
-            } else if !emailFlowStartResponse.isSuccess, let failureReason = emailFlowStartResponse.failureReason {
-                throw CommError.serverReturnedError(failureReason)
-            } else {
-                throw CommError.unknown
-            }
-        } catch {
-            handleError(error)
-        }
-    }
-
-    // Login SSO
-    func loginWithSSO(type: SSOType) async {
-        do {
-            // Call login firebase usecase
-            guard let authResponse = try await loginFirebaseUseCase.execute(type: type) else {
-                throw CommError.unknown
-            }
-            
-            if authResponse.isSuccess, let authModel = authResponse.value {
-                role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
-                loginState = .success
-                errMsg = nil
-            } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
-                throw CommError.serverReturnedError(failureReason)
-            } else {
-                throw CommError.unknown
-            }
-        } catch {
-            handleError(error)
-        }
-    }
 }
 
 extension AuthViewModel {
@@ -294,13 +323,16 @@ extension AuthViewModel {
         guard !password.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             throw LoginError.emptyPassword
         }
+        
+        // Validate confirmed password
+        guard confirmPassword == password else {
+            throw LoginError.invalidEmail
+        }
     }
     
     private func handleError(_ error: Error) {
-        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         self.loginState = .failure
         self.role = nil
-        //        }
         
         switch error {
         case let loginError as LoginError:

@@ -48,7 +48,7 @@ actor LoginService: LoginServiceProtocol, BaseServiceProtocol {
         let requestBody = EmailCompleteRequestBody(flowToken: flowToken, firebaseIdToken: idToken, deviceId: deviceId ?? "")
         
         let response = try await apiClient.post(
-            urlString: Endpoint.emailStart.urlString,
+            urlString: Endpoint.emailComplete.urlString,
             body: requestBody,
             responseType: AuthResponse.self
         )

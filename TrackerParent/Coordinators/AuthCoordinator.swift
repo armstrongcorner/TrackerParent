@@ -12,11 +12,8 @@ final class AuthCoordinator: RouteAction {
     enum Route {
         case login
         case emailEntry(vm: AuthViewModelProtocol)
-        case emailRegister(flowToken: String)
-        case emailLogin
-        
-        case registerVerification
-        case registerConfirmation(registerViewModel: RegisterViewModelProtocol)
+        case emailRegister(vm: AuthViewModelProtocol, flowToken: String)
+        case emailLogin(vm: AuthViewModelProtocol, flowToken: String)
         case postLogin(role: AccountRole)
     }
 
@@ -28,15 +25,12 @@ final class AuthCoordinator: RouteAction {
         case .emailEntry(let vm):
             EmailEntryScreen()
                 .environment(\.authViewModel, vm)
-        case .emailRegister(flowToken: let flowToken):
+        case .emailRegister(let vm, let flowToken):
             EmailRegisterScreen(flowToken: flowToken)
-        case .emailLogin:
-            EmailLoginScreen()
-            
-        case .registerVerification:
-            RegisterVerificationScreen()
-        case .registerConfirmation(let registerViewModel):
-            RegisterConfirmationScreen(registerViewModel: registerViewModel)
+                .environment(\.authViewModel, vm)
+        case .emailLogin(let vm, let flowToken):
+            EmailLoginScreen(flowToken: flowToken)
+                .environment(\.authViewModel, vm)
         case .postLogin(let role):
             switch role {
             case .admin:

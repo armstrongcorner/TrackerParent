@@ -254,9 +254,7 @@ extension LoginScreen {
 
 // MARK: - Previews
 #Preview("Normal") {
-    let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
-    
-    let mockAuthViewModel = AuthViewModel(userDefaults: mockUserDefaults)
+    let mockAuthViewModel = MockAuthViewModel()
     
     return RouterView { _ in
         LoginScreen(vm: mockAuthViewModel)
@@ -266,11 +264,7 @@ extension LoginScreen {
 }
 
 #Preview("Pop FaceID alert") {
-    let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock1") ?? .standard
-    mockUserDefaults.set("a.b@test.com", forKey: "username")
-    mockUserDefaults.set(false, forKey: "a.b@test.com_hasPromptedEnableFaceId")
-    
-    let mockAuthViewModel = AuthViewModel(userDefaults: mockUserDefaults)
+    let mockAuthViewModel = MockAuthViewModel()
     mockAuthViewModel.showFaceIdAlert = true
     
     return RouterView { _ in
@@ -280,10 +274,15 @@ extension LoginScreen {
     .environment(ToastViewObserver())
 }
 
-#Preview("Clean up UserDefaults") {
-    Text("")
-        .onAppear {
-            let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
-            mockUserDefaults.removePersistentDomain(forName: "au.com.matrixthoughts.TrackerParent.mock")
-        }
+#Preview("Loading") {
+    let mockAuthViewModel = MockAuthViewModel()
+    Task {
+        await mockAuthViewModel.changeToLoading()
+    }
+    
+    return RouterView { _ in
+        LoginScreen(vm: mockAuthViewModel)
+    }
+    .environment(SessionManager())
+    .environment(ToastViewObserver())
 }

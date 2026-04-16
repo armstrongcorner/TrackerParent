@@ -186,12 +186,12 @@ extension WatchInvitationViewModel {
     private func validateEmail() throws {
         // Validate email cannot be empty
         guard !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw RegisterError.emptyEmail
+            throw LoginError.emptyEmail
         }
         
         // Validate email format
         guard StringUtil.shared.isValidEmail(email) else {
-            throw RegisterError.invalidEmail
+            throw LoginError.invalidEmail
         }
     }
     
