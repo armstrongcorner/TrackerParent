@@ -127,7 +127,9 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     @ObservationIgnored
     private let loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol
     @ObservationIgnored
-    private let loginFirebaseUseCase: LoginFirebaseUseCaseProtocol
+    private let firebaseSSOUseCase: FirebaseSSOUseCaseProtocol
+    @ObservationIgnored
+    private let loginAfterSSOUseCase: LoginAfterSSOUseCaseProtocol
     @ObservationIgnored
     private let biometricsUtil: BiometricsUtilProtocol
     @ObservationIgnored
@@ -138,7 +140,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
         registerWithEmailUseCase: RegisterWithEmailUseCaseProtocol = RegisterWithEmailUseCase(),
         loginWithEmailUseCase: LoginWithEmailUseCaseProtocol = LoginWithEmailUseCase(),
         loginWithFaceIdUseCase: LoginWithFaceIdUseCaseProtocol = LoginWithFaceIdUseCase(),
-        loginFirebaseUseCase: LoginFirebaseUseCaseProtocol = LoginFirebaseUseCase(),
+        firebaseSSOUseCase: FirebaseSSOUseCaseProtocol = FirebaseSSOUseCase(),
+        loginAfterSSOUseCase: LoginAfterSSOUseCaseProtocol = LoginAfterSSOUseCase(),
         biometricsUtil: BiometricsUtilProtocol = BiometricsUtil.shared,
         userDefaults: UserDefaults = .standard
     ) {
@@ -146,7 +149,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
         self.registerWithEmailUseCase = registerWithEmailUseCase
         self.loginWithEmailUseCase = loginWithEmailUseCase
         self.loginWithFaceIdUseCase = loginWithFaceIdUseCase
-        self.loginFirebaseUseCase = loginFirebaseUseCase
+        self.firebaseSSOUseCase = firebaseSSOUseCase
+        self.loginAfterSSOUseCase = loginAfterSSOUseCase
         self.biometricsUtil = biometricsUtil
         self.userDefaults = userDefaults
         
@@ -166,7 +170,7 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             loginService: loginService,
             registerWithEmailUseCase: RegisterWithEmailUseCase(loginService: loginService),
             loginWithEmailUseCase: LoginWithEmailUseCase(loginService: loginService),
-            loginFirebaseUseCase: LoginFirebaseUseCase(loginService: loginService),
+            loginAfterSSOUseCase: LoginAfterSSOUseCase(loginService: loginService),
         )
     }
     
@@ -253,11 +257,15 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     // Login SSO
     func loginWithSSO(type: SSOType) async {
         do {
-            // Call login firebase usecase
-            guard let authResponse = try await loginFirebaseUseCase.execute(type: type) else {
+            // Call firebase SSO usecase
+            let idToken = try await firebaseSSOUseCase.execute(type: type)
+            
+            loginState = .loading
+            
+            // Call login after SSO usecase
+            guard let authResponse = try await loginAfterSSOUseCase.execute(idToken: idToken) else {
                 throw CommError.unknown
             }
-            
             if authResponse.isSuccess, let authModel = authResponse.value {
                 role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
                 loginState = .success

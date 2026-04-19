@@ -54,7 +54,11 @@ struct LoginScreen: View {
             case .none:
                 toastViewObserver.dismissLoading()
             case .loading:
-                toastViewObserver.showLoading()
+                toastViewObserver.showLoading(
+                    title: "LOGIN...",
+                    message: "Please wait for a while the login is processing...") {
+                        
+                    }
             case .success:
                 toastViewObserver.dismissLoading()
                 sessionManager.reloadFromStorage()

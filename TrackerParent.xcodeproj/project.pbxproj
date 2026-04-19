@@ -57,7 +57,7 @@
 		AE153BCD2F84E13C002CE618 /* CustomAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE153BCC2F84E13C002CE618 /* CustomAlertModifier.swift */; };
 		AE178B302F6E2AB400418452 /* LoginWithEmailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B2F2F6E2AB400418452 /* LoginWithEmailUseCase.swift */; };
 		AE178B322F6E3CB500418452 /* LoginWithFaceIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */; };
-		AE178B342F6E705100418452 /* LoginFirebaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */; };
+		AE178B342F6E705100418452 /* LoginAfterSSOUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE178B332F6E705100418452 /* LoginAfterSSOUseCase.swift */; };
 		AE178B3D2F6FB48F00418452 /* MTNetworkManager in Frameworks */ = {isa = PBXBuildFile; productRef = AE178B3C2F6FB48F00418452 /* MTNetworkManager */; };
 		AE27A6722F87BAE700B1FCDE /* EmailEntryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A6712F87BAE700B1FCDE /* EmailEntryScreen.swift */; };
 		AE27A68A2F89D47000B1FCDE /* EmailFlowStartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A6892F89D47000B1FCDE /* EmailFlowStartModel.swift */; };
@@ -93,6 +93,8 @@
 		AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B5092D8EB5010094EB82 /* SettingService.swift */; };
 		AEE6B50C2D8F5B030094EB82 /* MockSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */; };
 		AEE6B50F2D9147920094EB82 /* DateRangePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B50E2D9147920094EB82 /* DateRangePickerView.swift */; };
+		AEE791C42F924C1000B65DB4 /* AppSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE791C32F924C1000B65DB4 /* AppSize.swift */; };
+		AEE791C62F94E29D00B65DB4 /* FirebaseSSOUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE791C52F94E29D00B65DB4 /* FirebaseSSOUseCase.swift */; };
 		AEE7EB882F7213DE00694ACB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AEE7EB872F7213DE00694ACB /* GoogleService-Info.plist */; };
 		AEE7EB8F2F72992D00694ACB /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB8E2F72992D00694ACB /* AuthCoordinator.swift */; };
 		AEE7EB912F7299C400694ACB /* TrackCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7EB902F7299C400694ACB /* TrackCoordinator.swift */; };
@@ -182,7 +184,7 @@
 		AE178B282F6B80C700418452 /* TrackerParent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrackerParent.entitlements; sourceTree = "<group>"; };
 		AE178B2F2F6E2AB400418452 /* LoginWithEmailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithEmailUseCase.swift; sourceTree = "<group>"; };
 		AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithFaceIdUseCase.swift; sourceTree = "<group>"; };
-		AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFirebaseUseCase.swift; sourceTree = "<group>"; };
+		AE178B332F6E705100418452 /* LoginAfterSSOUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAfterSSOUseCase.swift; sourceTree = "<group>"; };
 		AE1E1E492F6AB5AA0098AB01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AE27A6712F87BAE700B1FCDE /* EmailEntryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailEntryScreen.swift; sourceTree = "<group>"; };
 		AE27A6892F89D47000B1FCDE /* EmailFlowStartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFlowStartModel.swift; sourceTree = "<group>"; };
@@ -215,6 +217,8 @@
 		AEE6B5092D8EB5010094EB82 /* SettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingService.swift; sourceTree = "<group>"; };
 		AEE6B50B2D8F5B030094EB82 /* MockSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingViewModel.swift; sourceTree = "<group>"; };
 		AEE6B50E2D9147920094EB82 /* DateRangePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangePickerView.swift; sourceTree = "<group>"; };
+		AEE791C32F924C1000B65DB4 /* AppSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSize.swift; sourceTree = "<group>"; };
+		AEE791C52F94E29D00B65DB4 /* FirebaseSSOUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSSOUseCase.swift; sourceTree = "<group>"; };
 		AEE7EB872F7213DE00694ACB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AEE7EB8E2F72992D00694ACB /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		AEE7EB902F7299C400694ACB /* TrackCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCoordinator.swift; sourceTree = "<group>"; };
@@ -389,6 +393,7 @@
 				AEE6B4F12D8AC9500094EB82 /* DateUtil.swift */,
 				AEE6B4FA2D8D65570094EB82 /* MapUtil.swift */,
 				22F160D82DA666D900C4528E /* StringUtil.swift */,
+				AEE791C32F924C1000B65DB4 /* AppSize.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -480,7 +485,8 @@
 			children = (
 				AE27A6962F8DDB9000B1FCDE /* RegisterWithEmailUseCase.swift */,
 				AE178B2F2F6E2AB400418452 /* LoginWithEmailUseCase.swift */,
-				AE178B332F6E705100418452 /* LoginFirebaseUseCase.swift */,
+				AEE791C52F94E29D00B65DB4 /* FirebaseSSOUseCase.swift */,
+				AE178B332F6E705100418452 /* LoginAfterSSOUseCase.swift */,
 				AE178B312F6E3CB500418452 /* LoginWithFaceIdUseCase.swift */,
 				AE153BCA2F821383002CE618 /* MarkAsCurrentWatchUseCase.swift */,
 			);
@@ -746,7 +752,7 @@
 				AEE7EBA82F76733500694ACB /* UserCoordinator.swift in Sources */,
 				AEE6B4F22D8AC9500094EB82 /* DateUtil.swift in Sources */,
 				22FBA7BE2D856A79002C10B1 /* LoginService.swift in Sources */,
-				AE178B342F6E705100418452 /* LoginFirebaseUseCase.swift in Sources */,
+				AE178B342F6E705100418452 /* LoginAfterSSOUseCase.swift in Sources */,
 				AE27A6972F8DDB9000B1FCDE /* RegisterWithEmailUseCase.swift in Sources */,
 				AEE6B5082D8EAAA50094EB82 /* SettingModel.swift in Sources */,
 				2266D1592D86BD0F004D9644 /* KeyChainUtil.swift in Sources */,
@@ -768,6 +774,7 @@
 				223499132DA0CC9100E810FF /* UserListScreen.swift in Sources */,
 				AEE7EB982F73F00200694ACB /* InvitationModel.swift in Sources */,
 				2234991A2DA10ED500E810FF /* UserViewModel.swift in Sources */,
+				AEE791C42F924C1000B65DB4 /* AppSize.swift in Sources */,
 				AE178B302F6E2AB400418452 /* LoginWithEmailUseCase.swift in Sources */,
 				AEE7EB912F7299C400694ACB /* TrackCoordinator.swift in Sources */,
 				AEE7EBB62F793B4900694ACB /* InvitationItemView.swift in Sources */,
@@ -781,6 +788,7 @@
 				AEE7EBB02F78BBAB00694ACB /* WatchInvitationViewModel.swift in Sources */,
 				AEE6B4D42D896BBF0094EB82 /* BaseService.swift in Sources */,
 				AEE7EB962F73DEE800694ACB /* WatchListScreen.swift in Sources */,
+				AEE791C62F94E29D00B65DB4 /* FirebaseSSOUseCase.swift in Sources */,
 				AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */,
 				22863C012DB06A200076194A /* MockSettingService.swift in Sources */,
 				2266D13B2D86605A004D9644 /* MockData.swift in Sources */,

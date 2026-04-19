@@ -28,12 +28,15 @@ struct TrackerParentApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RouterView { _ in
-                appCoordinator.rootView()
+            GeometryReader { proxy in
+                RouterView { _ in
+                    appCoordinator.rootView()
+                }
+                .environment(\.appCoordinator, appCoordinator)
+                .environment(AppSize(proxy.size))
+                .environment(sessionManager)
+                .environment(ToastViewObserver())
             }
-            .environment(\.appCoordinator, appCoordinator)
-            .environment(sessionManager)
-            .environment(ToastViewObserver())
         }
     }
 }
