@@ -57,7 +57,7 @@ struct LoginScreen: View {
                 toastViewObserver.showLoading(
                     title: "LOGIN...",
                     message: "Please wait for a while the login is processing...") {
-                        
+                        // TODO: Cancel the network task
                     }
             case .success:
                 toastViewObserver.dismissLoading()

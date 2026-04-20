@@ -13,6 +13,7 @@ struct EmailEntryScreen: View {
     @Environment(\.authViewModel) var vm: AuthViewModelProtocol?
     @Environment(\.router) private var router
     @Environment(\.appCoordinator) private var appCoordinator
+    @Environment(ToastViewObserver.self) private var toastViewObserver
 
     var body: some View {
         ZStack {
@@ -53,6 +54,23 @@ struct EmailEntryScreen: View {
                 .padding(.vertical, 20)
             }
         }
+        .onChange(of: vm?.emailEntryState, { _, newValue in
+            guard let newValue else { return }
+            
+            switch newValue {
+            case .none, .success, .failure:
+                toastViewObserver.dismissLoading()
+                if let errMsg = vm?.errMsg {
+                    toastViewObserver.showToast(message: errMsg)
+                }
+            case .loading:
+                toastViewObserver.showLoading(
+                    title: "LOGIN...",
+                    message: "Please wait for a while the login is processing...") {
+                        // TODO: Cancel the network task
+                    }
+            }
+        })
         .onChange(of: vm?.emailFlowDestination) { _, newValue in
             guard let vm else { return }
             
@@ -67,6 +85,7 @@ struct EmailEntryScreen: View {
                 vm.emailFlowDestination = .none
             }
         }
+        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 
@@ -223,15 +242,25 @@ extension EmailEntryScreen {
 
 // MARK: - Previews
 #Preview("Go register") {
-    let mockUserDefaults = UserDefaults(suiteName: "au.com.matrixthoughts.TrackerParent.mock") ?? .standard
-    
-    let mockAuthViewModel = AuthViewModel(userDefaults: mockUserDefaults)
+    let mockAuthViewModel = MockAuthViewModel(shouldEmailFlowToRegister: true)
     mockAuthViewModel.email = "test@test.com"
-    mockAuthViewModel.emailFlowDestination = .register(flowToken: "")
     
     return RouterView { _ in
         EmailEntryScreen()
             .environment(\.authViewModel, mockAuthViewModel)
             .environment(\.appCoordinator, AppCoordinator())
+            .environment(ToastViewObserver())
+    }
+}
+
+#Preview("Go login") {
+    let mockAuthViewModel = MockAuthViewModel(shouldEmailFlowToLogin: true)
+    mockAuthViewModel.email = "test@test.com"
+    
+    return RouterView { _ in
+        EmailEntryScreen()
+            .environment(\.authViewModel, mockAuthViewModel)
+            .environment(\.appCoordinator, AppCoordinator())
+            .environment(ToastViewObserver())
     }
 }

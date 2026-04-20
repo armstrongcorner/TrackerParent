@@ -65,6 +65,20 @@ let mockUserExistResponseWithFailureReason = UserExistResponse(value: nil, failu
 let mockUserListResponse = UserListResponse(value: [mockUser1, mockUser2], failureReason: nil, isSuccess: true)
 let mockUserListResponseWithFailureReason = UserListResponse(value: nil, failureReason: "Server response error message", isSuccess: false)
 
+let mockEmailFlowStartModel1 = EmailFlowStartModel(
+    flowToken: "some_flow_token",
+    step: .register,
+    expiresIn: 10,
+    challengeRequired: false
+)
+
+let mockEmailFlowStartModel2 = EmailFlowStartModel(
+    flowToken: "some_flow_token",
+    step: .login,
+    expiresIn: 10,
+    challengeRequired: false
+)
+
 let mockInvitation1 = InvitationModel(
     id: 101,
     ownerUserId: mockUser2.id,

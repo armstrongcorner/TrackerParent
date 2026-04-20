@@ -15,6 +15,7 @@ final class MockAuthViewModel: AuthViewModelProtocol {
     var password: String = ""
     var confirmPassword: String = ""
     var loginState: CommReqState = .none
+    var emailEntryState: CommReqState = .none
     var emailFlowDestination: EmailFlowDestination = .none
     var errMsg: String?
     var role: AccountRole?
@@ -30,19 +31,45 @@ final class MockAuthViewModel: AuthViewModelProtocol {
     var shouldKeepLoading: Bool
     var shouldReturnError: Bool
     var shouldReturnEmptyData: Bool
+    var shouldEmailFlowToRegister: Bool
+    var shouldEmailFlowToLogin: Bool
     
     init(
         shouldKeepLoading: Bool = false,
         shouldReturnError: Bool = false,
-        shouldReturnEmptyData: Bool = false
+        shouldReturnEmptyData: Bool = false,
+        shouldEmailFlowToRegister: Bool = false,
+        shouldEmailFlowToLogin: Bool = false
     ) {
         self.shouldKeepLoading = shouldKeepLoading
         self.shouldReturnError = shouldReturnError
         self.shouldReturnEmptyData = shouldReturnEmptyData
+        self.shouldEmailFlowToRegister = shouldEmailFlowToRegister
+        self.shouldEmailFlowToLogin = shouldEmailFlowToLogin
     }
     
     func loginWithEmailStart() async {
+        // Mock loading
+        emailEntryState = .loading
+        errMsg = nil
         
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        
+        if !shouldKeepLoading {
+            if shouldReturnError {
+                // Mock error
+                emailEntryState = .failure
+                errMsg = "Mock sending email start request error occurred"
+            } else if shouldEmailFlowToRegister {
+                // Mock email flow to register
+                emailEntryState = .success
+                emailFlowDestination = .register(flowToken: mockEmailFlowStartModel1.flowToken ?? "")
+            } else if shouldEmailFlowToLogin {
+                // Mock email flow to login
+                emailEntryState = .success
+                emailFlowDestination = .login(flowToken: mockEmailFlowStartModel2.flowToken ?? "")
+            }
+        }
     }
     
     func loginWithEmailComplete(flowToken: String) async {
@@ -68,8 +95,10 @@ final class MockAuthViewModel: AuthViewModelProtocol {
     func changeToLoading() async {
         // Mock loading
         loginState = .none
+        emailEntryState = .none
         
-        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+        try? await Task.sleep(nanoseconds: 500_000_000)
         loginState = .loading
+        emailEntryState = .loading
     }
 }

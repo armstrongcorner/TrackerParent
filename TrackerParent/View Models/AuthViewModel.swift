@@ -78,6 +78,7 @@ protocol AuthViewModelProtocol: Observable, AnyObject, Sendable {
     var password: String { get set }
     var confirmPassword: String { get set }
     var loginState: CommReqState { get }
+    var emailEntryState: CommReqState { get }
     var emailFlowDestination: EmailFlowDestination { get set }
     var errMsg: String? { get }
     var role: AccountRole? { get }
@@ -106,6 +107,7 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     var password: String = ""
     var confirmPassword: String = ""
     private(set) var loginState: CommReqState = .none
+    private(set) var emailEntryState: CommReqState = .none
     var emailFlowDestination: EmailFlowDestination = .none
     private(set) var errMsg: String?
     private(set) var role: AccountRole?
@@ -180,6 +182,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             // Validate email
             try validateEmail()
             
+            emailEntryState = .loading
+            
             // Call login email start
             guard let emailFlowStartResponse = try await loginService.loginWithEmailStart(
                 email: email,
@@ -191,10 +195,13 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             if emailFlowStartResponse.isSuccess, let emailFlowStartModel = emailFlowStartResponse.value {
                 switch emailFlowStartModel.step {
                 case .login:
+                    emailEntryState = .success
                     emailFlowDestination = .login(flowToken: emailFlowStartModel.flowToken ?? "")
                 case .register:
+                    emailEntryState = .success
                     emailFlowDestination = .register(flowToken: emailFlowStartModel.flowToken ?? "")
                 default:
+                    emailEntryState = .none
                     emailFlowDestination = .none
                 }
             } else if !emailFlowStartResponse.isSuccess, let failureReason = emailFlowStartResponse.failureReason {
@@ -210,6 +217,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     // Email login complete
     func loginWithEmailComplete(flowToken: String) async {
         do {
+            loginState = .loading
+            
             // Call login email complete usecase
             guard let authResponse = try await loginWithEmailUseCase.execute(email: email, password: password, flowToken: flowToken) else {
                 throw CommError.unknown
@@ -234,6 +243,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
         do {
             // Validate password
             try validatePassword()
+            
+            loginState = .loading
             
             // Call register with email use case
             guard let authResponse = try await registerWithEmailUseCase.execute(email: email, password: password, flowToken: flowToken) else {
@@ -340,6 +351,7 @@ extension AuthViewModel {
     
     private func handleError(_ error: Error) {
         self.loginState = .failure
+        self.emailEntryState = .failure
         self.role = nil
         
         switch error {
