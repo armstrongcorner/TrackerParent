@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SendInvitationScreen<VM: WatchInvitationViewModelProtocol>: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(ToastViewObserver.self) private var toastViewObserver
     @Bindable var vm: VM
     
     var body: some View {
@@ -43,6 +44,22 @@ struct SendInvitationScreen<VM: WatchInvitationViewModelProtocol>: View {
                 .padding(.vertical, 20)
             }
         }
+        .onChange(of: vm.sendInvitationStatus) { _, newValue in
+            switch newValue.state {
+            case .none, .success, .failure:
+                toastViewObserver.dismissLoading()
+                if let errMsg = vm.sendInvitationStatus.errMsg {
+                    toastViewObserver.showToast(message: errMsg)
+                }
+            case .loading:
+                toastViewObserver.showLoading(
+                    title: "LOGIN...",
+                    message: "Please wait for a while the login is processing...") {
+                        // TODO: Cancel the network task
+                    }
+            }
+        }
+        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 
@@ -265,8 +282,10 @@ extension SendInvitationScreen {
     ])
     
     return SendInvitationScreen(vm: vm)
+        .environment(ToastViewObserver())
 }
 
 #Preview("Empty list") {
     SendInvitationScreen(vm: MockWatchInvitationViewModel())
+        .environment(ToastViewObserver())
 }

@@ -54,7 +54,7 @@ struct EmailEntryScreen: View {
                 .padding(.vertical, 20)
             }
         }
-        .onChange(of: vm?.emailEntryState, { _, newValue in
+        .onChange(of: vm?.emailEntryState.state, { _, newValue in
             guard let newValue else { return }
             
             switch newValue {

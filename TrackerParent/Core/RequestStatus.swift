@@ -14,7 +14,7 @@ enum CommReqState: Equatable {
     case failure
 }
 
-struct RequestStatus {
+struct RequestStatus: Equatable {
     var state: CommReqState = .none
     var errMsg: String? = nil
 }

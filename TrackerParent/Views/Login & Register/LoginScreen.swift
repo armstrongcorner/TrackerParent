@@ -50,7 +50,7 @@ struct LoginScreen: View {
             }
         }
         .onChange(of: vm.loginState) { _, newValue in
-            switch newValue {
+            switch newValue.state {
             case .none:
                 toastViewObserver.dismissLoading()
             case .loading:

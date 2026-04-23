@@ -62,6 +62,37 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
                 navigateToSendInvitation()
             }
         }
+        .onChange(of: vm.markAsCurrentWatchStatus) { _, newValue in
+            switch newValue.state {
+            case .none, .success, .failure:
+                toastViewObserver.dismissLoading()
+                if let errMsg = newValue.errMsg {
+                    toastViewObserver.showToast(message: errMsg)
+                }
+            case .loading:
+                toastViewObserver.showLoading(
+                    title: "Updating...",
+                    message: "Please wait while we switch the active monitored account.") {
+                        // TODO: Cancel the network task
+                    }
+            }
+        }
+        .onChange(of: vm.fetchDataStatus, { _, newValue in
+            switch newValue.state {
+            case .none, .success, .failure:
+                toastViewObserver.dismissLoading()
+                if let errMsg = newValue.errMsg {
+                    toastViewObserver.showToast(message: errMsg)
+                }
+            case .loading:
+                toastViewObserver.showLoading(
+                    title: "Loading...",
+                    message: "Please wait while we fetch the latest data.") {
+                        
+                    }
+            }
+        })
+        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 

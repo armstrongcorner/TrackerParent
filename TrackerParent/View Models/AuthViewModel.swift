@@ -77,8 +77,8 @@ protocol AuthViewModelProtocol: Observable, AnyObject, Sendable {
     var email: String { get set }
     var password: String { get set }
     var confirmPassword: String { get set }
-    var loginState: CommReqState { get }
-    var emailEntryState: CommReqState { get }
+    var loginState: RequestStatus { get }
+    var emailEntryState: RequestStatus { get }
     var emailFlowDestination: EmailFlowDestination { get set }
     var errMsg: String? { get }
     var role: AccountRole? { get }
@@ -106,8 +106,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     var email: String = ""
     var password: String = ""
     var confirmPassword: String = ""
-    private(set) var loginState: CommReqState = .none
-    private(set) var emailEntryState: CommReqState = .none
+    private(set) var loginState: RequestStatus = RequestStatus()
+    private(set) var emailEntryState: RequestStatus = RequestStatus()
     var emailFlowDestination: EmailFlowDestination = .none
     private(set) var errMsg: String?
     private(set) var role: AccountRole?
@@ -182,7 +182,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             // Validate email
             try validateEmail()
             
-            emailEntryState = .loading
+            emailEntryState.state = .loading
+            emailEntryState.errMsg = nil
             
             // Call login email start
             guard let emailFlowStartResponse = try await loginService.loginWithEmailStart(
@@ -195,13 +196,13 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             if emailFlowStartResponse.isSuccess, let emailFlowStartModel = emailFlowStartResponse.value {
                 switch emailFlowStartModel.step {
                 case .login:
-                    emailEntryState = .success
+                    emailEntryState.state = .success
                     emailFlowDestination = .login(flowToken: emailFlowStartModel.flowToken ?? "")
                 case .register:
-                    emailEntryState = .success
+                    emailEntryState.state = .success
                     emailFlowDestination = .register(flowToken: emailFlowStartModel.flowToken ?? "")
                 default:
-                    emailEntryState = .none
+                    emailEntryState.state = .none
                     emailFlowDestination = .none
                 }
             } else if !emailFlowStartResponse.isSuccess, let failureReason = emailFlowStartResponse.failureReason {
@@ -217,7 +218,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     // Email login complete
     func loginWithEmailComplete(flowToken: String) async {
         do {
-            loginState = .loading
+            loginState.state = .loading
+            loginState.errMsg = nil
             
             // Call login email complete usecase
             guard let authResponse = try await loginWithEmailUseCase.execute(email: email, password: password, flowToken: flowToken) else {
@@ -226,7 +228,7 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             
             if authResponse.isSuccess, let authModel = authResponse.value {
                 role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
-                loginState = .success
+                loginState.state = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
                 throw CommError.serverReturnedError(failureReason)
@@ -244,7 +246,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             // Validate password
             try validatePassword()
             
-            loginState = .loading
+            loginState.state = .loading
+            loginState.errMsg = nil
             
             // Call register with email use case
             guard let authResponse = try await registerWithEmailUseCase.execute(email: email, password: password, flowToken: flowToken) else {
@@ -253,7 +256,7 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             
             if authResponse.isSuccess, let authModel = authResponse.value {
                 role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
-                loginState = .success
+                loginState.state = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
                 throw CommError.serverReturnedError(failureReason)
@@ -271,7 +274,8 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             // Call firebase SSO usecase
             let idToken = try await firebaseSSOUseCase.execute(type: type)
             
-            loginState = .loading
+            loginState.state = .loading
+            loginState.errMsg = nil
             
             // Call login after SSO usecase
             guard let authResponse = try await loginAfterSSOUseCase.execute(idToken: idToken) else {
@@ -279,7 +283,7 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             }
             if authResponse.isSuccess, let authModel = authResponse.value {
                 role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
-                loginState = .success
+                loginState.state = .success
                 errMsg = nil
             } else if !authResponse.isSuccess, let failureReason = authResponse.failureReason {
                 throw CommError.serverReturnedError(failureReason)
@@ -294,12 +298,12 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
     // FaceId
     func loginWithFaceId() async {
         do {
-            loginState = .loading
-            errMsg = nil
+            loginState.state = .loading
+            loginState.errMsg = nil
             role = nil
             
             guard try await biometricsUtil.canUseBiometrics() else {
-                loginState = .none
+                loginState.state = .none
                 return
             }
             
@@ -308,7 +312,7 @@ final class AuthViewModel: AuthViewModelProtocol, Loggable {
             }
 
             role = AccountRole(rawValue: authModel.user?.role ?? AccountRole.user.rawValue)
-            loginState = .success
+            loginState.state = .success
         } catch {
             handleError(error)
         }
@@ -350,9 +354,9 @@ extension AuthViewModel {
     }
     
     private func handleError(_ error: Error) {
-        self.loginState = .failure
-        self.emailEntryState = .failure
-        self.role = nil
+        loginState.state = .failure
+        emailEntryState.state = .failure
+        role = nil
         
         switch error {
         case let loginError as LoginError:
