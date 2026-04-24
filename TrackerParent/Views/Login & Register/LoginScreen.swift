@@ -74,7 +74,6 @@ struct LoginScreen: View {
                 }
             }
         }
-        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 

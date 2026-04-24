@@ -188,7 +188,6 @@ struct SettingDetailScreen: View {
             }
         })
         .padding()
-        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 

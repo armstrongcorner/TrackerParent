@@ -25,6 +25,7 @@ struct TrackerParentApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     private let appCoordinator = AppCoordinator()
     @State private var sessionManager = SessionManager()
+    @State private var toastViewObserver = ToastViewObserver()
     
     var body: some Scene {
         WindowGroup {
@@ -32,10 +33,11 @@ struct TrackerParentApp: App {
                 RouterView { _ in
                     appCoordinator.rootView()
                 }
+                .toastView(toastViewObserver: toastViewObserver)
                 .environment(\.appCoordinator, appCoordinator)
                 .environment(AppSize(proxy.size))
                 .environment(sessionManager)
-                .environment(ToastViewObserver())
+                .environment(toastViewObserver)
             }
         }
     }

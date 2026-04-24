@@ -92,7 +92,6 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
                     }
             }
         })
-        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 

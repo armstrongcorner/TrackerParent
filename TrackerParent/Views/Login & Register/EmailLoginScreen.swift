@@ -64,7 +64,6 @@ struct EmailLoginScreen: View {
 //                }
 //            }
 //        }
-        .toastView(toastViewObserver: toastViewObserver)
     }
 }
 
