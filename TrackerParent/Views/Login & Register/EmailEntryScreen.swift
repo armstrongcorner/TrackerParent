@@ -65,8 +65,8 @@ struct EmailEntryScreen: View {
                 }
             case .loading:
                 toastViewObserver.showLoading(
-                    title: "LOGIN...",
-                    message: "Please wait for a while the login is processing...") {
+                    title: "Checking...",
+                    message: "Please wait while we verify your email.") {
                         // TODO: Cancel the network task
                     }
             }

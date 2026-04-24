@@ -53,8 +53,8 @@ struct SendInvitationScreen<VM: WatchInvitationViewModelProtocol>: View {
                 }
             case .loading:
                 toastViewObserver.showLoading(
-                    title: "LOGIN...",
-                    message: "Please wait for a while the login is processing...") {
+                    title: "Sending Invitation...",
+                    message: "Please wait while we send the invitation request.") {
                         // TODO: Cancel the network task
                     }
             }
