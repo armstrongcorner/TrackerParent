@@ -13,6 +13,7 @@ final class SessionManager {
     private(set) var username: String?
     private(set) var authModel: AuthModel?
     private(set) var role: AccountRole?
+    var isShowingMenu: Bool = false
 
     @ObservationIgnored
     private let keyChainUtil: KeyChainUtilProtocol
@@ -29,10 +30,13 @@ final class SessionManager {
 
     init(
         keyChainUtil: KeyChainUtilProtocol = KeyChainUtil.shared,
-        userDefaults: UserDefaults = .standard
+        userDefaults: UserDefaults = .standard,
+        isShowingMenu: Bool = false
     ) {
         self.keyChainUtil = keyChainUtil
         self.userDefaults = userDefaults
+        self.isShowingMenu = isShowingMenu
+        
         reloadFromStorage()
     }
 

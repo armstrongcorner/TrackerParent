@@ -76,6 +76,11 @@
 		AE9994782EF78F1A00B7C404 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = AE9994772EF78F1A00B7C404 /* SwiftfulRouting */; };
 		AE9C87DD2D92A1DE0061E626 /* ToastViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */; };
 		AEAF8C262F7A87E000CAE70B /* WatchedUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAF8C252F7A87E000CAE70B /* WatchedUserView.swift */; };
+		AEBB40342FA0C52D009902C7 /* CustomTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB40322FA0C52D009902C7 /* CustomTabItem.swift */; };
+		AEBB40352FA0C52D009902C7 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB40302FA0C52D009902C7 /* CustomTabView.swift */; };
+		AEBB40362FA0C52D009902C7 /* TabBarItemPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB40332FA0C52D009902C7 /* TabBarItemPreferenceKey.swift */; };
+		AEBB40372FA0C52D009902C7 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB40312FA0C52D009902C7 /* CustomTabBar.swift */; };
+		AEBB40402FA35D7B009902C7 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB403F2FA35D7B009902C7 /* SideMenuView.swift */; };
 		AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */; };
 		AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CF2D8957C90094EB82 /* UserService.swift */; };
 		AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4D12D8958660094EB82 /* UserModel.swift */; };
@@ -200,6 +205,11 @@
 		AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineRoundedButtonModifier.swift; sourceTree = "<group>"; };
 		AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModifier.swift; sourceTree = "<group>"; };
 		AEAF8C252F7A87E000CAE70B /* WatchedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchedUserView.swift; sourceTree = "<group>"; };
+		AEBB40302FA0C52D009902C7 /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		AEBB40312FA0C52D009902C7 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		AEBB40322FA0C52D009902C7 /* CustomTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabItem.swift; sourceTree = "<group>"; };
+		AEBB40332FA0C52D009902C7 /* TabBarItemPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemPreferenceKey.swift; sourceTree = "<group>"; };
+		AEBB403F2FA35D7B009902C7 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListScreen.swift; sourceTree = "<group>"; };
 		AEE6B4CF2D8957C90094EB82 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AEE6B4D12D8958660094EB82 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -401,6 +411,7 @@
 		2266D15B2D86C3A1004D9644 /* Modifiers+Extension+Style */ = {
 			isa = PBXGroup;
 			children = (
+				AEBB40382FA15981009902C7 /* TabBar */,
 				AE8DBDDC2F5C37F8007B7502 /* Color.swift */,
 				2266D15C2D86C3F8004D9644 /* ClearButtonModifier.swift */,
 				AE9C87DC2D92A1DE0061E626 /* ToastViewModifier.swift */,
@@ -408,6 +419,7 @@
 				AE8DBDE02F5D1CE9007B7502 /* OutlineRoundedButtonModifier.swift */,
 				AE153BC62F7F07B1002CE618 /* StatusLabelModifier.swift */,
 				AE153BCC2F84E13C002CE618 /* CustomAlertModifier.swift */,
+				AEBB403F2FA35D7B009902C7 /* SideMenuView.swift */,
 			);
 			path = "Modifiers+Extension+Style";
 			sourceTree = "<group>";
@@ -498,6 +510,17 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AEBB40382FA15981009902C7 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				AEBB40302FA0C52D009902C7 /* CustomTabView.swift */,
+				AEBB40312FA0C52D009902C7 /* CustomTabBar.swift */,
+				AEBB40322FA0C52D009902C7 /* CustomTabItem.swift */,
+				AEBB40332FA0C52D009902C7 /* TabBarItemPreferenceKey.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		AEE6B4F32D8BFD5D0094EB82 /* Login & Register */ = {
@@ -737,6 +760,7 @@
 				AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */,
 				22B2950B2D98A30A00AB6A5D /* SettingListItem.swift in Sources */,
 				AEE6B4FB2D8D65570094EB82 /* MapUtil.swift in Sources */,
+				AEBB40402FA35D7B009902C7 /* SideMenuView.swift in Sources */,
 				AEE7EBAA2F76794200694ACB /* SendInvitationScreen.swift in Sources */,
 				22FBA7BA2D856990002C10B1 /* AuthModel.swift in Sources */,
 				2234991C2DA1247900E810FF /* MockUserViewModel.swift in Sources */,
@@ -782,6 +806,10 @@
 				AEE7EBA02F74F5F700694ACB /* BaseLogger.swift in Sources */,
 				AE153BC92F8059E5002CE618 /* SessionManager.swift in Sources */,
 				AEAF8C262F7A87E000CAE70B /* WatchedUserView.swift in Sources */,
+				AEBB40342FA0C52D009902C7 /* CustomTabItem.swift in Sources */,
+				AEBB40352FA0C52D009902C7 /* CustomTabView.swift in Sources */,
+				AEBB40362FA0C52D009902C7 /* TabBarItemPreferenceKey.swift in Sources */,
+				AEBB40372FA0C52D009902C7 /* CustomTabBar.swift in Sources */,
 				AEE7EB8F2F72992D00694ACB /* AuthCoordinator.swift in Sources */,
 				22F160DB2DA7B7E400C4528E /* Constant.swift in Sources */,
 				AEE6B50A2D8EB5010094EB82 /* SettingService.swift in Sources */,

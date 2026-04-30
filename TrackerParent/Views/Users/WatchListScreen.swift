@@ -25,11 +25,25 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
             Color.background.ignoresSafeArea()
             
             VStack(spacing: 0) {
-                Text("Active Monitors")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundStyle(.primaryText)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "line.3.horizontal")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                            .bold()
+                            .foregroundStyle(.mainTheme)
+                            .padding(.trailing, 20)
+                    }
+
+                    Text("Active Monitors")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundStyle(.primaryText)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 
                 if !vm.watchList.isEmpty {
                     Text("Select a primary account to track in real-time")
@@ -44,7 +58,7 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
                 } else {
                     // Watch list view
                     watchListContentView
-                        .padding(.vertical, 15)
+                        .padding(.vertical, 10)
                 }
             }
             .padding(.horizontal)
@@ -195,13 +209,23 @@ extension WatchListScreen {
                         }
                     }
                 }
+                
+                invitationHistoryButton
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(
+                        EdgeInsets(
+                            top: 0,
+                            leading: 0,
+                            bottom: 10,
+                            trailing: 0
+                        )
+                    )
             }
             .listStyle(.plain)
             .scrollIndicators(.hidden)
             
             invitateUserButton
-            
-            invitationHistoryButton
         }
     }
     
@@ -241,11 +265,21 @@ extension WatchListScreen {
         Button {
             navigateToInvitationHistory()
         } label: {
-            Text("View Invitation History  >")
-                .font(.title3)
-                .fontWeight(.medium)
-                .foregroundStyle(.mainTheme)
-                .frame(maxWidth: .infinity, alignment: .center)
+            HStack {
+                Spacer()
+                
+                Text("View Invitation History")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.mainTheme)
+                
+                Image(systemName: "chevron.right")
+                    .font(.callout)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.mainTheme)
+                
+                Spacer()
+            }
         }
         .withPressableButtonStyle()
     }
