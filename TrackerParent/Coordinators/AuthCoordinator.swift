@@ -36,7 +36,7 @@ final class AuthCoordinator: RouteAction {
             case .admin:
                 UserListScreen()
             case .user:
-                WatchListScreen(vm: WatchInvitationViewModel())
+                MainScreen()
             }
         }
     }

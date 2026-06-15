@@ -27,7 +27,7 @@ struct WatchListScreen<VM: WatchInvitationViewModelProtocol>: View {
             VStack(spacing: 0) {
                 HStack {
                     Button {
-                        
+                        sessionManager.isShowingMenu = true
                     } label: {
                         Image(systemName: "line.3.horizontal")
                             .resizable()

@@ -81,6 +81,7 @@
 		AEBB40362FA0C52D009902C7 /* TabBarItemPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB40332FA0C52D009902C7 /* TabBarItemPreferenceKey.swift */; };
 		AEBB40372FA0C52D009902C7 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB40312FA0C52D009902C7 /* CustomTabBar.swift */; };
 		AEBB40402FA35D7B009902C7 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB403F2FA35D7B009902C7 /* SideMenuView.swift */; };
+		AEBB40422FA4CBBF009902C7 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBB40412FA4CBBF009902C7 /* MainScreen.swift */; };
 		AEE6B4CE2D892EDE0094EB82 /* TrackListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */; };
 		AEE6B4D02D8957C90094EB82 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4CF2D8957C90094EB82 /* UserService.swift */; };
 		AEE6B4D22D8958660094EB82 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE6B4D12D8958660094EB82 /* UserModel.swift */; };
@@ -210,6 +211,7 @@
 		AEBB40322FA0C52D009902C7 /* CustomTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabItem.swift; sourceTree = "<group>"; };
 		AEBB40332FA0C52D009902C7 /* TabBarItemPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemPreferenceKey.swift; sourceTree = "<group>"; };
 		AEBB403F2FA35D7B009902C7 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
+		AEBB40412FA4CBBF009902C7 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		AEE6B4CD2D892EDE0094EB82 /* TrackListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListScreen.swift; sourceTree = "<group>"; };
 		AEE6B4CF2D8957C90094EB82 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AEE6B4D12D8958660094EB82 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 				AEE7EB942F73DE1D00694ACB /* Users */,
 				AEE6B4F42D8BFD800094EB82 /* Track */,
 				AEE6B5022D8EA8ED0094EB82 /* Setting */,
+				AEBB40412FA4CBBF009902C7 /* MainScreen.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				224A3E342D824EFE00815897 /* TrackerParentApp.swift in Sources */,
 				AE153BC32F7D1BE1002CE618 /* InvitationHistoryScreen.swift in Sources */,
 				223499222DA2733200E810FF /* MockLAContext.swift in Sources */,
+				AEBB40422FA4CBBF009902C7 /* MainScreen.swift in Sources */,
 				224A3E3C2D8289B700815897 /* AuthViewModel.swift in Sources */,
 				AEE6B4EE2D8A6CFB0094EB82 /* TrackService.swift in Sources */,
 				AEE7EBB42F78CB8700694ACB /* RequestStatus.swift in Sources */,
