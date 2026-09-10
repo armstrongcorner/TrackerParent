@@ -64,7 +64,6 @@
 		AE27A68E2F8A660800B1FCDE /* EmailRegisterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A68D2F8A660800B1FCDE /* EmailRegisterScreen.swift */; };
 		AE27A6902F8A662700B1FCDE /* EmailLoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A68F2F8A662700B1FCDE /* EmailLoginScreen.swift */; };
 		AE27A6922F8DB09500B1FCDE /* TuppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A6912F8DB09500B1FCDE /* TuppView.swift */; };
-		AE27A6952F8DB4DF00B1FCDE /* MTAuthHelper in Frameworks */ = {isa = PBXBuildFile; productRef = AE27A6942F8DB4DF00B1FCDE /* MTAuthHelper */; };
 		AE27A6972F8DDB9000B1FCDE /* RegisterWithEmailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A6962F8DDB9000B1FCDE /* RegisterWithEmailUseCase.swift */; };
 		AE27A6992F8F4FDA00B1FCDE /* MockAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE27A6982F8F4FDA00B1FCDE /* MockAuthViewModel.swift */; };
 		AE8DBDCA2F5B6D97007B7502 /* MockMTApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8DBDC92F5B6D97007B7502 /* MockMTApiClient.swift */; };
@@ -256,7 +255,6 @@
 				AE96925D2F6AACB300526A75 /* MTAuthHelper in Frameworks */,
 				AE9994782EF78F1A00B7C404 /* SwiftfulRouting in Frameworks */,
 				AE178B3D2F6FB48F00418452 /* MTNetworkManager in Frameworks */,
-				AE27A6952F8DB4DF00B1FCDE /* MTAuthHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,7 +619,6 @@
 				AE9994772EF78F1A00B7C404 /* SwiftfulRouting */,
 				AE96925C2F6AACB300526A75 /* MTAuthHelper */,
 				AE178B3C2F6FB48F00418452 /* MTNetworkManager */,
-				AE27A6942F8DB4DF00B1FCDE /* MTAuthHelper */,
 			);
 			productName = TrackerParent;
 			productReference = 224A3DFB2D824EE200815897 /* TrackerParent.app */;
@@ -1211,10 +1208,6 @@
 		AE178B3C2F6FB48F00418452 /* MTNetworkManager */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MTNetworkManager;
-		};
-		AE27A6942F8DB4DF00B1FCDE /* MTAuthHelper */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MTAuthHelper;
 		};
 		AE96925C2F6AACB300526A75 /* MTAuthHelper */ = {
 			isa = XCSwiftPackageProductDependency;
